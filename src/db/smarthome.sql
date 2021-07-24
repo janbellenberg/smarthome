@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `smarthome` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE smarthome;
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `users_general` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `firstname` VARCHAR(50) NOT NULL,
   `lastname` VARCHAR(50) NOT NULL
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 CREATE TABLE IF NOT EXISTS `users_local` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `password` VARCHAR(128) NOT NULL,
+  `password` BLOB NOT NULL,
   `salt` VARCHAR(20) NOT NULL,
   CONSTRAINT unique_salt UNIQUE (`salt`),
   CONSTRAINT fk_id FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `shortcuts` (
 --    DATA     --
 -- -- -- -- -- --
 
-INSERT INTO `users` (`firstname`, `lastname`) 
+INSERT INTO `users_general` (`firstname`, `lastname`) 
 VALUES ('Jan', 'Bellenberg');
 
 INSERT INTO `buildings` (`name`, `street`, `postcode`, `city`, `country`)
