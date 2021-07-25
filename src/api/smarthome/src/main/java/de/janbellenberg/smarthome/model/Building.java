@@ -3,6 +3,7 @@ package de.janbellenberg.smarthome.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * The persistent class for the buildings database table.
@@ -10,7 +11,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "buildings")
-@NamedQuery(name = "Building.findAll", query = "SELECT b FROM Building b")
+@NamedQueries({
+		@NamedQuery(name = "Building.findAllForUser", query = "SELECT b FROM Building b JOIN b.members m WHERE m.user.id = :uid") })
 public class Building implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,15 +31,18 @@ public class Building implements Serializable {
 	private String street;
 
 	// bi-directional many-to-one association to Member
-	@OneToMany(mappedBy = "buildingBean")
+	@OneToMany(mappedBy = "building")
+	@JsonIgnore
 	private List<Member> members;
 
 	// bi-directional many-to-one association to Room
-	@OneToMany(mappedBy = "buildingBean")
+	@OneToMany(mappedBy = "building")
+	@JsonIgnore
 	private List<Room> rooms;
 
 	// bi-directional many-to-one association to Shortcut
-	@OneToMany(mappedBy = "buildingBean")
+	@OneToMany(mappedBy = "building")
+	@JsonIgnore
 	private List<Shortcut> shortcuts;
 
 	public int getId() {
@@ -97,15 +102,15 @@ public class Building implements Serializable {
 	}
 
 	public Member addMember(Member member) {
-		getMembers().add(member);
-		member.setBuildingBean(this);
+		this.getMembers().add(member);
+		member.setBuilding(this);
 
 		return member;
 	}
 
 	public Member removeMember(Member member) {
-		getMembers().remove(member);
-		member.setBuildingBean(null);
+		this.getMembers().remove(member);
+		member.setBuilding(null);
 
 		return member;
 	}
@@ -119,15 +124,15 @@ public class Building implements Serializable {
 	}
 
 	public Room addRoom(Room room) {
-		getRooms().add(room);
-		room.setBuildingBean(this);
+		this.getRooms().add(room);
+		room.setBuilding(this);
 
 		return room;
 	}
 
 	public Room removeRoom(Room room) {
-		getRooms().remove(room);
-		room.setBuildingBean(null);
+		this.getRooms().remove(room);
+		room.setBuilding(null);
 
 		return room;
 	}
@@ -141,15 +146,15 @@ public class Building implements Serializable {
 	}
 
 	public Shortcut addShortcut(Shortcut shortcut) {
-		getShortcuts().add(shortcut);
-		shortcut.setBuildingBean(this);
+		this.getShortcuts().add(shortcut);
+		shortcut.setBuilding(this);
 
 		return shortcut;
 	}
 
 	public Shortcut removeShortcut(Shortcut shortcut) {
-		getShortcuts().remove(shortcut);
-		shortcut.setBuildingBean(null);
+		this.getShortcuts().remove(shortcut);
+		shortcut.setBuilding(null);
 
 		return shortcut;
 	}

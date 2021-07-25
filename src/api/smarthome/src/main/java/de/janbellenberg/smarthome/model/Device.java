@@ -33,10 +33,10 @@ public class Device implements Serializable {
 	// bi-directional many-to-one association to Room
 	@ManyToOne
 	@JoinColumn(name = "room")
-	private Room roomBean;
+	private Room room;
 
 	// bi-directional many-to-one association to Shortcut
-	@OneToMany(mappedBy = "deviceBean")
+	@OneToMany(mappedBy = "device")
 	private List<Shortcut> shortcuts;
 
 	public int getId() {
@@ -95,12 +95,12 @@ public class Device implements Serializable {
 		this.vendor = vendor;
 	}
 
-	public Room getRoomBean() {
-		return this.roomBean;
+	public Room getRoom() {
+		return this.room;
 	}
 
-	public void setRoomBean(Room roomBean) {
-		this.roomBean = roomBean;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	public List<Shortcut> getShortcuts() {
@@ -112,15 +112,15 @@ public class Device implements Serializable {
 	}
 
 	public Shortcut addShortcut(Shortcut shortcut) {
-		getShortcuts().add(shortcut);
-		shortcut.setDeviceBean(this);
+		this.getShortcuts().add(shortcut);
+		shortcut.setDevice(this);
 
 		return shortcut;
 	}
 
 	public Shortcut removeShortcut(Shortcut shortcut) {
-		getShortcuts().remove(shortcut);
-		shortcut.setDeviceBean(null);
+		this.getShortcuts().remove(shortcut);
+		shortcut.setDevice(null);
 
 		return shortcut;
 	}

@@ -25,12 +25,12 @@ public class Shortcut implements Serializable {
 	// bi-directional many-to-one association to Building
 	@ManyToOne
 	@JoinColumn(name = "building")
-	private Building buildingBean;
+	private Building building;
 
 	// bi-directional many-to-one association to Device
 	@ManyToOne
 	@JoinColumn(name = "device")
-	private Device deviceBean;
+	private Device device;
 
 	public int getId() {
 		return this.id;
@@ -56,20 +56,20 @@ public class Shortcut implements Serializable {
 		this.description = description;
 	}
 
-	public Building getBuildingBean() {
-		return this.buildingBean;
+	public Building getBuilding() {
+		return this.building;
 	}
 
-	public void setBuildingBean(Building buildingBean) {
-		this.buildingBean = buildingBean;
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 
-	public Device getDeviceBean() {
-		return this.deviceBean;
+	public Device getDevice() {
+		return this.device;
 	}
 
-	public void setDeviceBean(Device deviceBean) {
-		this.deviceBean = deviceBean;
+	public void setDevice(Device device) {
+		this.device = device;
 	}
 
 }

@@ -20,12 +20,12 @@ public class Member implements Serializable {
 	// bi-directional many-to-one association to Building
 	@ManyToOne
 	@JoinColumn(name = "building")
-	private Building buildingBean;
+	private Building building;
 
 	// bi-directional many-to-one association to UsersGeneral
 	@ManyToOne
 	@JoinColumn(name = "user")
-	private User usersGeneral;
+	private User user;
 
 	public int getId() {
 		return this.id;
@@ -35,20 +35,20 @@ public class Member implements Serializable {
 		this.id = id;
 	}
 
-	public Building getBuildingBean() {
-		return this.buildingBean;
+	public Building getBuilding() {
+		return this.building;
 	}
 
-	public void setBuildingBean(Building buildingBean) {
-		this.buildingBean = buildingBean;
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 
-	public User getUsersGeneral() {
-		return this.usersGeneral;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUsersGeneral(User usersGeneral) {
-		this.usersGeneral = usersGeneral;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

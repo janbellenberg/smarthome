@@ -9,7 +9,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users_local")
-@NamedQuery(name = "LocalUsers.findAll", query = "SELECT l FROM LocalUsers l")
 public class LocalUsers implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +23,7 @@ public class LocalUsers implements Serializable {
 	// bi-directional one-to-one association to UsersGeneral
 	@OneToOne
 	@JoinColumn(name = "id")
-	private User usersGeneral;
+	private User user;
 
 	public int getId() {
 		return this.id;
@@ -50,12 +49,12 @@ public class LocalUsers implements Serializable {
 		this.salt = salt;
 	}
 
-	public User getUsersGeneral() {
-		return this.usersGeneral;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUsersGeneral(User usersGeneral) {
-		this.usersGeneral = usersGeneral;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

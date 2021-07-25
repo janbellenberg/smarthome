@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users_general")
-@NamedQuery(name = "UsersGeneral.findAll", query = "SELECT u FROM User u")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,12 +23,12 @@ public class User implements Serializable {
 	private String lastname;
 
 	// bi-directional many-to-one association to Member
-	@OneToMany(mappedBy = "usersGeneral")
+	@OneToMany(mappedBy = "user")
 	private List<Member> members;
 
 	// bi-directional one-to-one association to LocalUsers
-	@OneToOne(mappedBy = "usersGeneral")
-	private LocalUsers usersLocal;
+	@OneToOne(mappedBy = "user")
+	private LocalUsers localUser;
 
 	public int getId() {
 		return this.id;
@@ -64,24 +64,24 @@ public class User implements Serializable {
 
 	public Member addMember(Member member) {
 		getMembers().add(member);
-		member.setUsersGeneral(this);
+		member.setUser(this);
 
 		return member;
 	}
 
 	public Member removeMember(Member member) {
 		getMembers().remove(member);
-		member.setUsersGeneral(null);
+		member.setUser(null);
 
 		return member;
 	}
 
-	public LocalUsers getUsersLocal() {
-		return this.usersLocal;
+	public LocalUsers getLocalUser() {
+		return this.localUser;
 	}
 
-	public void setUsersLocal(LocalUsers usersLocal) {
-		this.usersLocal = usersLocal;
+	public void setLocalUser(LocalUsers localUser) {
+		this.localUser = localUser;
 	}
 
 }

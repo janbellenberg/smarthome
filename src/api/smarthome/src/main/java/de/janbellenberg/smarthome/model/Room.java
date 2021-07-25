@@ -21,13 +21,13 @@ public class Room implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to Device
-	@OneToMany(mappedBy = "roomBean")
+	@OneToMany(mappedBy = "room")
 	private List<Device> devices;
 
 	// bi-directional many-to-one association to Building
 	@ManyToOne
 	@JoinColumn(name = "building")
-	private Building buildingBean;
+	private Building building;
 
 	public int getId() {
 		return this.id;
@@ -54,25 +54,25 @@ public class Room implements Serializable {
 	}
 
 	public Device addDevice(Device device) {
-		getDevices().add(device);
-		device.setRoomBean(this);
+		this.getDevices().add(device);
+		device.setRoom(this);
 
 		return device;
 	}
 
 	public Device removeDevice(Device device) {
-		getDevices().remove(device);
-		device.setRoomBean(null);
+		this.getDevices().remove(device);
+		device.setRoom(null);
 
 		return device;
 	}
 
-	public Building getBuildingBean() {
-		return this.buildingBean;
+	public Building getBuilding() {
+		return this.building;
 	}
 
-	public void setBuildingBean(Building buildingBean) {
-		this.buildingBean = buildingBean;
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 
 }
