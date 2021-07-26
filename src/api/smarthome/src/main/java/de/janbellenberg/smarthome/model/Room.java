@@ -2,6 +2,9 @@ package de.janbellenberg.smarthome.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 /**
@@ -10,7 +13,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "rooms")
-@NamedQuery(name = "Room.findAll", query = "SELECT r FROM Room r")
+@NamedQueries({
+		@NamedQuery(name = "Room.findAllInBuilding", query = "SELECT r FROM Room r WHERE r.building.id = :building") })
 public class Room implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,11 +26,13 @@ public class Room implements Serializable {
 
 	// bi-directional many-to-one association to Device
 	@OneToMany(mappedBy = "room")
+	@JsonIgnore
 	private List<Device> devices;
 
 	// bi-directional many-to-one association to Building
 	@ManyToOne
 	@JoinColumn(name = "building")
+	@JsonIgnore
 	private Building building;
 
 	public int getId() {

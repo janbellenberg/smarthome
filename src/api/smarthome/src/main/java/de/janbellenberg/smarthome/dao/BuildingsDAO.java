@@ -23,6 +23,10 @@ public class BuildingsDAO {
     return PersistenceHelper.castList(Building.class, q.getResultList());
   }
 
+  public Building getBuildingById(final int id) {
+    return em.find(Building.class, id, LockModeType.PESSIMISTIC_READ);
+  }
+
   public Building saveBuilding(final Building building) {
     Building instance = em.find(Building.class, building.getId(), LockModeType.PESSIMISTIC_WRITE);
 

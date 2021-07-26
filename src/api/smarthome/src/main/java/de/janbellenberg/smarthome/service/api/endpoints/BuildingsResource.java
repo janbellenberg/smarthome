@@ -31,24 +31,26 @@ public class BuildingsResource {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response addBuilding(Building building) {
-    /* Building updated = */this.buildingsDAO.saveBuilding(building);
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response addBuilding(final Building building) {
+    Building inserted = this.buildingsDAO.saveBuilding(building);
     // TODO: add user as member
-    return Response.ok().build();
+    return Response.created(null).entity(inserted).build();
   }
 
   @PUT
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response updateBuilding(@PathParam("id") int id, Building building) {
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response updateBuilding(@PathParam("id") final int id, final Building building) {
     building.setId(id);
-    this.buildingsDAO.saveBuilding(building);
-    return Response.ok().build();
+    Building updated = this.buildingsDAO.saveBuilding(building);
+    return Response.ok().entity(updated).build();
   }
 
   @DELETE
   @Path("{id}")
-  public Response deleteBuilding(@PathParam("id") int id) {
+  public Response deleteBuilding(@PathParam("id") final int id) {
     this.buildingsDAO.deleteBuilding(id);
     return Response.ok().build();
   }
