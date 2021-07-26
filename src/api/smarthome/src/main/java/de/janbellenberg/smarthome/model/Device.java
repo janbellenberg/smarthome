@@ -2,6 +2,9 @@ package de.janbellenberg.smarthome.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.List;
 
 /**
@@ -12,6 +15,15 @@ import java.util.List;
 @Table(name = "devices")
 @NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d")
 public class Device implements Serializable {
+
+	public Device() {
+	}
+
+	@JsonCreator
+	public Device(int id) {
+		this.id = id;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

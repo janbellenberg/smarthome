@@ -23,7 +23,7 @@ import de.janbellenberg.smarthome.model.Room;
 public class RoomsResource {
 
   @Inject
-  RoomsDAO roomsDAO;
+  RoomsDAO dao;
 
   @Inject
   BuildingsDAO buildingsDAO;
@@ -31,7 +31,7 @@ public class RoomsResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getRooms(@PathParam("bid") final int bID) {
-    return Response.ok().entity(this.roomsDAO.getAllRoomsOfUser(bID)).build();
+    return Response.ok().entity(this.dao.getAllRoomsOfUser(bID)).build();
   }
 
   @POST
@@ -41,7 +41,7 @@ public class RoomsResource {
     Building building = this.buildingsDAO.getBuildingById(bID);
     room.setBuilding(building);
 
-    Room inserted = this.roomsDAO.saveRoom(room);
+    Room inserted = this.dao.saveRoom(room);
     return Response.created(null).entity(inserted).build();
   }
 
@@ -51,7 +51,7 @@ public class RoomsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response updateRoom(@PathParam("id") final int id, final Room room) {
     room.setId(id);
-    Room updated = this.roomsDAO.saveRoom(room);
+    Room updated = this.dao.saveRoom(room);
 
     return Response.ok().entity(updated).build();
   }
@@ -59,7 +59,7 @@ public class RoomsResource {
   @DELETE
   @Path("{id}")
   public Response deleteRoom(@PathParam("id") final int id) {
-    this.roomsDAO.deleteRoom(id);
+    this.dao.deleteRoom(id);
 
     return Response.ok().build();
   }

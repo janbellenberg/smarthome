@@ -21,19 +21,19 @@ import de.janbellenberg.smarthome.model.Building;
 public class BuildingsResource {
 
   @Inject
-  private BuildingsDAO buildingsDAO;
+  private BuildingsDAO dao;
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getBuildings() {
-    return Response.ok().entity(this.buildingsDAO.getAllBuildingsOfUser()).build();
+    return Response.ok().entity(this.dao.getAllBuildingsOfUser()).build();
   }
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response addBuilding(final Building building) {
-    Building inserted = this.buildingsDAO.saveBuilding(building);
+    Building inserted = this.dao.saveBuilding(building);
     // TODO: add user as member
     return Response.created(null).entity(inserted).build();
   }
@@ -44,14 +44,14 @@ public class BuildingsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response updateBuilding(@PathParam("id") final int id, final Building building) {
     building.setId(id);
-    Building updated = this.buildingsDAO.saveBuilding(building);
+    Building updated = this.dao.saveBuilding(building);
     return Response.ok().entity(updated).build();
   }
 
   @DELETE
   @Path("{id}")
   public Response deleteBuilding(@PathParam("id") final int id) {
-    this.buildingsDAO.deleteBuilding(id);
+    this.dao.deleteBuilding(id);
     return Response.ok().build();
   }
 }

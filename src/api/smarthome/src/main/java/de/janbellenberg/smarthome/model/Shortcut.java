@@ -3,13 +3,17 @@ package de.janbellenberg.smarthome.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The persistent class for the shortcuts database table.
  * 
  */
 @Entity
 @Table(name = "shortcuts")
-@NamedQuery(name = "Shortcut.findAll", query = "SELECT s FROM Shortcut s")
+@NamedQueries({
+		@NamedQuery(name = "Shortcut.findAllInBuilding", query = "SELECT s FROM Shortcut s WHERE s.building.id = :building") })
 public class Shortcut implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +29,7 @@ public class Shortcut implements Serializable {
 	// bi-directional many-to-one association to Building
 	@ManyToOne
 	@JoinColumn(name = "building")
+	@JsonIgnore
 	private Building building;
 
 	// bi-directional many-to-one association to Device
@@ -64,10 +69,12 @@ public class Shortcut implements Serializable {
 		this.building = building;
 	}
 
+	@JsonIgnore
 	public Device getDevice() {
 		return this.device;
 	}
 
+	@JsonProperty
 	public void setDevice(Device device) {
 		this.device = device;
 	}

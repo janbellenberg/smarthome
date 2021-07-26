@@ -27,12 +27,12 @@ public class RoomsDAO {
   public Room saveRoom(final Room room) {
     Room instance = em.find(Room.class, room.getId(), LockModeType.PESSIMISTIC_WRITE);
 
-    int buildingID = room.getBuilding() == null ? instance.getBuilding().getId() : room.getBuilding().getId();
-    Building building = em.find(Building.class, buildingID, LockModeType.PESSIMISTIC_READ);
-
     if (instance == null) {
       instance = new Room();
     }
+
+    int buildingID = room.getBuilding() == null ? instance.getBuilding().getId() : room.getBuilding().getId();
+    Building building = em.find(Building.class, buildingID, LockModeType.PESSIMISTIC_READ);
 
     instance.setName(room.getName());
     instance.setBuilding(building);
