@@ -17,18 +17,18 @@ public class BuildingsDAO {
   private EntityManager em;
 
   public List<Building> getAllBuildingsOfUser(/* final User user */) {
-    Query q = em.createNamedQuery("Building.findAllForUser");
+    Query q = this.em.createNamedQuery("Building.findAllForUser");
     q.setParameter("uid", /* user.getId() */ 1);
 
     return PersistenceHelper.castList(Building.class, q.getResultList());
   }
 
   public Building getBuildingById(final int id) {
-    return em.find(Building.class, id, LockModeType.PESSIMISTIC_READ);
+    return this.em.find(Building.class, id, LockModeType.PESSIMISTIC_READ);
   }
 
   public Building saveBuilding(final Building building) {
-    Building instance = em.find(Building.class, building.getId(), LockModeType.PESSIMISTIC_WRITE);
+    Building instance = this.em.find(Building.class, building.getId(), LockModeType.PESSIMISTIC_WRITE);
 
     if (instance == null) {
       instance = new Building();
@@ -40,12 +40,12 @@ public class BuildingsDAO {
     instance.setCity(building.getCity());
     instance.setCountry(building.getCountry());
 
-    return em.merge(instance);
+    return this.em.merge(instance);
   }
 
   public void deleteBuilding(final int id) {
-    Building instance = em.find(Building.class, id, LockModeType.PESSIMISTIC_WRITE);
-    em.remove(instance);
+    Building instance = this.em.find(Building.class, id, LockModeType.PESSIMISTIC_WRITE);
+    this.em.remove(instance);
   }
 
 }

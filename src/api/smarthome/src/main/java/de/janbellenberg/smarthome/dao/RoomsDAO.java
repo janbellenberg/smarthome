@@ -18,30 +18,30 @@ public class RoomsDAO {
   private EntityManager em;
 
   public List<Room> getAllRoomsOfUser(final int building) {
-    Query q = em.createNamedQuery("Room.findAllInBuilding");
+    Query q = this.em.createNamedQuery("Room.findAllInBuilding");
     q.setParameter("building", building);
 
     return PersistenceHelper.castList(Room.class, q.getResultList());
   }
 
   public Room saveRoom(final Room room) {
-    Room instance = em.find(Room.class, room.getId(), LockModeType.PESSIMISTIC_WRITE);
+    Room instance = this.em.find(Room.class, room.getId(), LockModeType.PESSIMISTIC_WRITE);
 
     if (instance == null) {
       instance = new Room();
     }
 
     int buildingID = room.getBuilding() == null ? instance.getBuilding().getId() : room.getBuilding().getId();
-    Building building = em.find(Building.class, buildingID, LockModeType.PESSIMISTIC_READ);
+    Building building = this.em.find(Building.class, buildingID, LockModeType.PESSIMISTIC_READ);
 
     instance.setName(room.getName());
     instance.setBuilding(building);
 
-    return em.merge(instance);
+    return this.em.merge(instance);
   }
 
   public void deleteRoom(final int id) {
-    Room instance = em.find(Room.class, id, LockModeType.PESSIMISTIC_WRITE);
-    em.remove(instance);
+    Room instance = this.em.find(Room.class, id, LockModeType.PESSIMISTIC_WRITE);
+    this.em.remove(instance);
   }
 }
