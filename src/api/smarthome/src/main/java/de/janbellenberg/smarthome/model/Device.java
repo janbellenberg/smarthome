@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -43,11 +44,13 @@ public class Device implements Serializable {
 	private String vendor;
 
 	// bi-directional many-to-one association to Room
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "room")
 	private Room room;
 
 	// bi-directional many-to-one association to Shortcut
+	@JsonIgnore
 	@OneToMany(mappedBy = "device")
 	private List<Shortcut> shortcuts;
 
