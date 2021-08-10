@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core.helper.security;
+package de.janbellenberg.smarthome.base.helper.security;
 
 import java.io.StringReader;
 import java.security.InvalidKeyException;
@@ -23,7 +23,7 @@ public class JWT {
    * used secret for hmac-sha256 signature
    */
   private final static String SECRET = "MIIEowIBAAKCAQEAxpBSYtw64+FI2ZCj588byovA7ziV5xEzUE5akPCsB8EJHig+9tVbWYM59PWWaS4WZmf6wkxs7/5i10Qi4EZS5u7AxpFTGWzWeJKWpTZQIVTNGUi3vpp0xjpXXZwZ9bpYCLG9pD51MREBDXmH1fAyiA11BqA2hxlkACAugHvNs0KLTV+/0w/UgHhV+xqlu9IBuV8XCesF9+3jDSyocuiBq1JSVn8LfVQ4sgMbq5F6/5tL7q8tkIL5Qv6HRrWz0me9YbuC0IK4K6U9xGXsAlOF3EkPNpk1/UbTYGNTIqriJOQFFyE/vdSmciyMJz+cuFV3B36YSYGSgDg+gbutDsZmMwIDAQABAoIBAQCSVtMhIQYV5Hb4QW1K7oyg3ha3N5Di1v5mdRiyMW3X2SCLJUYiTGQiuGACdO0BX4IKvx9EC2dOCMF3vTOm7q0ynUteDMSdvGTkP8TexgSQTBtMQxeIVfUyEtVInD9Vppwy7CvD3HQqUUnhUGwX9AqJ0sEovPLy5neY0B71ekjDjz7+CExYqER1/1jBm28B8hfF5S4X8Xvr24jGQBVLoGhDTsqjbqR6RT7xNCRVNEqTXCbQ4T+pEvyINZFWz83lfXhxLHRBlseQZv1eDoCZ5PKCMtHPilwHLV5I2qLTkzLW9wWVY5Cj5el5KCqFKtUUh0b8KQqVtBZN0lSiHqQ4wM4BAoGBAOfXCV1n3WGGZf4p6oszj3fHXLCnIfgMATcTV0eAsBvxEYYVUBiGUvHPTbzjMkBZ4UkFoYi6KU11Fakb3GuZ+y1Xx306Wj46oDPmd/Ll3usv5aSQkeLPDaxYBv26YI0KR/fRhpUNWFQIZqZoGjqtOLJCK99wB0G/epvqVecpeTdBAoGBANtBjRdXb0S0YrNmUEMVBw+4/su9t8wxIHu2n1GpczWEtHAlfQLReGtLrbrUXkwj0I65b5a/ZZ6vbtPiCf9zyizeXAv1CXQSvJX/tARjTOoC7E9vdO98cmh9MY1SzZ3KRQ/bMO1utQbhKtuFUv7I1jGTkIziungXbXY3Npa6IZRzAoGAQ8ITWJtMln5DPN9fT0PIgIdhzbdrNCW+DSy364vu7JuuNXPxLtnDUCz4WWZFf41FTKQ6q81M2PiJVh1wdHpScNQg17bAPUPBIqoPEIyidDZRdaFTIejF5ELt+CYKpe4FTqaMIO//ir/R0HzIfbG2ylKQpAMH++1MllkMtjzm0oECgYAoyekVjo6EmYpDFaWY1TCbHC9Kd+DZe8ovOaop5vwn2Kg4tMCs5YshatLHDvr77y29X4IC6VheTQSxJjv16fSSpEs7bjpz/YhX31n99vs4DZMos/NtGhmulpvBTsYxtI9kg8J2aUIEJZ9zdzoZbANs9abOjt9ht/oFJABjyfy1QQKBgAXT5DBOEq2+BjcfIjtuh7mz9tAzcTh+mbCoWfI+jnyFh5/zFk6b+EN4sxAVaqZeqwrVqUOlP+HVcJR5oSnn0LAs8W/NUbSiKjaEEI8yV3ZfCnKc5XG3hsLOFalr/SkhWoWdxU6QYAnLHZbjY9iPEwJrYCS88pyQf06YB7icwDeH";
-  private final static String alg = "HS256";
+  private final static String ALGORITHM = "HS256";
 
   /**
    * constructor initialize jwt with header and payload
@@ -50,7 +50,7 @@ public class JWT {
     JsonObjectBuilder payload = Json.createObjectBuilder();
 
     // set header to default values
-    header.add("alg", alg);
+    header.add("alg", ALGORITHM);
     header.add("typ", "JWT");
 
     // set payload
@@ -72,15 +72,14 @@ public class JWT {
     JsonObjectBuilder payload = Json.createObjectBuilder();
 
     // set header params to default
-    header.add("alg", alg);
+    header.add("alg", ALGORITHM);
     header.add("typ", "JWT");
 
     // set payload
     payload.add("sub", 0);
     payload.add("iat", System.currentTimeMillis() / 1000L);
 
-    JWT jwt = new JWT(header.build(), payload.build());
-    return jwt;
+    return new JWT(header.build(), payload.build());
   }
 
   /**
@@ -101,7 +100,7 @@ public class JWT {
     JsonObject payload = getFromBase64(items[1]);
 
     // check if algorithm is supported
-    if (!header.containsKey("alg") || !header.getString("alg").equals(alg))
+    if (!header.containsKey("alg") || !header.getString("alg").equals(ALGORITHM))
       throw new NoSuchAlgorithmException();
 
     // check if type is supported
@@ -112,7 +111,7 @@ public class JWT {
     JWT jwt = new JWT(header, payload);
 
     // check if signature is valid
-    if (!jwt.getSignature().equals(items[2]))
+    if (jwt.getSignature() == null || !jwt.getSignature().equals(items[2]))
       return null;
 
     return jwt;

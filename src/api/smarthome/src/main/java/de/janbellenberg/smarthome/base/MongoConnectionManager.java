@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core;
+package de.janbellenberg.smarthome.base;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoClient;

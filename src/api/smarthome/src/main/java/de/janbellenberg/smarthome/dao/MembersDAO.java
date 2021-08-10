@@ -8,7 +8,7 @@ import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import de.janbellenberg.smarthome.core.PersistenceHelper;
+import de.janbellenberg.smarthome.base.PersistenceHelper;
 import de.janbellenberg.smarthome.model.Building;
 import de.janbellenberg.smarthome.model.Member;
 import de.janbellenberg.smarthome.model.User;

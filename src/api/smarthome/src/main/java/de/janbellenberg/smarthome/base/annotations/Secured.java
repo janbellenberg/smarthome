@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core.annotations;
+package de.janbellenberg.smarthome.base.annotations;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import javax.ws.rs.NameBinding;
 
-import de.janbellenberg.smarthome.core.helper.security.SecurityLevel;
+import de.janbellenberg.smarthome.base.helper.security.SecurityLevel;
 
 /**
  * annotation for limiting the access to jax-rs resources

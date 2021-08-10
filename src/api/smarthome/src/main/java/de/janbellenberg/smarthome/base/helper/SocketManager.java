@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core.helper;
+package de.janbellenberg.smarthome.base.helper;
 
 import java.util.Collections;
 import java.util.HashSet;

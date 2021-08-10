@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core.helper.security;
+package de.janbellenberg.smarthome.base.helper.security;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

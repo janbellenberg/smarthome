@@ -1,4 +1,4 @@
-package de.janbellenberg.smarthome.core;
+package de.janbellenberg.smarthome.base;
 
 import java.util.Collection;
 import java.util.List;

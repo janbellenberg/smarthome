@@ -1,6 +1,6 @@
-package de.janbellenberg.smarthome.core.helper.security;
+package de.janbellenberg.smarthome.base.helper.security;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -94,12 +94,12 @@ public class PasswordHelper {
     // generate informations for the actual encryption
     try {
       combined = plain + salt + pepper;
-      saltEnc = (salt + pepper).getBytes("UTF-8");
+      saltEnc = (salt + pepper).getBytes(StandardCharsets.UTF_8);
 
       // Generate SHA-256 Hashes
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
-      pHash = digest.digest(plain.getBytes("UTF-8"));
-      byte[] ivHash = digest.digest(combined.getBytes("UTF-8"));
+      pHash = digest.digest(plain.getBytes(StandardCharsets.UTF_8));
+      byte[] ivHash = digest.digest(combined.getBytes(StandardCharsets.UTF_8));
       ivHashShort = Arrays.copyOf(ivHash, 16);
 
       // Reverse IV
@@ -111,7 +111,7 @@ public class PasswordHelper {
         ivHashShort[i] = tmp.get(i);
       }
 
-    } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+    } catch (NoSuchAlgorithmException ex) {
       ex.printStackTrace();
       return "";
     }
@@ -131,13 +131,13 @@ public class PasswordHelper {
 
     // PBKDF2-Hash
     try {
-      char[] password = new String(encrypted, "UTF-8").toCharArray();
+      char[] password = new String(encrypted, StandardCharsets.UTF_8).toCharArray();
       PBEKeySpec specs = new PBEKeySpec(password, saltEnc, 10000, 512);
       SecretKeyFactory pbkdf2 = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
       byte[] hash = pbkdf2.generateSecret(specs).getEncoded();
       return SecurityHelper.toHex(hash);
 
-    } catch (NoSuchAlgorithmException | InvalidKeySpecException | UnsupportedEncodingException ex) {
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
       ex.printStackTrace();
       return "";
     }
