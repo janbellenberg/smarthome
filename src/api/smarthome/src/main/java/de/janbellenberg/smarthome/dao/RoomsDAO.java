@@ -24,6 +24,10 @@ public class RoomsDAO {
     return PersistenceHelper.castList(Room.class, q.getResultList());
   }
 
+  public Room getRoomById(final int id) {
+    return this.em.find(Room.class, id, LockModeType.PESSIMISTIC_READ);
+  }
+
   public Room saveRoom(final Room room) {
     Room instance = this.em.find(Room.class, room.getId(), LockModeType.PESSIMISTIC_WRITE);
 

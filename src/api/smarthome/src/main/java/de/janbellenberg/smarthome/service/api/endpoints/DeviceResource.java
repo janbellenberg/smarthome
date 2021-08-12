@@ -26,8 +26,7 @@ public class DeviceResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response initializeDevice(Device device) {
-    // TODO: implement initializeDevice
-    Device inserted = this.dao.addDevice(device);
+    Device inserted = this.dao.saveDevice(device);
     return Response.created(null).entity(inserted).build();
   }
 

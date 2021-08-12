@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "devices")
-@NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d")
+@NamedQuery(name = "Device.findAllForRoom", query = "SELECT d FROM Device d WHERE d.room.id = :room")
 public class Device implements Serializable {
 
 	public Device() {
