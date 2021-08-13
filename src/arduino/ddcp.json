@@ -1,0 +1,21 @@
+{
+  "name": "LED",
+  "isNameEditable": false,
+  "description": "Testmodul für eine LED",
+  "type": "l",
+  "vendor": "Jan Bellenberg",
+  "sections": [
+    {
+      "name": "Allgemein",
+      "properties": [
+        {
+          "label": "LED an/aus",
+          "value": true,
+          "type": 4,
+          "id": "led_state",
+          "mode": "instant"
+        }
+      ]
+    }
+  ]
+}
