@@ -33,9 +33,7 @@ RUN apk add --no-cache tzdata && \
   apk del tzdata
 
 # copy configuration files
-COPY ./config/mysql ./wildfly/modules/system/layers/base/com/mysql/main
-COPY ./config/wildfly/standalone.conf ./wildfly/bin/standalone.conf
-COPY ./config/wildfly/standalone.xml ./wildfly/standalone/configuration/standalone.xml
+COPY ./config/wildfly/mysql ./wildfly/modules/system/layers/base/com/mysql/main
 COPY --from=maven-builder /root/smarthome/target/SmartHome.war ./wildfly/standalone/deployments/SmartHome.war
 
 CMD ["./wildfly/bin/standalone.sh"]

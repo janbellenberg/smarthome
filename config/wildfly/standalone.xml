@@ -160,7 +160,7 @@
           </security>
         </datasource>
         <datasource jndi-name="java:/mysql" pool-name="mysql">
-          <connection-url>jdbc:mysql://db:3306/internally?serverTimezone=Europe/Berlin</connection-url>
+          <connection-url>jdbc:mysql://db:3306/smarthome?serverTimezone=Europe/Berlin</connection-url>
           <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
           <driver>mysql</driver>
           <security>

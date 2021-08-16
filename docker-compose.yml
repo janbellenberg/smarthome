@@ -1,0 +1,115 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb:10.5.9
+    container_name: db
+    environment:
+      - TZ=Europe/Berlin
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "127.0.0.1:3306:3306"
+    healthcheck:
+      test: "mysql --user=smarthome --password=gXg33Ep4urGp6bF2 --execute 'USE smarthome; SELECT 1 FROM dual;'"
+      interval: 1m
+      timeout: 10s
+    mem_limit: 200m
+    mem_reservation: 50m
+    cpu_count: 1
+    cpu_percent: 50
+    volumes:
+      - ~/smarthome/config/data/mysql:/var/lib/mysql
+      - ~/smarthome/src/db:/docker-entrypoint-initdb.d
+    restart: on-failure
+    networks:
+      main:
+        ipv4_address: 192.168.1.6
+        ipv6_address: fc01::6
+
+  mongo:
+    image: mongo:5.0.2
+    container_name: mongo
+    ports:
+      - "127.0.0.1:27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=smarthome
+    mem_limit: 200m
+    mem_reservation: 50m
+    cpu_count: 1
+    cpu_percent: 50
+    volumes:
+      - ~/smarthome/config/data/mongo:/data/db
+      - ~/smarthome/config/data/mongo_home:/home/mongodb
+      - ~/smarthome/config/mongo/:/docker-entrypoint-initdb.d/
+    networks:
+      main:
+        ipv4_address: 192.168.1.7
+        ipv6_address: fc01::7
+    restart: on-failure
+
+  backend:
+    image: smarthome-api:latest
+    container_name: wildfly
+    depends_on:
+      - db
+      - mongo
+    ports:
+      - "127.0.0.1:9990:9990"
+    #healthcheck:
+    #  test: ["CMD", "curl", "-f", "https://localhost:8080/smarthome-api/health"]
+    #  interval: 1m
+    #  timeout: 10s
+    mem_limit: 1gb
+    mem_reservation: 200m
+    cpu_count: 2
+    cpu_percent: 50
+    volumes:
+      - ~/smarthome/log/wildfly:/root/smarthome/wildfly/standalone/log
+      - ~/smarthome/config/wildfly/standalone.conf:/root/smarthome/wildfly/bin/standalone.conf
+      - ~/smarthome/config/wildfly/standalone.xml:/root/smarthome/wildfly/standalone/configuration/standalone.xml
+    restart: on-failure
+    networks:
+      main:
+        ipv4_address: 192.168.1.5
+        ipv6_address: fc01::5
+
+  frontend1:
+    image: smarthome-frontend:latest
+    container_name: frontend1
+    mem_limit: 1gb
+    mem_reservation: 200m
+    cpu_count: 1
+    cpu_percent: 50
+    volumes:
+      - ~/smarthome/log/frontend1:/var/log/nginx
+    restart: on-failure
+    networks:
+      main:
+        ipv4_address: 192.168.1.3
+        ipv6_address: fc01::3
+
+  frontend2:
+    image: smarthome-frontend:latest
+    container_name: frontend2
+    mem_limit: 1gb
+    mem_reservation: 200m
+    cpu_count: 1
+    cpu_percent: 50
+    volumes:
+      - ~/smarthome/log/frontend2:/var/log/nginx
+    restart: on-failure
+    networks:
+      main:
+        ipv4_address: 192.168.1.4
+        ipv6_address: fc01::4
+
+networks:
+  main:
+    enable_ipv6: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/28
+        - subnet: fc01::0/125
