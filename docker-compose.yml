@@ -1,5 +1,36 @@
 version: "3.8"
 services:
+  nginx:
+    image: nginx:1.21.1-alpine
+    container_name: nginx
+    ports:
+      - "0.0.0.0:8080:80"
+      - "0.0.0.0:8443:443"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "--insecure", "https://localhost/health"]
+      interval: 1m
+      timeout: 10s
+    mem_limit: 200m
+    mem_reservation: 50m
+    cpu_count: 1
+    cpu_percent: 50
+    depends_on:
+      - frontend1
+      - frontend2
+      - backend
+    volumes:
+      - ~/smarthome/log/nginx:/var/log/nginx
+      - ~/smarthome/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ~/smarthome/config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ~/smarthome/certificates/chain.pem:/etc/ssl/nginx/chain.pem
+      - ~/smarthome/certificates/web/key.pem:/etc/ssl/nginx/key.pem
+      - ~/smarthome/certificates/password.txt:/etc/ssl/nginx/password.txt
+    restart: on-failure
+    networks:
+      main:
+        ipv4_address: 192.168.1.2
+        ipv6_address: fc01::2
+
   db:
     image: mariadb:10.5.9
     container_name: db
@@ -34,6 +65,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
       - MONGO_INITDB_DATABASE=smarthome
+    healthcheck:
+      test: 'bash -c "if mongo --eval ''quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)''; then exit 0; fi; exit 1;"'
+      interval: 1m
+      timeout: 10s
     mem_limit: 200m
     mem_reservation: 50m
     cpu_count: 1
@@ -56,10 +91,10 @@ services:
       - mongo
     ports:
       - "127.0.0.1:9990:9990"
-    #healthcheck:
-    #  test: ["CMD", "curl", "-f", "https://localhost:8080/smarthome-api/health"]
-    #  interval: 1m
-    #  timeout: 10s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/smarthome-api/health"]
+      interval: 1m
+      timeout: 10s
     mem_limit: 1gb
     mem_reservation: 200m
     cpu_count: 2
@@ -81,7 +116,13 @@ services:
     mem_reservation: 200m
     cpu_count: 1
     cpu_percent: 50
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 1m
+      timeout: 10s
     volumes:
+      - ~/smarthome/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ~/smarthome/config/web/nginx.conf:/etc/nginx/nginx.conf
       - ~/smarthome/log/frontend1:/var/log/nginx
     restart: on-failure
     networks:
@@ -96,7 +137,13 @@ services:
     mem_reservation: 200m
     cpu_count: 1
     cpu_percent: 50
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 1m
+      timeout: 10s
     volumes:
+      - ~/smarthome/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ~/smarthome/config/web/nginx.conf:/etc/nginx/nginx.conf
       - ~/smarthome/log/frontend2:/var/log/nginx
     restart: on-failure
     networks:
