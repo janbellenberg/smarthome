@@ -3,17 +3,27 @@ package de.janbellenberg.smarthome.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the users_local database table.
  * 
  */
 @Entity
 @Table(name = "users_local")
-public class LocalUsers implements Serializable {
+public class LocalUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public LocalUser() {
+	}
+
+	@JsonCreator
+	public LocalUser(String password) {
+		this.password = password;
+	}
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String password;
@@ -21,6 +31,7 @@ public class LocalUsers implements Serializable {
 	private String salt;
 
 	// bi-directional one-to-one association to UsersGeneral
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "id")
 	private User user;

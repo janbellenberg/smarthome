@@ -2,6 +2,10 @@ package de.janbellenberg.smarthome.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users_general")
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@NamedQueries({ @NamedQuery(name = "User.findSalts", query = "SELECT u.localUser.salt FROM User u"), })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,12 +27,13 @@ public class User implements Serializable {
 	private String lastname;
 
 	// bi-directional many-to-one association to Member
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Member> members;
 
-	// bi-directional one-to-one association to LocalUsers
-	@OneToOne(mappedBy = "user")
-	private LocalUsers localUser;
+	// bi-directional one-to-one association to LocalUser
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private LocalUser localUser;
 
 	public int getId() {
 		return this.id;
@@ -76,11 +81,13 @@ public class User implements Serializable {
 		return member;
 	}
 
-	public LocalUsers getLocalUser() {
+	@JsonIgnore
+	public LocalUser getLocalUser() {
 		return this.localUser;
 	}
 
-	public void setLocalUser(LocalUsers localUser) {
+	@JsonProperty
+	public void setLocalUser(LocalUser localUser) {
 		this.localUser = localUser;
 	}
 
