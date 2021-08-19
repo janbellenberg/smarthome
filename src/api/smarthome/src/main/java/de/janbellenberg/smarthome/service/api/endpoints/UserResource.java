@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 
 import de.janbellenberg.smarthome.base.helper.security.PasswordHelper;
 import de.janbellenberg.smarthome.dao.UsersDAO;
-import de.janbellenberg.smarthome.model.LocalUser;
 import de.janbellenberg.smarthome.model.User;
 
 @Singleton

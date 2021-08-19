@@ -12,7 +12,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
   @Context
   private ResourceInfo resourceInfo;
 
-  public static final String COOKIE_NAME = "smarthome-session";
+  public static final String HEADER_NAME = "smarthome-session";
 
   @Override
   public void filter(ContainerRequestContext requestContext) {
