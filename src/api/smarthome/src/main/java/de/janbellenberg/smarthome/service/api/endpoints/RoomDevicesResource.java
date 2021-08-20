@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.DevicesDAO;
 import de.janbellenberg.smarthome.dao.RoomsDAO;
 import de.janbellenberg.smarthome.model.Device;
@@ -28,12 +29,15 @@ public class RoomDevicesResource {
   RoomsDAO roomsDAO;
 
   @GET
+  @Secured
   @Produces(MediaType.APPLICATION_JSON)
   public Response getDevicesOfRoom(@PathParam("rid") final int roomID) {
+    // TODO: check if user is member
     return Response.ok().entity(this.dao.getAllDevicesInRoom(roomID)).build();
   }
 
   @POST
+  @Secured
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response addDeviceToRoom(@PathParam("rid") final int roomID, @PathParam("id") final int deviceID) {
@@ -47,6 +51,7 @@ public class RoomDevicesResource {
   }
 
   @DELETE
+  @Secured
   @Path("{id}")
   public Response removeDeviceFromRoom(@PathParam("rid") final int roomID, @PathParam("id") final int deviceID) {
     Device device = this.dao.getDeviceByID(deviceID);

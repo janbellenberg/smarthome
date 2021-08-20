@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 
 import javax.ws.rs.NameBinding;
 
-import de.janbellenberg.smarthome.base.helper.security.SecurityLevel;
-
 /**
  * annotation for limiting the access to jax-rs resources
  * 
@@ -21,5 +19,4 @@ import de.janbellenberg.smarthome.base.helper.security.SecurityLevel;
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })
 public @interface Secured {
-  public SecurityLevel level() default SecurityLevel.USER;
 }

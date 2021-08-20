@@ -8,6 +8,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.MembersDAO;
 import de.janbellenberg.smarthome.model.Member;
 
@@ -28,9 +30,9 @@ public class MembersResource {
   MembersDAO dao;
 
   @GET
+  @Secured
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getMembers(@PathParam("bid") final int buildingID) {
-    final int uid = 1; // TODO: uid from auth
+  public Response getMembers(@PathParam("bid") final int buildingID, @HeaderParam("X-UID") final int uid) {
     List<Member> members = this.dao.getMembersOfBuilding(buildingID);
 
     JsonArrayBuilder resultBuilder = Json.createArrayBuilder();
@@ -53,16 +55,16 @@ public class MembersResource {
   }
 
   @POST
-  public Response addMember(@PathParam("bid") final int buildingID) {
-    final int uid = 1; // TODO: uid from auth
+  @Secured
+  public Response addMember(@PathParam("bid") final int buildingID, @HeaderParam("X-UID") final int uid) {
     this.dao.createMembership(uid, buildingID);
 
     return Response.ok().build();
   }
 
   @DELETE
-  public Response deleteMember(@PathParam("bid") final int buildingID) {
-    final int uid = 1; // TODO: uid from auth
+  @Secured
+  public Response deleteMember(@PathParam("bid") final int buildingID, @HeaderParam("X-UID") final int uid) {
     this.dao.removeMembership(uid, buildingID);
     return Response.ok().build();
   }

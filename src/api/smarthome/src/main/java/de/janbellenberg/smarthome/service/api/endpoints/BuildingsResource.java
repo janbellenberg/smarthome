@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.BuildingsDAO;
 import de.janbellenberg.smarthome.model.Building;
 
@@ -24,6 +25,7 @@ public class BuildingsResource {
   private BuildingsDAO dao;
 
   @GET
+  @Secured
   @Produces(MediaType.APPLICATION_JSON)
   public Response getBuildings() {
     return Response.ok().entity(this.dao.getAllBuildingsOfUser()).build();
@@ -39,6 +41,7 @@ public class BuildingsResource {
   }
 
   @PUT
+  @Secured
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +52,7 @@ public class BuildingsResource {
   }
 
   @DELETE
+  @Secured
   @Path("{id}")
   public Response deleteBuilding(@PathParam("id") final int id) {
     this.dao.deleteBuilding(id);

@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.DevicesDAO;
 import de.janbellenberg.smarthome.model.Device;
 
@@ -23,6 +24,7 @@ public class DeviceResource {
   DevicesDAO dao;
 
   @POST
+  @Secured
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response initializeDevice(Device device) {
@@ -31,6 +33,7 @@ public class DeviceResource {
   }
 
   @DELETE
+  @Secured
   @Path("/{id}")
   public Response deleteDevice(@PathParam("id") final int id) {
     this.dao.deleteDevice(id);
@@ -38,6 +41,7 @@ public class DeviceResource {
   }
 
   @POST
+  @Secured
   @Path("/{id}/cmd")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response sendComandToDevice(JsonObject request) {

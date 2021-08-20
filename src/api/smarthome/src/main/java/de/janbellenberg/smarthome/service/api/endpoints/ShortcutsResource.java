@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.BuildingsDAO;
 import de.janbellenberg.smarthome.dao.ShortcutsDAO;
 import de.janbellenberg.smarthome.model.Building;
@@ -28,12 +29,15 @@ public class ShortcutsResource {
   BuildingsDAO buildingsDAO;
 
   @GET
+  @Secured
   @Produces(MediaType.APPLICATION_JSON)
   public Response getShortcuts(@PathParam("bid") final int bID) {
+    // TODO: check if user is member of building
     return Response.ok().entity(this.dao.getAllShortcutsOfUser(bID)).build();
   }
 
   @POST
+  @Secured
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response addShortcut(@PathParam("bid") final int bID, Shortcut shortcut) {
@@ -45,6 +49,7 @@ public class ShortcutsResource {
   }
 
   @DELETE
+  @Secured
   @Path("{id}")
   public Response deleteShortcut(@PathParam("id") final int id) {
     this.dao.deleteShortcut(id);

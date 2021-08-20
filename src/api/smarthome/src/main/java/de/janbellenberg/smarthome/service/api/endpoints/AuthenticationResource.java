@@ -6,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,14 +20,16 @@ import org.bson.types.ObjectId;
 
 import static com.mongodb.client.model.Filters.*;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import de.janbellenberg.smarthome.base.MongoConnectionManager;
+import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.base.helper.security.PasswordHelper;
 import de.janbellenberg.smarthome.base.helper.security.SecurityHelper;
 import de.janbellenberg.smarthome.dao.UsersDAO;
 import de.janbellenberg.smarthome.model.User;
+import de.janbellenberg.smarthome.service.api.AuthenticationFilter;
 
 @Singleton
 @Path("/auth")
@@ -39,7 +42,6 @@ public class AuthenticationResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response performLogin(JsonObject request) {
-    // TODO: change to uname
     int uid = request.getInt("uid");
     String password = request.getString("password");
     User user = this.dao.getUserById(uid);
@@ -60,16 +62,16 @@ public class AuthenticationResource {
     MongoCollection<Document> coll = MongoConnectionManager.getInstance().getSessionCollection();
     String sessionID;
     do {
-      sessionID = SecurityHelper.generateSecureRandomString(20);
+      sessionID = SecurityHelper.generateSecureRandomString(50);
     } while (coll.find(eq("id", sessionID)).first() != null);
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 
     // create session in mongodb
     Document session = new Document("_id", new ObjectId());
     session.append("id", sessionID);
     session.append("uid", user.getId());
-    session.append("started", dtf.format(LocalDateTime.now()));
+    session.append("started", dtf.format(ZonedDateTime.now()));
 
     coll.insertOne(session);
 
@@ -77,10 +79,8 @@ public class AuthenticationResource {
   }
 
   @DELETE
-  public Response performLogout() {
-    // TODO: get id from request
-    String sessionID = "dNLwoXU8Gj53R5B2jt3w";
-
+  @Secured
+  public Response performLogout(@HeaderParam(AuthenticationFilter.HEADER_NAME) final String sessionID) {
     MongoCollection<Document> coll = MongoConnectionManager.getInstance().getSessionCollection();
     coll.deleteOne(eq("id", sessionID));
 
