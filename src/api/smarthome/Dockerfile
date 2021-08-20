@@ -4,7 +4,7 @@ FROM maven:3.6.3-openjdk-11-slim as maven-builder
 WORKDIR /root/smarthome
 COPY /src/api/smarthome .
 
-RUN mvn clean package
+RUN mvn -q clean package
 
 ## WILDFLY ##
 FROM alpine:3 as wildfly

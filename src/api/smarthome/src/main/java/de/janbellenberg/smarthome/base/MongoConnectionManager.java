@@ -7,6 +7,8 @@ import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
 
+import de.janbellenberg.smarthome.core.Configuration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +17,12 @@ public class MongoConnectionManager {
   private MongoConnectionManager() {
   }
 
-  private static final String MONGO_HOST = "192.168.178.23"; // TODO: replace with env
+  private static final String MONGO_HOST = Configuration.getCurrentConfiguration().isInDocker() ? "mongo"
+      : "192.168.178.23";
   private static final int MONGO_PORT = 27017;
-  private static final String MONGO_DB = "smarthome";
+  private static final String MONGO_USER = "smarthome";
+  private static final char[] MONGO_PSWD = "gXg33Ep4urGp6bF2".toCharArray();
+  private static final String MONGO_DB = MONGO_USER;
   private static final String COLL_SESSION = "sessions";
   private static final String COLL_SETTINGS = "settings";
   private static MongoConnectionManager instance;
@@ -39,6 +44,7 @@ public class MongoConnectionManager {
 
     try {
       MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+          .credential(MongoCredential.createCredential(MONGO_USER, MONGO_DB, MONGO_PSWD))
           .applyToClusterSettings(clusterSettingsBuilder -> clusterSettingsBuilder.hosts(mongoHostList))
           .writeConcern(WriteConcern.W1).readConcern(ReadConcern.MAJORITY).readPreference(ReadPreference.nearest())
           .retryWrites(true).build();
