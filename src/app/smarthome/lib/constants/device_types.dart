@@ -1,0 +1,33 @@
+enum DeviceType {
+  LIGHT,
+  HEATER,
+  AC,
+  KITCHEN,
+  VIDEO_CAM,
+  VIDEO,
+  ROVER,
+  CONTROLLER,
+  INFRASTRUCTURE,
+  EMBEDDED,
+  ENDPOINT,
+  SENSOR,
+  ACTOR,
+  OTHER,
+}
+
+const Map<DeviceType, String?> typeID = {
+  DeviceType.LIGHT: "lgt",
+  DeviceType.HEATER: 'htr',
+  DeviceType.AC: 'ac',
+  DeviceType.KITCHEN: 'kit',
+  DeviceType.VIDEO_CAM: 'vdc',
+  DeviceType.VIDEO: 'vid',
+  DeviceType.ROVER: 'rvr',
+  DeviceType.CONTROLLER: 'ctr',
+  DeviceType.INFRASTRUCTURE: 'inf',
+  DeviceType.EMBEDDED: 'emb',
+  DeviceType.ENDPOINT: 'end',
+  DeviceType.SENSOR: 'snr',
+  DeviceType.ACTOR: 'acr',
+  DeviceType.OTHER: null,
+};
