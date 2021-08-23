@@ -1,21 +1,15 @@
+import 'package:Smarthome/themes/light.dart';
 import 'package:flutter/material.dart';
 
+import 'app.dart';
+
 void main() {
-  runApp(MyApp());
+  runApp(Main());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SmartHome',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("SmartHome"),
-        ),
-      ),
-    );
+    return MaterialApp(title: 'SmartHome', theme: LightTheme, home: App());
   }
 }
