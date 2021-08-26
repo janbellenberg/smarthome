@@ -62,6 +62,10 @@ class _AppState extends State<App> {
                 });
                 break;
               default:
+                setState(() {
+                  currentPage = HomePage();
+                });
+                break;
             }
           });
         },
