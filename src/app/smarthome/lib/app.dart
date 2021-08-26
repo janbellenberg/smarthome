@@ -1,17 +1,30 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/pages/add_device.dart';
+import 'package:Smarthome/pages/home.dart';
+import 'package:Smarthome/pages/quick_actions.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+class App extends StatefulWidget {
+  App({Key? key}) : super(key: key);
+
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late Widget currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPage = HomePage();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
-        title: Text("SmartHome"),
-      ),
+      body: currentPage,
       bottomNavigationBar: CurvedNavigationBar(
         color: Theme.of(context).accentColor,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -31,7 +44,26 @@ class App extends StatelessWidget {
           ),
         ],
         onTap: (index) {
-          //Handle button tap
+          setState(() {
+            switch (index) {
+              case 0:
+                setState(() {
+                  currentPage = HomePage();
+                });
+                break;
+              case 1:
+                setState(() {
+                  currentPage = AddDevicePage();
+                });
+                break;
+              case 2:
+                setState(() {
+                  currentPage = QuickActionsPage();
+                });
+                break;
+              default:
+            }
+          });
         },
       ),
     );
