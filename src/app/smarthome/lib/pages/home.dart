@@ -46,14 +46,19 @@ class _HomePageState extends State<HomePage> {
               for (var item in buildings)
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    item.name,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.0,
-                        color: item.ID == selectedBuilding
-                            ? Theme.of(context).primaryColor
-                            : GRAY),
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      selectedBuilding = item.ID!;
+                    }),
+                    child: Text(
+                      item.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                          color: item.ID == selectedBuilding
+                              ? Theme.of(context).primaryColor
+                              : GRAY),
+                    ),
                   ),
                 ),
               Padding(

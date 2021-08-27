@@ -107,7 +107,7 @@ class _AppState extends State<App> {
   }
 
   void changeSelectedPage(int index) {
-    return setState(() {
+    setState(() {
       switch (index) {
         case 0:
           setState(() {
