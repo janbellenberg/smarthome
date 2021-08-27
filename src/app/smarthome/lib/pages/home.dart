@@ -1,6 +1,8 @@
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/models/room.dart';
+import 'package:Smarthome/pages/room_details.dart';
+import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/weather.dart';
 import 'package:flutter/material.dart';
@@ -74,13 +76,25 @@ class _HomePageState extends State<HomePage> {
           runSpacing: 20.0,
           children: [
             for (var item in rooms)
-              RoundedContainer(
-                width: 150.0,
-                margin: const EdgeInsets.all(0),
-                child: Text(
-                  item.name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                  textAlign: TextAlign.center,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RoomDetailsPage(item)),
+                ),
+                child: RoundedContainer(
+                  width: 150.0,
+                  margin: const EdgeInsets.all(0),
+                  child: Hero(
+                    flightShuttleBuilder: flightShuttleBuilder,
+                    tag: item.ID.toString(),
+                    child: Text(
+                      item.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ),
           ],
