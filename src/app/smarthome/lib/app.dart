@@ -5,6 +5,8 @@ import 'package:Smarthome/pages/quick_actions.dart';
 import 'package:Smarthome/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/info.dart';
+
 class App extends StatefulWidget {
   App({Key? key}) : super(key: key);
 
@@ -64,7 +66,11 @@ class _AppState extends State<App> {
                         Padding(
                           padding: const EdgeInsets.only(right: 5.0),
                           child: IconButton(
-                              onPressed: () => {}, // TODO: implement Route
+                              onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => InfoPage()),
+                                  ),
                               icon: Icon(
                                 Icons.info_outline,
                                 color: WHITE,

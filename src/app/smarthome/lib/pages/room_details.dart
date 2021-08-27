@@ -74,7 +74,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                 margin: EdgeInsets.symmetric(horizontal: 30.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor.withOpacity(0.60),
+                  color: Theme.of(context).backgroundColor.withOpacity(0.8),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),
