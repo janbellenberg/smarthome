@@ -2,7 +2,7 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/pages/add_device.dart';
 import 'package:Smarthome/pages/home.dart';
 import 'package:Smarthome/pages/quick_actions.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:Smarthome/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatefulWidget {
@@ -23,53 +23,113 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    // build the welcome string for the top
+    String titleString = ", Jan!";
+    int currentHour = DateTime.now().hour;
+
+    if (currentHour <= 10) {
+      titleString = "Guten Morgen" + titleString;
+    } else if (currentHour <= 18) {
+      titleString = "Guten Tag" + titleString;
+    } else {
+      titleString = "Guten Abend" + titleString;
+    }
+
     return Scaffold(
-      body: currentPage,
-      bottomNavigationBar: CurvedNavigationBar(
+      body: Container(
         color: Theme.of(context).accentColor,
-        backgroundColor: Theme.of(context).backgroundColor,
-        height: 60,
-        items: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.home_outlined, size: 30, color: WHITE),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.add_box_outlined, size: 30, color: WHITE),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.list_alt, size: 30, color: WHITE),
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            switch (index) {
-              case 0:
-                setState(() {
-                  currentPage = HomePage();
-                });
-                break;
-              case 1:
-                setState(() {
-                  currentPage = AddDevicePage();
-                });
-                break;
-              case 2:
-                setState(() {
-                  currentPage = QuickActionsPage();
-                });
-                break;
-              default:
-                setState(() {
-                  currentPage = HomePage();
-                });
-                break;
-            }
-          });
-        },
+        child: Column(
+          children: [
+            Container(
+              height: 125.0,
+              color: Theme.of(context).accentColor,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0, right: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        titleString,
+                        style: TextStyle(
+                            color: WHITE,
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Row(
+                      // IconButtons
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: IconButton(
+                              onPressed: () => {}, // TODO: implement Route
+                              icon: Icon(
+                                Icons.info_outline,
+                                color: WHITE,
+                                size: 30.0,
+                              )),
+                        ),
+                        IconButton(
+                            onPressed: () => {}, // TODO: implement Route
+                            icon: Icon(
+                              Icons.logout,
+                              color: WHITE,
+                              size: 30.0,
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // BODY
+            Expanded(
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            topRight: Radius.circular(30.0))),
+                    child: SingleChildScrollView(
+                        child: Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: currentPage,
+                    ))))
+          ],
+        ),
+      ),
+      bottomNavigationBar: Navigation(
+        onSelectedChanged: changeSelectedPage,
       ),
     );
+  }
+
+  void changeSelectedPage(int index) {
+    return setState(() {
+      switch (index) {
+        case 0:
+          setState(() {
+            currentPage = HomePage();
+          });
+          break;
+        case 1:
+          setState(() {
+            currentPage = AddDevicePage();
+          });
+          break;
+        case 2:
+          setState(() {
+            currentPage = QuickActionsPage();
+          });
+          break;
+        default:
+          setState(() {
+            currentPage = HomePage();
+          });
+          break;
+      }
+    });
   }
 }

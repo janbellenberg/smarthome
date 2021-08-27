@@ -53,3 +53,4 @@ gradlew/
 gradlew.bat
 local.properties/
 GeneratedPluginRegistrant.java
+*.dill
