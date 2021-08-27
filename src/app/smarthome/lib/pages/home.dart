@@ -87,8 +87,6 @@ class _HomePageState extends State<HomePage> {
         ),
         // Add room
         RoundedContainer(
-          width: double.infinity,
-          margin: const EdgeInsets.all(30.0),
           child: Text(
             "Raum hinzufügen",
             style: TextStyle(
