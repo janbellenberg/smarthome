@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                     left: 50.0,
                     right: 50.0,
-                    top: 40.0,
+                    top: 20.0,
                     bottom: 10.0,
                   ),
                   labelText: "Vorname",
@@ -77,6 +77,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Text("Konto erstellen",
                         style: TextStyle(fontSize: 20.0, color: WHITE)),
                   ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Zurück",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Theme.of(context).primaryColor)),
                 ),
                 Spacer(),
                 WaveAnimation(),

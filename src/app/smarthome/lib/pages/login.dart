@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 RoundedTextField(
                   padding: const EdgeInsets.only(
-                    left: 50.0,
-                    right: 50.0,
+                    left: 40.0,
+                    right: 40.0,
                     top: 40.0,
                     bottom: 20.0,
                   ),
@@ -40,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 RoundedTextField(
                   padding: const EdgeInsets.only(
-                    left: 50.0,
-                    right: 50.0,
+                    left: 40.0,
+                    right: 40.0,
                     top: 10.0,
                     bottom: 40.0,
                   ),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () => {},
                   child: Container(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
                     decoration: BoxDecoration(
                       color: Theme.of(context).accentColor,
                       borderRadius: BorderRadius.all(
@@ -65,12 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()),
-                    )
-                  },
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignUpPage(),
+                    ),
+                  ),
                   child: Hero(
                     flightShuttleBuilder: flightShuttleBuilder,
                     tag: "sign-up",

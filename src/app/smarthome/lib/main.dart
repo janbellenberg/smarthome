@@ -34,6 +34,7 @@ class Main extends StatelessWidget {
     return MaterialApp(
       title: 'SmartHome',
       theme: LightTheme,
+      debugShowCheckedModeBanner: false,
       home: Stack(
         children: [
           this.isLoggedIn ? App() : LoginPage(),

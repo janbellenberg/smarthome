@@ -24,10 +24,10 @@ class DeviceItem extends StatelessWidget {
               Icon(
                 deviceIcons[device.type],
                 color: Theme.of(context).accentColor,
-                size: 50.0,
+                size: 40.0,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30.0),
+                padding: const EdgeInsets.only(left: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

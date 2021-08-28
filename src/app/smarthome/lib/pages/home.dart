@@ -3,7 +3,7 @@ import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/models/room.dart';
 import 'package:Smarthome/pages/room_details.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
-import 'package:Smarthome/widgets/invite.dart';
+import 'package:Smarthome/pages/invite.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/weather.dart';
 import 'package:flutter/material.dart';

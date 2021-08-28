@@ -24,7 +24,7 @@ class WaitingPage extends StatelessWidget {
               ),
             ),
             Text(
-              "Bitte warten...",
+              "Bitte warten",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).accentColor,

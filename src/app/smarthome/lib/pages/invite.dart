@@ -49,14 +49,14 @@ class _InvitePageState extends State<InvitePage> {
               ),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       QrImage(
                         data: "test",
                         version: 9,
-                        size: 300.0,
+                        size: 250.0,
                       ),
                     ],
                   ),
