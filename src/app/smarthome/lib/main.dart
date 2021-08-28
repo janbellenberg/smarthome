@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/pages/wait.dart';
 import 'package:Smarthome/themes/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ void main() {
 
 class Main extends StatelessWidget {
   bool isLoggedIn = true;
+  bool isWaiting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,12 @@ class Main extends StatelessWidget {
     return MaterialApp(
       title: 'SmartHome',
       theme: LightTheme,
-      home: this.isLoggedIn ? App() : LoginPage(),
+      home: Stack(
+        children: [
+          this.isLoggedIn ? App() : LoginPage(),
+          if (isWaiting) WaitingPage(),
+        ],
+      ),
     );
   }
 }

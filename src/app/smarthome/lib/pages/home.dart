@@ -3,6 +3,7 @@ import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/models/room.dart';
 import 'package:Smarthome/pages/room_details.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
+import 'package:Smarthome/widgets/invite.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/weather.dart';
 import 'package:flutter/material.dart';
@@ -119,19 +120,25 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             // invite
-            RoundedContainer(
-              margin: const EdgeInsets.only(bottom: 30.0),
-              width: 150.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Person\neinladen",
-                    style: TextStyle(fontSize: 16.0),
-                    textAlign: TextAlign.left,
-                  ),
-                  Icon(Icons.person_add_alt),
-                ],
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => InvitePage()),
+              ),
+              child: RoundedContainer(
+                margin: const EdgeInsets.only(bottom: 30.0),
+                width: 150.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Person\neinladen",
+                      style: TextStyle(fontSize: 16.0),
+                      textAlign: TextAlign.left,
+                    ),
+                    Icon(Icons.person_add_alt),
+                  ],
+                ),
               ),
             ),
             RoundedContainer(

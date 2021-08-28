@@ -62,14 +62,18 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                     ),
                   ),
                   Hero(
-                      flightShuttleBuilder: flightShuttleBuilder,
-                      child: Text(this.selectedRoom.name,
-                          style: TextStyle(color: WHITE, fontSize: 30.0)),
-                      tag: this.selectedRoom.ID.toString()),
+                    flightShuttleBuilder: flightShuttleBuilder,
+                    child: Text(
+                      this.selectedRoom.name,
+                      style: TextStyle(color: WHITE, fontSize: 30.0),
+                    ),
+                    tag: this.selectedRoom.ID.toString(),
+                  ),
                   Spacer(),
                   IconButton(
-                      onPressed: () => {},
-                      icon: Icon(Icons.delete_outline, color: WHITE))
+                    onPressed: () => {},
+                    icon: Icon(Icons.delete_outline, color: WHITE),
+                  )
                 ],
               ),
             ),

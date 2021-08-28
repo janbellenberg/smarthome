@@ -13,31 +13,35 @@ class DeviceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RoundedContainer(
-        margin: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-        padding: EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            Icon(
-              deviceIcons[device.type],
-              color: Theme.of(context).accentColor,
-              size: 50.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    device.name,
-                    style:
-                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
-                  ),
-                  Text(device.status, style: TextStyle(fontSize: 17.0)),
-                ],
+    return GestureDetector(
+      onTap: () => {}, // TODO: implement route
+      onDoubleTap: () => {}, // TODO: default action
+      child: RoundedContainer(
+          margin: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+          padding: EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Icon(
+                deviceIcons[device.type],
+                color: Theme.of(context).accentColor,
+                size: 50.0,
               ),
-            )
-          ],
-        ));
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      device.name,
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.bold),
+                    ),
+                    Text(device.status, style: TextStyle(fontSize: 17.0)),
+                  ],
+                ),
+              )
+            ],
+          )),
+    );
   }
 }
