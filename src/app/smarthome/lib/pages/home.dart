@@ -115,15 +115,41 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
           ),
         ),
-        // invite
-        RoundedContainer(
-          margin: const EdgeInsets.only(bottom: 30.0),
-          width: 200.0,
-          child: Text(
-            "Jemanden einladen",
-            style: TextStyle(fontSize: 15.0),
-            textAlign: TextAlign.center,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // invite
+            RoundedContainer(
+              margin: const EdgeInsets.only(bottom: 30.0),
+              width: 150.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Person\neinladen",
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.left,
+                  ),
+                  Icon(Icons.person_add_alt),
+                ],
+              ),
+            ),
+            RoundedContainer(
+              margin: const EdgeInsets.only(bottom: 30.0),
+              width: 150.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.delete_outline, color: Colors.red),
+                  Text(
+                    "Gebäude\nlöschen",
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );
