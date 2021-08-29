@@ -4,7 +4,6 @@ import 'package:Smarthome/models/device.dart';
 import 'package:Smarthome/models/room.dart';
 import 'package:Smarthome/widgets/device_item.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
-import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetailsPage extends StatefulWidget {
@@ -79,10 +78,9 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 30.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor.withOpacity(0.8),
+                  color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),

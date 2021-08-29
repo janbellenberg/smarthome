@@ -35,7 +35,6 @@ class InfoPage extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,

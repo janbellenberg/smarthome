@@ -23,16 +23,16 @@ class RoundedContainer extends StatelessWidget {
       padding: padding,
       child: this.child,
       decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).accentColor.withOpacity(0.3),
+            Theme.of(context).accentColor.withOpacity(0.1),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Theme.of(context).backgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).accentColor.withOpacity(0.28),
-            spreadRadius: 0,
-            blurRadius: 15,
-            offset: Offset(0, 0),
-          ),
-        ],
       ),
     );
   }
