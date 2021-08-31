@@ -1,3 +1,4 @@
+import '../pages/device_details.dart';
 import 'package:flutter/material.dart';
 import '../constants/device_types.dart';
 import '../models/device.dart';
@@ -14,7 +15,12 @@ class DeviceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {}, // TODO: implement route
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DeviceDetailsPage(this.device),
+        ),
+      ),
       onDoubleTap: () => {}, // TODO: default action
       child: RoundedContainer(
           margin: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),

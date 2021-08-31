@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class RoundedTextField extends StatelessWidget {
   const RoundedTextField({
     required this.labelText,
-    required this.padding,
+    this.padding,
+    this.controller, // TODO: make required
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
@@ -11,16 +12,18 @@ class RoundedTextField extends StatelessWidget {
   }) : super(key: key);
 
   final String labelText;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final TextInputType keyboardType;
   final bool obscureText;
   final IconData? prefixIcon;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.padding,
+      padding: this.padding ?? EdgeInsets.all(0),
       child: TextField(
+        controller: this.controller,
         obscureText: this.obscureText,
         keyboardType: this.keyboardType,
         enableSuggestions:
@@ -36,7 +39,9 @@ class RoundedTextField extends StatelessWidget {
           ),
           labelText: this.labelText,
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-          prefixIcon: Icon(prefixIcon, color: Theme.of(context).accentColor),
+          prefixIcon: prefixIcon == null
+              ? null
+              : Icon(prefixIcon, color: Theme.of(context).accentColor),
         ),
       ),
     );

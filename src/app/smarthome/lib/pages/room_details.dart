@@ -1,9 +1,9 @@
-import 'package:Smarthome/constants/colors.dart';
-import 'package:Smarthome/constants/device_types.dart';
-import 'package:Smarthome/models/device.dart';
-import 'package:Smarthome/models/room.dart';
-import 'package:Smarthome/widgets/device_item.dart';
-import 'package:Smarthome/widgets/heroStyleBuilder.dart';
+import '../constants/colors.dart';
+import '../constants/device_types.dart';
+import '../models/device.dart';
+import '../models/room.dart';
+import '../widgets/device_item.dart';
+import '../widgets/heroStyleBuilder.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetailsPage extends StatefulWidget {
@@ -23,8 +23,8 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
   @override
   void initState() {
     super.initState();
-    this.devices.add(Device.fromDB(
-        1, "Deckenlampe", DeviceType.LIGHT, "", "", "mac", "local", 1,
+    this.devices.add(Device.fromDB(1, "Deckenlampe", DeviceType.LIGHT, "",
+        "Jan Bellenberg", "mac", "local", 1,
         status: "Eingeschaltet"));
     this.devices.add(Device.fromDB(
         2, "Netzwerk", DeviceType.INFRASTRUCTURE, "", "", "mac", "local", 1,

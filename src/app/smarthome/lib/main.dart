@@ -12,8 +12,8 @@ void main() {
 }
 
 class Main extends StatelessWidget {
-  bool isLoggedIn = true;
-  bool isWaiting = false;
+  final bool isLoggedIn = true;
+  final bool isWaiting = false;
 
   @override
   Widget build(BuildContext context) {
