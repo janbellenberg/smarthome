@@ -2,11 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter Android",
+      "name": "Flutter on Emulator",
       "type": "dart",
       "request": "launch",
       "program": "src/app/smarthome/lib/main.dart",
       "flutterMode": "debug"
+    },
+    {
+      "name": "Flutter on Device",
+      "type": "dart",
+      "request": "launch",
+      "program": "src/app/smarthome/lib/main.dart",
+      "flutterMode": "debug",
+      "deviceId": "XEDDU18208001213"
     },
     {
       "name": "Flutter Chrome",
