@@ -4,7 +4,7 @@ class Building {
   String street;
   String postcode;
   String city;
-  String country;
+  String country = "Deutschland";
 
   Building(this.name, this.street, this.postcode, this.city, this.country);
   Building.fromDB(

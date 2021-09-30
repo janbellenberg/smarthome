@@ -8,6 +8,8 @@ import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/weather.dart';
 import 'package:flutter/material.dart';
 
+import 'building_edit.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -25,7 +27,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    buildings.add(Building.fromDB(1, "Zuhause", "", "", "", ""));
+    buildings.add(Building.fromDB(
+        1, "Zuhause", "Fasanenstraße 40", "45134", "Essen", "Deutschland"));
     buildings.add(Building.fromDB(2, "Arbeit", "", "", "", ""));
 
     rooms.add(Room.fromDB(1, "Wohnzimmer", 1));
@@ -105,56 +108,120 @@ class _HomePageState extends State<HomePage> {
               ),
           ],
         ),
-        // Add room
-        RoundedContainer(
-          child: Text(
-            "Raum hinzufügen",
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0),
-            textAlign: TextAlign.center,
-          ),
-        ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             // invite
-            GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => InvitePage()),
-              ),
-              child: RoundedContainer(
-                margin: const EdgeInsets.only(bottom: 30.0),
-                width: 150.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Person\neinladen",
-                      style: TextStyle(fontSize: 16.0),
-                      textAlign: TextAlign.left,
-                    ),
-                    Icon(Icons.person_add_alt),
-                  ],
-                ),
-              ),
-            ),
-            RoundedContainer(
-              margin: const EdgeInsets.only(bottom: 30.0),
-              width: 150.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(Icons.delete_outline, color: Colors.red),
-                  Text(
-                    "Gebäude\nlöschen",
-                    style: TextStyle(fontSize: 16.0),
-                    textAlign: TextAlign.right,
+            Column(
+              children: [
+                // Add room
+                RoundedContainer(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20.0,
+                    top: 10.0,
+                    bottom: 10.0,
                   ),
-                ],
-              ),
+                  margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
+                  width: 175.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Raum\nhinzufügen",
+                        style: TextStyle(fontSize: 16.0),
+                        textAlign: TextAlign.left,
+                      ),
+                      Icon(Icons.add),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InvitePage()),
+                  ),
+                  child: RoundedContainer(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      top: 10.0,
+                      bottom: 10.0,
+                    ),
+                    margin: const EdgeInsets.only(bottom: 50.0),
+                    width: 175.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Person\neinladen",
+                          style: TextStyle(fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                        Icon(Icons.person_add_alt),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BuildingEditPage(
+                        this.buildings.firstWhere(
+                            (element) => element.ID == this.selectedBuilding),
+                      ),
+                    ),
+                  ),
+                  child: RoundedContainer(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      top: 10.0,
+                      bottom: 10.0,
+                    ),
+                    margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
+                    width: 175.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.edit_outlined),
+                        Text(
+                          "Gebäude\nbearbeiten",
+                          style: TextStyle(fontSize: 16.0),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                RoundedContainer(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20.0,
+                    top: 10.0,
+                    bottom: 10.0,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 50.0),
+                  width: 175.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.delete_outline, color: Colors.red),
+                      Text(
+                        "Gebäude\nlöschen",
+                        style: TextStyle(fontSize: 16.0),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
