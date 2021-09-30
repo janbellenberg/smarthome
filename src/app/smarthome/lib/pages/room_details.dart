@@ -1,3 +1,5 @@
+import 'package:Smarthome/pages/room_edit.dart';
+
 import '../constants/colors.dart';
 import '../constants/device_types.dart';
 import '../models/device.dart';
@@ -69,9 +71,22 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                     tag: this.selectedRoom.ID.toString(),
                   ),
                   Spacer(),
-                  IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.delete_outline, color: WHITE),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  RoomEditPage(this.selectedRoom)),
+                        ),
+                        icon: Icon(Icons.edit_outlined, color: WHITE),
+                      ),
+                      IconButton(
+                        onPressed: () => {},
+                        icon: Icon(Icons.delete_outline, color: WHITE),
+                      ),
+                    ],
                   )
                 ],
               ),
