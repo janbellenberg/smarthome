@@ -13,9 +13,12 @@ class RoomEditPage extends StatefulWidget {
 }
 
 class _RoomEditPageState extends State<RoomEditPage> {
-  _RoomEditPageState(this.selectedRoom);
+  _RoomEditPageState(this.selectedRoom) {
+    this.add = selectedRoom.ID == null;
+  }
 
-  final Room selectedRoom;
+  late bool add;
+  late Room selectedRoom;
   late TextEditingController nameController;
 
   @override
@@ -24,6 +27,7 @@ class _RoomEditPageState extends State<RoomEditPage> {
     nameController = TextEditingController.fromValue(
       TextEditingValue(text: this.selectedRoom.name),
     );
+    print(add);
   }
 
   @override
@@ -47,7 +51,9 @@ class _RoomEditPageState extends State<RoomEditPage> {
                     ),
                   ),
                   Text(
-                    this.selectedRoom.name,
+                    this.selectedRoom.name.trim() == ""
+                        ? "Raum hinzufügen"
+                        : this.selectedRoom.name,
                     style: TextStyle(color: WHITE, fontSize: 30.0),
                   ),
                 ],

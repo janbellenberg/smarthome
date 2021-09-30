@@ -2,6 +2,7 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/models/room.dart';
 import 'package:Smarthome/pages/room_details.dart';
+import 'package:Smarthome/pages/room_edit.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/pages/invite.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
@@ -116,25 +117,33 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 // Add room
-                RoundedContainer(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    right: 20.0,
-                    top: 10.0,
-                    bottom: 10.0,
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            RoomEditPage(new Room("", this.selectedBuilding))),
                   ),
-                  margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
-                  width: 175.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Raum\nhinzufügen",
-                        style: TextStyle(fontSize: 16.0),
-                        textAlign: TextAlign.left,
-                      ),
-                      Icon(Icons.add),
-                    ],
+                  child: RoundedContainer(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      top: 10.0,
+                      bottom: 10.0,
+                    ),
+                    margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
+                    width: 175.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Raum\nhinzufügen",
+                          style: TextStyle(fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                        Icon(Icons.add),
+                      ],
+                    ),
                   ),
                 ),
                 GestureDetector(
