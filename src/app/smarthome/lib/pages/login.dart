@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text("Konto erstellen",
                         style: TextStyle(
                             fontSize: 15.0,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).colorScheme.primary)),
                   ),
                 ),
                 Spacer(),

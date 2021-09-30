@@ -13,8 +13,8 @@ class Navigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-        color: Theme.of(context).accentColor,
-        backgroundColor: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
         height: 60,
         items: <Widget>[
           Padding(

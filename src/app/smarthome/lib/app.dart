@@ -39,12 +39,12 @@ class _AppState extends State<App> {
 
     return Scaffold(
       body: Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         child: Column(
           children: [
             Container(
               height: 125.0,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               child: Padding(
                 padding: const EdgeInsets.only(top: 15.0, right: 10.0),
                 child: Row(
@@ -94,7 +94,7 @@ class _AppState extends State<App> {
             Expanded(
                 child: Container(
                     decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30.0),
                             topRight: Radius.circular(30.0))),

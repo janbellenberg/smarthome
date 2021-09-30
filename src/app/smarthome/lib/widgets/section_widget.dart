@@ -28,7 +28,7 @@ class SectionWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 1.0,
                 ),
               ),
@@ -41,7 +41,7 @@ class SectionWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 1.0,
                 ),
               ),

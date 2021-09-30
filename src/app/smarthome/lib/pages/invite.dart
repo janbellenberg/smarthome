@@ -13,7 +13,7 @@ class _InvitePageState extends State<InvitePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
@@ -42,7 +42,7 @@ class _InvitePageState extends State<InvitePage> {
               margin: EdgeInsets.symmetric(horizontal: 30.0),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.all(
                   Radius.circular(20.0),
                 ),

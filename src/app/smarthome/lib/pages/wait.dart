@@ -17,7 +17,7 @@ class WaitingPage extends StatelessWidget {
                 width: 150.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor,
+                    Theme.of(context).colorScheme.secondary,
                   ),
                   strokeWidth: 3.0,
                 ),
@@ -27,7 +27,7 @@ class WaitingPage extends StatelessWidget {
               "Bitte warten",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 fontSize: 50.0,
               ),
             )

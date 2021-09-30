@@ -27,7 +27,7 @@ class DeviceDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       body: EyeDrop(
         child: Padding(
           padding: const EdgeInsets.only(top: 30.0),
@@ -61,7 +61,7 @@ class DeviceDetailsPage extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0),
@@ -74,7 +74,7 @@ class DeviceDetailsPage extends StatelessWidget {
                         children: [
                           Icon(
                             deviceIcons[this.selectedDevice.type],
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 150.0,
                           ),
                           Padding(
@@ -82,7 +82,7 @@ class DeviceDetailsPage extends StatelessWidget {
                             child: Text(
                               this.selectedDevice.name,
                               style: TextStyle(
-                                color: Theme.of(context).accentColor,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 30.0,
                               ),
                             ),

@@ -69,7 +69,7 @@ class WeatherWidget extends StatelessWidget {
               children: [
                 Icon(
                   getIcon(),
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 50.0,
                 ),
                 Padding(
@@ -77,7 +77,7 @@ class WeatherWidget extends StatelessWidget {
                   child: Text(
                     getString(),
                     style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold),
                   ),

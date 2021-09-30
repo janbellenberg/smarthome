@@ -29,7 +29,7 @@ class DeviceItem extends StatelessWidget {
             children: [
               Icon(
                 deviceIcons[device.type],
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 size: 40.0,
               ),
               Padding(

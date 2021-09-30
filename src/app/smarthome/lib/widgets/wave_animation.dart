@@ -16,12 +16,18 @@ class WaveAnimation extends StatelessWidget {
         config: CustomConfig(
           gradients: [
             [
-              Theme.of(context).accentColor.withAlpha(175),
-              Theme.of(context).accentColor.withAlpha(175)
+              Theme.of(context).colorScheme.secondary.withAlpha(175),
+              Theme.of(context).colorScheme.secondary.withAlpha(175)
             ],
-            [Theme.of(context).accentColor, Theme.of(context).accentColor],
-            [Theme.of(context).primaryColor, Theme.of(context).accentColor],
-            [Theme.of(context).primaryColor, GRAY],
+            [
+              Theme.of(context).colorScheme.secondary,
+              Theme.of(context).colorScheme.secondary
+            ],
+            [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.secondary
+            ],
+            [Theme.of(context).colorScheme.primary, GRAY],
           ],
           durations: [35000, 20000, 15000, 20000],
           heightPercentages: [0.20, 0.30, 0.40, 0.65],

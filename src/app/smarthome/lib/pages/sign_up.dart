@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -83,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text("Zurück",
                       style: TextStyle(
                           fontSize: 15.0,
-                          color: Theme.of(context).primaryColor)),
+                          color: Theme.of(context).colorScheme.primary)),
                 ),
                 Spacer(),
                 WaveAnimation(),

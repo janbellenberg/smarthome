@@ -9,7 +9,7 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
@@ -37,7 +37,7 @@ class InfoPage extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),
@@ -57,11 +57,12 @@ class InfoPage extends StatelessWidget {
                             right: 50.0,
                           ),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
+                            color: Theme.of(context).colorScheme.background,
                             boxShadow: [
                               BoxShadow(
                                 color: Theme.of(context)
-                                    .accentColor
+                                    .colorScheme
+                                    .secondary
                                     .withOpacity(0.28),
                                 spreadRadius: 0,
                                 blurRadius: 15,

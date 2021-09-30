@@ -33,8 +33,8 @@ class RoundedContainer extends StatelessWidget {
         gradient: this.gradient ??
             LinearGradient(
               colors: [
-                Theme.of(context).accentColor.withOpacity(0.25),
-                Theme.of(context).accentColor.withOpacity(0.07),
+                Theme.of(context).colorScheme.secondary.withOpacity(0.25),
+                Theme.of(context).colorScheme.secondary.withOpacity(0.07),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

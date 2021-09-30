@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 17.0,
                           color: item.ID == selectedBuilding
-                              ? Theme.of(context).primaryColor
+                              ? Theme.of(context).colorScheme.primary
                               : GRAY),
                     ),
                   ),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             "Raum hinzufügen",
             style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0),
             textAlign: TextAlign.center,

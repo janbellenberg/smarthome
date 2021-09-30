@@ -31,17 +31,18 @@ class RoundedTextField extends StatelessWidget {
         autocorrect: !(obscureText || this.keyboardType != TextInputType.text),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.secondary, width: 2.0),
             borderRadius: BorderRadius.all(
               Radius.circular(30.0),
             ),
           ),
           labelText: this.labelText,
-          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
           prefixIcon: prefixIcon == null
               ? null
-              : Icon(prefixIcon, color: Theme.of(context).accentColor),
+              : Icon(prefixIcon,
+                  color: Theme.of(context).colorScheme.secondary),
         ),
       ),
     );

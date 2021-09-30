@@ -31,32 +31,35 @@ class _AddDevicePageState extends State<AddDevicePage> {
 
   Future<void> startNFC() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
-    NfcManager.instance.startSession(
-      onDiscovered: (NfcTag tag) async {
-        MifareClassic? nfc = MifareClassic.from(tag);
 
-        if (nfc == null) {
-          print('Tag is not compatible');
-          return;
-        }
-        Uint8List key = Uint8List.fromList([
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-        ]);
+    if (isAvailable) {
+      NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          MifareClassic? nfc = MifareClassic.from(tag);
 
-        bool auth = await nfc.authenticateSectorWithKeyA(
-          sectorIndex: 2,
-          key: key,
-        );
-        try {
-          if (auth) print(await nfc.readBlock(blockIndex: 8));
-        } on PlatformException catch (_) {}
-      },
-    );
+          if (nfc == null) {
+            print('Tag is not compatible');
+            return;
+          }
+          Uint8List key = Uint8List.fromList([
+            0xFF,
+            0xFF,
+            0xFF,
+            0xFF,
+            0xFF,
+            0xFF,
+          ]);
+
+          bool auth = await nfc.authenticateSectorWithKeyA(
+            sectorIndex: 2,
+            key: key,
+          );
+          try {
+            if (auth) print(await nfc.readBlock(blockIndex: 8));
+          } on PlatformException catch (_) {}
+        },
+      );
+    }
 
     // Stop Session
     //NfcManager.instance.stopSession();
@@ -83,7 +86,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 17.0,
                           color: item.ID == selectedBuilding
-                              ? Theme.of(context).primaryColor
+                              ? Theme.of(context).colorScheme.primary
                               : GRAY),
                     ),
                   ),
@@ -104,7 +107,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
           child: Text(
             "Gerät hinzufügen",
             style: TextStyle(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
             ),
