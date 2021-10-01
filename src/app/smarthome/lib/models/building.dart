@@ -1,3 +1,5 @@
+import 'package:Smarthome/models/room.dart';
+
 class Building {
   int? ID;
   String name;
@@ -5,6 +7,8 @@ class Building {
   String postcode;
   String city;
   String country = "Deutschland";
+
+  List<Room> rooms = List.empty(growable: true);
 
   Building(this.name, this.street, this.postcode, this.city, this.country);
   Building.fromDB(
