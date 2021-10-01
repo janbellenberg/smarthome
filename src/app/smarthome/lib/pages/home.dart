@@ -1,14 +1,14 @@
-import 'package:Smarthome/constants/colors.dart';
-import 'package:Smarthome/models/building.dart';
-import 'package:Smarthome/models/room.dart';
-import 'package:Smarthome/pages/room_details.dart';
-import 'package:Smarthome/pages/room_edit.dart';
-import 'package:Smarthome/widgets/heroStyleBuilder.dart';
-import 'package:Smarthome/pages/invite.dart';
-import 'package:Smarthome/widgets/rounded_container.dart';
-import 'package:Smarthome/widgets/weather.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart';
+import '../models/building.dart';
+import '../models/room.dart';
+import '../pages/room_details.dart';
+import '../pages/room_edit.dart';
+import '../widgets/heroStyleBuilder.dart';
+import '../pages/invite.dart';
+import '../widgets/rounded_container.dart';
+import '../widgets/weather.dart';
 import 'building_edit.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     buildings.add(Building.fromDB(
         1, "Zuhause", "Fasanenstraße 40", "45134", "Essen", "Deutschland"));
     buildings.add(Building.fromDB(2, "Arbeit", "", "", "", ""));
