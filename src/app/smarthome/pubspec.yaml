@@ -20,6 +20,9 @@ dependencies:
   yaml: ^3.1.0
   flutter_inappwebview: ^5.3.2
   cyclop: ^0.4.1
+  x509: ^0.2.2
+  asn1lib: ^1.0.2
+  basic_utils: ^3.6.1
 
 dev_dependencies:
   flutter_test:
@@ -28,8 +31,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/icon_inverted.png
-    - assets/images/icons8_NFC_N_96px.png
+    - assets/
     - pubspec.yaml
   fonts:
     - family: Raleway

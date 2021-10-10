@@ -1,5 +1,4 @@
 import 'package:Smarthome/models/app_state.dart';
-import 'package:Smarthome/models/building.dart';
 import 'package:redux/redux.dart';
 
 import 'reducers.dart';
