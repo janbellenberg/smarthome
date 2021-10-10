@@ -65,6 +65,6 @@ public class UserResource {
   public Response deleteUser(@HeaderParam("X-UID") final int uid) {
     // TODO: delete sessions
     this.dao.deleteUser(uid);
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 }

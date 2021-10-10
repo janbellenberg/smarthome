@@ -54,6 +54,6 @@ public class ShortcutsResource {
   public Response deleteShortcut(@PathParam("id") final int id) {
     this.dao.deleteShortcut(id);
 
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 }

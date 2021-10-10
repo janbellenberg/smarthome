@@ -47,7 +47,7 @@ public class RoomDevicesResource {
     device.setRoom(room);
     this.dao.saveDevice(device);
 
-    return Response.ok().build();
+    return Response.created(null).build();
   }
 
   @DELETE
@@ -62,6 +62,6 @@ public class RoomDevicesResource {
 
     device.setRoom(null);
     this.dao.saveDevice(device);
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 }

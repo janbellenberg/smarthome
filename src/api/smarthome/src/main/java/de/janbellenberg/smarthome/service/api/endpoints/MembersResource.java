@@ -58,14 +58,13 @@ public class MembersResource {
   @Secured
   public Response addMember(@PathParam("bid") final int buildingID, @HeaderParam("X-UID") final int uid) {
     this.dao.createMembership(uid, buildingID);
-
-    return Response.ok().build();
+    return Response.created(null).build();
   }
 
   @DELETE
   @Secured
   public Response deleteMember(@PathParam("bid") final int buildingID, @HeaderParam("X-UID") final int uid) {
     this.dao.removeMembership(uid, buildingID);
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 }

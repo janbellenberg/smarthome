@@ -84,6 +84,6 @@ public class AuthenticationResource {
     MongoCollection<Document> coll = MongoConnectionManager.getInstance().getSessionCollection();
     coll.deleteOne(eq("id", sessionID));
 
-    return Response.ok().build();
+    return Response.status(Status.NO_CONTENT).build();
   }
 }

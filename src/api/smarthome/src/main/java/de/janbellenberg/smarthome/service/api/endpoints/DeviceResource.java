@@ -37,7 +37,7 @@ public class DeviceResource {
   @Path("/{id}")
   public Response deleteDevice(@PathParam("id") final int id) {
     this.dao.deleteDevice(id);
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 
   @POST

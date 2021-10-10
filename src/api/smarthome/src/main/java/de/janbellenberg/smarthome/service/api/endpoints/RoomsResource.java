@@ -66,6 +66,6 @@ public class RoomsResource {
   public Response deleteRoom(@PathParam("id") final int id) {
     this.dao.deleteRoom(id);
 
-    return Response.ok().build();
+    return Response.noContent().build();
   }
 }

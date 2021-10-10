@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.dao.BuildingsDAO;
@@ -56,6 +57,6 @@ public class BuildingsResource {
   @Path("{id}")
   public Response deleteBuilding(@PathParam("id") final int id) {
     this.dao.deleteBuilding(id);
-    return Response.ok().build();
+    return Response.status(Status.NO_CONTENT).build();
   }
 }
