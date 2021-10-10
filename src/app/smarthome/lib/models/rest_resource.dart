@@ -17,6 +17,10 @@ class RestResource {
     this.expectedStatus = 200,
   });
 
+  void setParameter(String parameter, String value) {
+    relativeURL = relativeURL.replaceAll("{" + parameter + "}", value);
+  }
+
   @override
   String toString() {
     return BASE_URL + relativeURL;
