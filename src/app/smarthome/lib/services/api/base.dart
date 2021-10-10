@@ -1,62 +1,102 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:Smarthome/constants/certificates.dart';
-import 'package:Smarthome/constants/constants.dart';
-import 'package:x509/x509.dart' as x509;
-import 'package:asn1lib/asn1lib.dart' as asn1;
-import 'package:basic_utils/basic_utils.dart';
+
+import 'package:Smarthome/constants/api.dart';
+import 'package:Smarthome/core/certificates.dart';
+import 'package:Smarthome/models/rest_resource.dart';
 
 class HTTP {
-  static bool ValidateCaCertificate(
-    X509Certificate cert,
-    String host,
-    int port,
-  ) {
-    // re-parse certificate
-    x509.X509Certificate certificate = x509.parsePem(cert.pem).single;
-    x509.Signature signature = new x509.Signature(
-      Uint8List.fromList(certificate.signatureValue!),
-    );
+  static HttpClient httpClient = HttpClient()
+    ..badCertificateCallback = ((
+      X509Certificate cert,
+      String host,
+      int port,
+    ) =>
+        ValidateCaCertificate(
+          cert,
+          host,
+          port,
+        ))
+    ..connectionTimeout = const Duration(seconds: 3);
 
-    x509.Verifier? verifier = null;
+  static dynamic fetch(
+    RestResource resource, {
+    String? token,
+  }) async {
+    try {
+      HttpClientRequest req;
 
-    // check if root ca or intermediate ca should be used
-    if (cert.issuer.contains(CNs[CertificateType.ROOT]!)) {
-      verifier = Certificates.rootCA.publicKey.createVerifier(
-        x509.algorithms.signing.rsa.sha256,
-      );
-    } else if (cert.issuer.contains(CNs[CertificateType.INTERMEDIATE]!)) {
-      verifier = Certificates.intermediateCA.publicKey.createVerifier(
-        x509.algorithms.signing.rsa.sha256,
-      );
-    } else {
-      return false;
+      // parse uri
+      Uri uri = Uri.parse(resource.toString());
+
+      // open request based on http method
+      switch (resource.method) {
+        case HTTPMethod.GET:
+          req = await httpClient.getUrl(uri);
+          break;
+        case HTTPMethod.POST:
+          req = await httpClient.postUrl(uri);
+          break;
+        case HTTPMethod.PUT:
+          req = await httpClient.putUrl(uri);
+          break;
+        case HTTPMethod.PATCH:
+          req = await httpClient.patchUrl(uri);
+          break;
+        case HTTPMethod.DELETE:
+          req = await httpClient.deleteUrl(uri);
+          break;
+        default:
+          return HTTPError.DEPRECATED;
+      }
+
+      // send request body
+      if (resource.requestData != null) {
+        String encoded = json.encoder.convert(resource.requestData);
+        req.headers.contentType = ContentType.json;
+        req.headers.contentLength = encoded.length;
+
+        req.write(encoded);
+      }
+
+      // complete request
+      HttpClientResponse res = await req.close();
+
+      // handle http statuscodes
+      if (res.statusCode == 401) {
+        return HTTPError.NOT_AUTHORIZED;
+      } else if (res.statusCode > 500) {
+        return HTTPError.SERVER_ERROR;
+      } else if (res.statusCode > 400) {
+        return HTTPError.CLIENT_ERROR;
+      } else if (res.statusCode != resource.expectedStatus) {
+        return HTTPError.DEPRECATED;
+      }
+
+      // read response data if wanted
+      if (resource.responseData) {
+        final completer = Completer<String>();
+        final contents = StringBuffer();
+        res.transform(utf8.decoder).listen((data) {
+          contents.write(data);
+        }, onDone: () => completer.complete(contents.toString()));
+
+        // parse json
+        if (res.headers.contentType!.mimeType == "application/json") {
+          return json.decoder.convert(await completer.future);
+        }
+
+        return await completer.future;
+      }
+
+      return "";
+    } on TimeoutException catch (_) {
+      return HTTPError.CONNECTION_ERROR;
+    } on SocketException catch (_) {
+      return HTTPError.CONNECTION_ERROR;
+    } on FormatException catch (_) {
+      return HTTPError.CLIENT_ERROR;
     }
-
-    // check alternative ips
-    if (cert.subject.contains(CNs[CertificateType.APP_SERVER]!) &&
-        checkSANs(cert, host) == false) {
-      return false;
-    }
-
-    // parse asn1
-    var asn1Parser = asn1.ASN1Parser(cert.der);
-    var seq = asn1Parser.nextObject() as asn1.ASN1Sequence;
-    var tbsSequence = seq.elements[0] as asn1.ASN1Sequence;
-
-    // validate certificate signature
-    bool valid = verifier.verify(tbsSequence.encodedBytes, signature);
-    return valid;
-  }
-
-  static bool checkSANs(cert, host) {
-    List<String> sanIPs = X509Utils.x509CertificateFromPem(cert.pem)
-        .subjectAlternativNames!
-        .toList();
-
-    if (sanIPs.contains(host) || (IS_DEBUGGING && host == EMULATOR_HOST)) {
-      return true;
-    }
-    return false;
   }
 }
