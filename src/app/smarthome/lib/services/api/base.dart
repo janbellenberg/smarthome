@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:Smarthome/constants/api.dart';
 import 'package:Smarthome/core/certificates.dart';
 import 'package:Smarthome/models/rest_resource.dart';
+import 'package:Smarthome/redux/store.dart';
 
 class HTTP {
   static HttpClient httpClient = HttpClient()
@@ -20,10 +21,7 @@ class HTTP {
         ))
     ..connectionTimeout = const Duration(seconds: 3);
 
-  static dynamic fetch(
-    RestResource resource, {
-    String? token,
-  }) async {
+  static dynamic fetch(RestResource resource) async {
     try {
       HttpClientRequest req;
 
@@ -49,6 +47,14 @@ class HTTP {
           break;
         default:
           return HTTPError.DEPRECATED;
+      }
+
+      // send token
+      if (resource.useToken) {
+        req.headers.add(
+          "smarthome-session",
+          (store.state.sessionID ?? "").toString(),
+        );
       }
 
       // send request body

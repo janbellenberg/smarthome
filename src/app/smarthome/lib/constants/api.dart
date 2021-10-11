@@ -32,12 +32,12 @@ RestResource LOGIN = new RestResource(
   HTTPMethod.POST,
   "/auth",
   useToken: false,
+  responseData: true,
 );
 
 RestResource LOGOUT = new RestResource(
   HTTPMethod.DELETE,
   "/auth",
-  useToken: false,
   expectedStatus: HTTP_NO_CONTENT,
 );
 

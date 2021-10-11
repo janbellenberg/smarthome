@@ -5,6 +5,7 @@ import 'package:Smarthome/pages/quick_actions.dart';
 import 'package:Smarthome/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 
+import 'controller/auth.dart';
 import 'pages/info.dart';
 
 class App extends StatefulWidget {
@@ -69,7 +70,8 @@ class _AppState extends State<App> {
                               onPressed: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => InfoPage()),
+                                      builder: (context) => InfoPage(),
+                                    ),
                                   ),
                               icon: Icon(
                                 Icons.info_outline,
@@ -78,7 +80,7 @@ class _AppState extends State<App> {
                               )),
                         ),
                         IconButton(
-                            onPressed: () => {}, // TODO: implement Route
+                            onPressed: logout,
                             icon: Icon(
                               Icons.logout,
                               color: WHITE,

@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/controller/auth.dart' as authController;
 import 'package:Smarthome/pages/sign_up.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
@@ -13,6 +14,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController uidController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     top: 40.0,
                     bottom: 20.0,
                   ),
+                  controller: uidController,
                   labelText: "Kunden-ID",
                   keyboardType: TextInputType.number,
                   prefixIcon: Icons.person_outline,
@@ -45,12 +50,18 @@ class _LoginPageState extends State<LoginPage> {
                     top: 10.0,
                     bottom: 40.0,
                   ),
+                  controller: passwordController,
                   labelText: "Passwort",
                   obscureText: true,
                   prefixIcon: Icons.password,
                 ),
                 TextButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    authController.login(
+                      uidController.text,
+                      passwordController.text,
+                    )
+                  },
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
@@ -60,8 +71,10 @@ class _LoginPageState extends State<LoginPage> {
                         Radius.circular(40.0),
                       ),
                     ),
-                    child: Text("Anmelden",
-                        style: TextStyle(fontSize: 20.0, color: WHITE)),
+                    child: Text(
+                      "Anmelden",
+                      style: TextStyle(fontSize: 20.0, color: WHITE),
+                    ),
                   ),
                 ),
                 TextButton(
