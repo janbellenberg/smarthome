@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         applicationId "de.janbellenberg.smarthome"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

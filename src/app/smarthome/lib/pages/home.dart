@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Person\neinladen",
+                          "Einladen oder\nBeitreten",
                           style: TextStyle(fontSize: 16.0),
                           textAlign: TextAlign.left,
                         ),
