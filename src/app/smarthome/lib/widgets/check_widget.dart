@@ -1,3 +1,5 @@
+import 'package:Smarthome/constants/colors.dart';
+
 import '../models/property.dart';
 import 'rounded_container.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,6 @@ class _CheckPropertyWidgetState extends State<CheckPropertyWidget> {
         vertical: 5.0,
       ),
       margin: EdgeInsets.symmetric(
-        horizontal: 30.0,
         vertical: 10.0,
       ),
       gradient: this.property.value
@@ -42,6 +43,8 @@ class _CheckPropertyWidgetState extends State<CheckPropertyWidget> {
               end: Alignment.bottomRight,
             ),
       child: SwitchListTile(
+        activeColor: ACCENT,
+        inactiveThumbColor: BLACK.withAlpha((0.8 * 200).toInt()),
         onChanged: (value) {
           setState(() {
             this.property.value = value;

@@ -1,3 +1,5 @@
+import 'package:Smarthome/constants/colors.dart';
+
 import 'rounded_container.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +15,21 @@ class ActionWidget extends StatelessWidget {
       onTap: () => {}, // TODO: send command
       child: RoundedContainer(
         padding: EdgeInsets.symmetric(
-          horizontal: 30.0,
-          vertical: 20.0,
+          horizontal: 25.0,
+          vertical: 15.0,
         ),
         margin: EdgeInsets.symmetric(
-          horizontal: 30.0,
           vertical: 10.0,
         ),
         child: Row(
           children: [
-            Icon(Icons.send),
+            Icon(
+              Icons.bolt,
+              color: ACCENT,
+              size: 30.0,
+            ),
             Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Text(
                 this.label,
                 style: TextStyle(

@@ -27,7 +27,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     // build the welcome string for the top
-    String titleString = ", Jan!";
+    String titleString = ",\nJan!";
     int currentHour = DateTime.now().hour;
 
     if (currentHour <= 10) {

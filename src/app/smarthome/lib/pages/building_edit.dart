@@ -90,6 +90,7 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
                       bottom: 20.0,
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RoundedTextField(
                           padding: const EdgeInsets.only(bottom: 20.0),
@@ -112,44 +113,45 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
                           labelText: "Stadt",
                           controller: this.cityController,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Land:", style: TextStyle(fontSize: 16.0)),
-                            DropdownButton(
-                              items: countries
-                                  .map((value) => DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      ))
-                                  .toList(),
-                              value: this.selectedBuilding.country,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  this.selectedBuilding.country = newValue!;
-                                });
-                              },
-                            ),
-                          ],
+                        Text(
+                          "Land:",
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        Center(
+                          child: DropdownButton(
+                            items: countries
+                                .map((value) => DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    ))
+                                .toList(),
+                            value: this.selectedBuilding.country,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                this.selectedBuilding.country = newValue!;
+                              });
+                            },
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => {},
                           child: RoundedContainer(
                             margin: EdgeInsets.only(
                               top: 25.0,
-                              left: 50.0,
-                              right: 50.0,
+                              left: 10.0,
+                              right: 10.0,
                             ),
                             padding: EdgeInsets.all(20.0),
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
-                                  child: Icon(Icons.save_alt,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      size: 30.0),
+                                  padding: const EdgeInsets.only(right: 30.0),
+                                  child: Icon(
+                                    Icons.save_alt,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    size: 30.0,
+                                  ),
                                 ),
                                 Text(
                                   "Daten speichern",

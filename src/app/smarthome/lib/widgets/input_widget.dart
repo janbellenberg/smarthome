@@ -44,7 +44,6 @@ class _InputPropertyWidgetState extends State<InputPropertyWidget> {
           : TextInputType.number,
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
-        horizontal: 20.0,
       ),
     );
   }

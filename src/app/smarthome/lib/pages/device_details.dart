@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class DeviceDetailsPage extends StatelessWidget {
   DeviceDetailsPage(this.selectedDevice, {Key? key}) : super(key: key) {
     String configRaw =
-        '{ "name": "LED", "isNameEditable": false, "description": "Testmodul für eine LED", "type": "l", "vendor": "Jan Bellenberg", "sections": [ { "name": "Allgemein", "actions": [{"label": "Test", "command": "/"}], "details": [{"label": "Test", "command": "/"}], "informations":[{"label": "Test", "value": "2"}], "properties": [ { "label": "LED an/aus", "value": true, "type": 4, "id": "led_state", "mode": "instant" } ] } ] }';
+        '{ "name": "LED", "isNameEditable": false, "description": "Testmodul für eine LED", "type": "l", "vendor": "Jan Bellenberg", "sections": [ { "name": "Allgemein", "actions": [{"label": "Zufällige Farbe", "command": "/"}], "details": [{"label": "Farbkalibrierung", "command": "/"}], "informations":[{"label": "Helligkeit", "value": "90%"}], "properties": [ { "label": "LED an/aus", "value": true, "type": 4, "id": "led_state", "mode": "instant" } ] } ] }';
 
     Map<String, dynamic> config = json.decode(configRaw);
     this.selectedDevice.sections.clear();

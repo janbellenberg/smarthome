@@ -32,7 +32,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/fonts/raleway-600.ttf
+    - assets/fonts/raleway-700.ttf
+    - assets/fonts/raleway-regular.ttf
+    - assets/images/icon_inverted.png
+    - assets/images/icons8_NFC_N_96px.png
     - pubspec.yaml
   fonts:
     - family: Raleway

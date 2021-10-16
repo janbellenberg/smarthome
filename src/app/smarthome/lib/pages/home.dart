@@ -28,8 +28,21 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     buildings.add(Building.fromDB(
-        1, "Zuhause", "Fasanenstraße 40", "45134", "Essen", "Deutschland"));
-    buildings.add(Building.fromDB(2, "Arbeit", "", "", "", ""));
+      1,
+      "Zuhause",
+      "Fasanenstraße 40",
+      "45134",
+      "Essen",
+      "Deutschland",
+    ));
+    buildings.add(Building.fromDB(
+      2,
+      "Arbeit",
+      "",
+      "",
+      "",
+      "",
+    ));
 
     rooms.add(Room.fromDB(1, "Wohnzimmer", 1));
     rooms.add(Room.fromDB(2, "Schlafzimmer", 1));
@@ -40,6 +53,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double actionSize = MediaQuery.of(context).size.width / 2 - 25.0;
     return Column(
       children: [
         // Building Selector
@@ -131,16 +145,16 @@ class _HomePageState extends State<HomePage> {
                       bottom: 10.0,
                     ),
                     margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
-                    width: 175.0,
+                    width: actionSize,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Raum\nhinzufügen",
-                          style: TextStyle(fontSize: 16.0),
+                          style: TextStyle(fontSize: 15.0),
                           textAlign: TextAlign.left,
                         ),
-                        Icon(Icons.add),
+                        Icon(Icons.add, color: ACCENT),
                       ],
                     ),
                   ),
@@ -158,16 +172,16 @@ class _HomePageState extends State<HomePage> {
                       bottom: 10.0,
                     ),
                     margin: const EdgeInsets.only(bottom: 50.0),
-                    width: 175.0,
+                    width: actionSize,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Einladen oder\nBeitreten",
-                          style: TextStyle(fontSize: 16.0),
+                          "Einladen /\nBeitreten",
+                          style: TextStyle(fontSize: 15.0),
                           textAlign: TextAlign.left,
                         ),
-                        Icon(Icons.person_add_alt),
+                        Icon(Icons.person_add_alt, color: ACCENT),
                       ],
                     ),
                   ),
@@ -194,14 +208,14 @@ class _HomePageState extends State<HomePage> {
                       bottom: 10.0,
                     ),
                     margin: const EdgeInsets.only(top: 20.0, bottom: 15.0),
-                    width: 175.0,
+                    width: actionSize,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.edit_outlined),
+                        Icon(Icons.edit_outlined, color: ACCENT),
                         Text(
                           "Gebäude\nbearbeiten",
-                          style: TextStyle(fontSize: 16.0),
+                          style: TextStyle(fontSize: 15.0),
                           textAlign: TextAlign.right,
                         ),
                       ],
@@ -216,14 +230,14 @@ class _HomePageState extends State<HomePage> {
                     bottom: 10.0,
                   ),
                   margin: const EdgeInsets.only(bottom: 50.0),
-                  width: 175.0,
+                  width: actionSize,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.delete_outline, color: Colors.red),
                       Text(
                         "Gebäude\nlöschen",
-                        style: TextStyle(fontSize: 16.0),
+                        style: TextStyle(fontSize: 15.0),
                         textAlign: TextAlign.right,
                       ),
                     ],

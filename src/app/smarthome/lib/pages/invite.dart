@@ -82,6 +82,7 @@ class _InvitePageState extends State<InvitePage> {
                                 Icon(
                                   Icons.camera_alt,
                                   size: 40.0,
+                                  color: ACCENT,
                                 ),
                                 Text(
                                   "QR-Code scannen",

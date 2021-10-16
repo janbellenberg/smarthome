@@ -30,7 +30,6 @@ class DetailsWidget extends StatelessWidget {
           vertical: 20.0,
         ),
         margin: EdgeInsets.symmetric(
-          horizontal: 30.0,
           vertical: 10.0,
         ),
         child: Row(

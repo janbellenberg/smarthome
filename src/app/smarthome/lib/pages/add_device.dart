@@ -91,14 +91,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
                     ),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                child: Text(
-                  "+",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: GRAY, fontSize: 25.0),
-                ),
-              ),
             ],
           ),
         ),
