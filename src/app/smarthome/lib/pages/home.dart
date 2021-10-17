@@ -1,3 +1,4 @@
+import 'package:Smarthome/services/api/weather.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -10,6 +11,8 @@ import '../pages/invite.dart';
 import '../widgets/rounded_container.dart';
 import '../widgets/weather.dart';
 import 'building_edit.dart';
+import 'package:Smarthome/redux/actions.dart' as redux;
+import 'package:Smarthome/redux/store.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -21,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Building> buildings = List<Building>.empty(growable: true);
   List<Room> rooms = List<Room>.empty(growable: true);
-  late String currentWeather;
+  late String currentWeather = "";
   int selectedBuilding = 1;
 
   @override
@@ -48,7 +51,22 @@ class _HomePageState extends State<HomePage> {
     rooms.add(Room.fromDB(2, "Schlafzimmer", 1));
     rooms.add(Room.fromDB(3, "Jan", 1));
 
-    currentWeather = "sun+cloudy";
+    loadWeather();
+  }
+
+  void loadWeather() {
+    store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, true));
+    Building currentBuilding =
+        buildings.where((element) => element.ID == selectedBuilding).first;
+
+    fetchWeatherData(currentBuilding.city, currentBuilding.country).then(
+      (value) {
+        store.dispatch(
+          new redux.Action(redux.ActionTypes.updateWaiting, false),
+        );
+        setState(() => currentWeather = value);
+      },
+    );
   }
 
   @override
@@ -91,7 +109,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         // Weather
-        WeatherWidget(currentWeather),
+        if (currentWeather != "") WeatherWidget(currentWeather),
         // Room selector
         Wrap(
           alignment: WrapAlignment.center,

@@ -1,3 +1,4 @@
+import 'package:Smarthome/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
@@ -10,49 +11,67 @@ class WeatherWidget extends StatelessWidget {
 
   getIcon() {
     switch (currentWeather) {
-      case 'sun':
+      case '01d':
         return WeatherIcons.day_sunny;
-      case 'sun+cloudy':
+      case '02d':
+      case '02n':
         return WeatherIcons.day_cloudy;
-      case 'cloudy':
+      case '03d':
+      case '03n':
+      case '04d':
+      case '04n':
         return WeatherIcons.cloud;
-      case 'snow':
+      case '13d':
+      case '13n':
         return WeatherIcons.snow;
-      case 'wind':
-        return WeatherIcons.day_windy;
-      case 'sun+rain':
+      case '11d':
+      case '11n':
+        return WeatherIcons.thunderstorm;
+      case '10d':
+      case '10n':
         return WeatherIcons.day_rain;
-      case 'rain':
+      case '09d':
+      case '09n':
         return WeatherIcons.rain;
-      case 'fog':
+      case '50d':
+      case '50n':
         return WeatherIcons.fog;
-      case 'stars':
+      case '01n':
         return WeatherIcons.stars;
-      default:
     }
   }
 
   getString() {
     switch (currentWeather) {
-      case 'sun':
+      case '01d':
         return "Sonne";
-      case 'sun+cloudy':
-        return "Wenige\nWolken";
-      case 'cloudy':
-        return "Wolken";
-      case 'snow':
+      case '02d':
+      case '02n':
+        return "Leicht\nbewölkt";
+      case '03d':
+      case '03n':
+      case '04d':
+      case '04n':
+        return "Bewölkt";
+      case '13d':
+      case '13n':
         return "Schnee";
-      case 'wind':
-        return "Wind";
-      case 'sun+rain':
+      case '11d':
+      case '11n':
+        return "Gewitter";
+      case '10d':
+      case '10n':
         return "Leichter\nRegen";
-      case 'rain':
+      case '09d':
+      case '09n':
         return "Regen";
-      case 'fog':
+      case '50d':
+      case '50n':
         return "Nebel";
-      case 'stars':
+      case '01n':
         return "Sterne";
       default:
+        return "";
     }
   }
 
@@ -87,7 +106,11 @@ class WeatherWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 5.0),
-            child: Text("Powered by api.com", style: TextStyle(fontSize: 11.5)),
+            child: Text("Powered by openweathermap.org",
+                style: TextStyle(
+                  fontSize: 11.0,
+                  color: BLACK.withOpacity(0.4),
+                )),
           )
         ],
       ),
