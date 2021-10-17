@@ -7,9 +7,6 @@ class QR_Scanner_Page extends StatelessWidget {
   QR_Scanner_Page({Key? key}) : super(key: key);
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  Barcode? result;
-  QRViewController? controller;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +25,6 @@ class QR_Scanner_Page extends StatelessWidget {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       log(scanData.code);
     });

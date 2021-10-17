@@ -1,5 +1,3 @@
-import 'package:Smarthome/pages/room_edit.dart';
-
 import '../constants/colors.dart';
 import '../constants/device_types.dart';
 import '../models/device.dart';

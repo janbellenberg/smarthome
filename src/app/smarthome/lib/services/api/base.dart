@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:Smarthome/constants/api.dart';
+import 'package:Smarthome/constants/constants.dart';
 import 'package:Smarthome/core/certificates.dart';
 import 'package:Smarthome/models/rest_resource.dart';
 import 'package:Smarthome/redux/store.dart';
@@ -103,6 +105,11 @@ class HTTP {
       return HTTPError.CONNECTION_ERROR;
     } on FormatException catch (_) {
       return HTTPError.CLIENT_ERROR;
+    } catch (e) {
+      if (IS_DEBUGGING) {
+        log(e.toString());
+      }
+      return HTTPError.UNKNOWN;
     }
   }
 }

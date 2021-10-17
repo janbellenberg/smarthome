@@ -6,8 +6,17 @@ enum HTTPError {
   SERVER_ERROR,
   NOT_AUTHORIZED,
   DEPRECATED,
-  CONNECTION_ERROR
+  CONNECTION_ERROR,
+  UNKNOWN
 }
+
+Map<HTTPError, String> errorDescription = {
+  HTTPError.CLIENT_ERROR: "Die Daten sind falsch oder die App ist veraltet",
+  HTTPError.SERVER_ERROR: "Auf dem Server ist ein Fehler aufgetreten",
+  HTTPError.NOT_AUTHORIZED: "Sie sind für diesen Vorgang nicht berechtigt",
+  HTTPError.DEPRECATED: "Die Schnittstelle scheint veraltet zu sein",
+  HTTPError.CONNECTION_ERROR: "Keine Verbindung zum Server"
+};
 
 const int HTTP_OK = 200;
 const int HTTP_CREATED = 201;
@@ -16,7 +25,7 @@ const int HTTP_NO_CONTENT = 204;
 const String JSON_MIME = "application/json";
 
 const bool USE_TLS = true;
-const String HOSTNAME = "10.0.2.2";
+const String HOSTNAME = "192.168.178.23";
 const String PORT = USE_TLS ? "8443" : "8080";
 
 const String BASE_URL = (USE_TLS ? "https" : "http") +

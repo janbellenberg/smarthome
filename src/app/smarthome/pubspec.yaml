@@ -24,6 +24,7 @@ dependencies:
   x509: ^0.2.2
   asn1lib: ^1.0.2
   basic_utils: ^3.6.1
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

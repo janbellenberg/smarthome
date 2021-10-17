@@ -1,14 +1,14 @@
-import 'dart:developer';
-
-import 'package:Smarthome/constants/api.dart';
+import 'package:Smarthome/controller/base.dart';
 import 'package:Smarthome/redux/actions.dart';
 import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/services/api/auth.dart' as service;
 
 void login(String uid, String password) async {
-  dynamic result = await service.login(int.parse(uid), password);
-  if (result.runtimeType == HTTPError) {
-    log(result);
+  Map<String, dynamic>? result = await performApiOperation(
+    () => service.login(int.parse(uid), password),
+  );
+
+  if (result == null) {
     return;
   }
 
@@ -16,11 +16,11 @@ void login(String uid, String password) async {
 }
 
 void logout() async {
-  dynamic result = await service.logout();
-  if (result.runtimeType == HTTPError) {
-    log(result.toString());
-    return;
-  }
+  Map<String, dynamic>? result = await performApiOperation(
+    () => service.logout(),
+  );
 
-  store.dispatch(new Action(ActionTypes.updateSessionID, null));
+  if (result != null) {
+    store.dispatch(new Action(ActionTypes.updateSessionID, null));
+  }
 }

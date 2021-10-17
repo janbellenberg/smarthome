@@ -23,12 +23,15 @@ class WaitingPage extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "Bitte warten",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: 50.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Text(
+                "Verbindung zum Server...",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 40.0,
+                ),
               ),
             )
           ],
