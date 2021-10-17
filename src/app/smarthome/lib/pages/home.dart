@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
         store.dispatch(
           new redux.Action(redux.ActionTypes.updateWaiting, false),
         );
-        setState(() => currentWeather = value);
+        try {
+          setState(() => currentWeather = value);
+        } catch (e) {}
       },
     );
   }

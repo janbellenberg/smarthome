@@ -2,6 +2,7 @@ import 'package:Smarthome/controller/base.dart';
 import 'package:Smarthome/redux/actions.dart';
 import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/services/api/auth.dart' as service;
+import 'package:Smarthome/services/shared_prefs/base.dart';
 
 void login(String uid, String password) async {
   Map<String, dynamic>? result = await performApiOperation(
@@ -12,6 +13,7 @@ void login(String uid, String password) async {
     return;
   }
 
+  saveSessionID(result["sessionID"]);
   store.dispatch(new Action(ActionTypes.updateSessionID, result["sessionID"]));
 }
 
@@ -21,6 +23,7 @@ void logout() async {
   );
 
   if (result != null) {
+    saveSessionID(null);
     store.dispatch(new Action(ActionTypes.updateSessionID, null));
   }
 }

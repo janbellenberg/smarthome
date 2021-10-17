@@ -1,6 +1,7 @@
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/pages/wait.dart';
+import 'package:Smarthome/services/shared_prefs/base.dart';
 import 'package:Smarthome/themes/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import 'app.dart';
 import 'pages/login.dart';
+import 'redux/actions.dart' as redux;
 import 'redux/store.dart';
 
 void main() {
@@ -15,12 +17,15 @@ void main() {
 }
 
 class Main extends StatelessWidget {
-  final bool isLoggedIn = true;
-  final bool isWaiting = false;
-
   @override
   Widget build(BuildContext context) {
-    if (isLoggedIn) {
+    readSessionID().then((value) {
+      store.dispatch(
+        new redux.Action(redux.ActionTypes.updateSessionID, value),
+      );
+    });
+
+    if (store.state.sessionID != null) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: ACCENT,
           statusBarBrightness: Brightness.light,

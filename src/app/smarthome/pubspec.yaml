@@ -25,6 +25,7 @@ dependencies:
   asn1lib: ^1.0.2
   basic_utils: ^3.6.1
   fluttertoast: ^8.0.8
+  encrypted_shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:
