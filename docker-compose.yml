@@ -76,7 +76,7 @@ services:
     volumes:
       - ~/smarthome/config/data/mongo:/data/db
       - ~/smarthome/config/data/mongo_home:/home/mongodb
-      - ~/smarthome/config/mongo/:/docker-entrypoint-initdb.d/
+      - ~/smarthome/config/mongo:/docker-entrypoint-initdb.d
     networks:
       main:
         ipv4_address: 192.168.1.7

@@ -73,7 +73,7 @@ INSERT INTO `users_local` (`id`, `password`, `salt`)
 VALUES (1, '02b1d4a0fa5e97bb2331f134368e350014f133236b8d8b83b04deeece74da653193e3152732d5176b1421170cbe9e7afae572119a6d8d29c22b6cc4adb24a7f3', '9c8wvDQ45xFCGTbavTy5');
 
 INSERT INTO `buildings` (`name`, `street`, `postcode`, `city`, `country`)
-VALUES ('Zuhause', 'Fasanenstraße 40', '45134', 'Essen', 'Deutschland');
+VALUES ('Zuhause', 'Fasanenstr. 40', '45134', 'Essen', 'Deutschland');
 
 INSERT INTO `rooms` (`name`, `building`)
 VALUES ('Wohnzimmer', 1);
