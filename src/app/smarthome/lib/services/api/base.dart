@@ -74,9 +74,9 @@ class HTTP {
       // handle http statuscodes
       if (res.statusCode == 401) {
         return HTTPError.NOT_AUTHORIZED;
-      } else if (res.statusCode > 500) {
+      } else if (res.statusCode >= 500) {
         return HTTPError.SERVER_ERROR;
-      } else if (res.statusCode > 400) {
+      } else if (res.statusCode >= 400) {
         return HTTPError.CLIENT_ERROR;
       } else if (res.statusCode != resource.expectedStatus) {
         return HTTPError.DEPRECATED;

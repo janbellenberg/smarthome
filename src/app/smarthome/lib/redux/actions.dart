@@ -1,6 +1,7 @@
 enum ActionTypes {
   updateSessionID,
   updateWaiting,
+  updateWeather,
   addBuilding,
   clearBuildings,
   addRoom,

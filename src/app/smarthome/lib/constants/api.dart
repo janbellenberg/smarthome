@@ -25,7 +25,7 @@ const int HTTP_NO_CONTENT = 204;
 const String JSON_MIME = "application/json";
 
 const bool USE_TLS = true;
-const String HOSTNAME = "192.168.178.23";
+const String HOSTNAME = "192.168.178.21";
 const String PORT = USE_TLS ? "8443" : "8080";
 
 const String WEATHER_API_KEY = "b20d6931ba5b7dc2c9579f38d1d05264";

@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/platform_tags.dart';
 
@@ -16,16 +18,11 @@ class AddDevicePage extends StatefulWidget {
 }
 
 class _AddDevicePageState extends State<AddDevicePage> {
-  List<Building> buildings = List<Building>.empty(growable: true);
   int selectedBuilding = 1;
 
   @override
   initState() {
     super.initState();
-
-    buildings.add(Building.fromDB(1, "Zuhause", "", "", "", ""));
-    buildings.add(Building.fromDB(2, "Arbeit", "", "", "", ""));
-
     startNFC();
   }
 
@@ -67,93 +64,97 @@ class _AddDevicePageState extends State<AddDevicePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: <Widget>[
-              for (var item in buildings)
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: GestureDetector(
-                    onTap: () => setState(() {
-                      selectedBuilding = item.ID!;
-                    }),
-                    child: Text(
-                      item.name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17.0,
-                          color: item.ID == selectedBuilding
-                              ? Theme.of(context).colorScheme.primary
-                              : GRAY),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: Text(
-            "Gerät hinzufügen",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        RoundedContainer(
-          gradient: LinearGradient(colors: [Colors.white, Colors.white]),
-          child: Column(
+    return StoreConnector<AppState, AppState>(
+        converter: (store) => store.state,
+        builder: (context, state) {
+          return Column(
             children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    for (var item in state.buildings)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: GestureDetector(
+                          onTap: () => setState(() {
+                            selectedBuilding = item.ID!;
+                          }),
+                          child: Text(
+                            item.name,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0,
+                                color: item.ID == selectedBuilding
+                                    ? Theme.of(context).colorScheme.primary
+                                    : GRAY),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Image.asset(
-                  "assets/images/icons8_NFC_N_96px.png",
-                  width: 70.0,
-                ),
-              ),
-              Text(
-                "Automatisch",
-                style: TextStyle(
-                  fontSize: 33.0,
-                ),
-              ),
-              Text(
-                "Halten Sie jetzt den NFC-Tag an Ihr Gerät",
-                style: TextStyle(
-                  fontSize: 15.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Text(
-          "- oder -",
-          style: TextStyle(
-            fontSize: 21.0,
-          ),
-        ),
-        GestureDetector(
-          onTap: () {}, // TODO: implement route
-          child: RoundedContainer(
-            padding: EdgeInsets.all(22.0),
-            child: Column(
-              children: [
-                Text(
-                  "Manuelle Einrichtung",
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Text(
+                  "Gerät hinzufügen",
                   style: TextStyle(
-                    fontSize: 18.0,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
+              ),
+              RoundedContainer(
+                gradient: LinearGradient(colors: [Colors.white, Colors.white]),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Image.asset(
+                        "assets/images/icons8_NFC_N_96px.png",
+                        width: 70.0,
+                      ),
+                    ),
+                    Text(
+                      "Automatisch",
+                      style: TextStyle(
+                        fontSize: 33.0,
+                      ),
+                    ),
+                    Text(
+                      "Halten Sie jetzt den NFC-Tag an Ihr Gerät",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                "- oder -",
+                style: TextStyle(
+                  fontSize: 21.0,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {}, // TODO: implement route
+                child: RoundedContainer(
+                  padding: EdgeInsets.all(22.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Manuelle Einrichtung",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 }

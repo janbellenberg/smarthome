@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:Smarthome/constants/api.dart';
 
 class RestResource {
@@ -7,6 +9,7 @@ class RestResource {
   bool responseData;
   bool useToken;
   int expectedStatus;
+  Map<String, String> parameters = {};
 
   RestResource(
     this.method,
@@ -17,12 +20,14 @@ class RestResource {
     this.expectedStatus = 200,
   });
 
-  void setParameter(String parameter, String value) {
-    relativeURL = relativeURL.replaceAll("{" + parameter + "}", value);
-  }
-
   @override
   String toString() {
-    return BASE_URL + relativeURL;
+    String url = BASE_URL + relativeURL;
+
+    this.parameters.forEach((key, value) {
+      url = url.replaceAll("{" + key + "}", value);
+    });
+
+    return url;
   }
 }

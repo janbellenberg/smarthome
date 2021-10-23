@@ -2,15 +2,22 @@ import 'package:Smarthome/models/room.dart';
 
 class Building {
   int? ID;
-  String name;
-  String street;
-  String postcode;
-  String city;
+  late String name;
+  late String street;
+  late String postcode;
+  late String city;
   String country = "Deutschland";
+  String? weather;
 
   List<Room> rooms = List.empty(growable: true);
 
   Building(this.name, this.street, this.postcode, this.city, this.country);
-  Building.fromDB(
-      this.ID, this.name, this.street, this.postcode, this.city, this.country);
+  Building.fromDB(Map<String, dynamic> data) {
+    this.ID = data["id"];
+    this.name = data["name"];
+    this.street = data["street"];
+    this.postcode = data["postcode"];
+    this.city = data["city"];
+    this.country = data["country"];
+  }
 }

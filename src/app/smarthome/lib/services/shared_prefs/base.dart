@@ -8,6 +8,11 @@ Future<String?> readSessionID() async {
 }
 
 void saveSessionID(String? sessionID) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove("sessionID");
+  if (sessionID == null) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("sessionID");
+  } else {
+    EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
+    prefs.setString("sessionID", sessionID);
+  }
 }

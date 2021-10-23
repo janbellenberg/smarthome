@@ -8,6 +8,13 @@ AppState appReducer(AppState state, dynamic action) {
     state.sessionID = action.payload;
   } else if (action.type == ActionTypes.updateWaiting) {
     state.waiting = action.payload;
+  } else if (action.type == ActionTypes.updateWeather) {
+    state.buildings
+        .firstWhere(
+          (element) => element.ID == action.payload["building"],
+          orElse: () => new Building("", "", "", "", ""),
+        )
+        .weather = action.payload["weather"];
   } else if (action.type == ActionTypes.addBuilding) {
     state.buildings.add(action.payload);
   } else if (action.type == ActionTypes.clearBuildings) {

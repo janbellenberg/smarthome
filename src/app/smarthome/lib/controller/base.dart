@@ -7,7 +7,7 @@ import 'package:Smarthome/redux/actions.dart' as redux;
 import 'package:Smarthome/redux/store.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-Future<Map<String, dynamic>?> performApiOperation(
+Future<dynamic> performApiOperation(
   Function() apiOperation,
 ) async {
   // activate wait screen
@@ -39,5 +39,5 @@ Future<Map<String, dynamic>?> performApiOperation(
 
   // disable wait screen
   store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, false));
-  return result.runtimeType == String ? {} : result;
+  return result.runtimeType == String ? null : result;
 }

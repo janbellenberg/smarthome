@@ -7,7 +7,7 @@ import 'rounded_container.dart';
 class WeatherWidget extends StatelessWidget {
   const WeatherWidget(this.currentWeather, {Key? key}) : super(key: key);
 
-  final String currentWeather;
+  final String? currentWeather;
 
   getIcon() {
     switch (currentWeather) {
@@ -38,6 +38,8 @@ class WeatherWidget extends StatelessWidget {
         return WeatherIcons.fog;
       case '01n':
         return WeatherIcons.stars;
+      default:
+        return null;
     }
   }
 
@@ -71,12 +73,16 @@ class WeatherWidget extends StatelessWidget {
       case '01n':
         return "Sterne";
       default:
-        return "";
+        return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (getString() == null || getIcon() == null) {
+      return Container();
+    }
+
     return RoundedContainer(
       padding: const EdgeInsets.all(0),
       child: Column(

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/constants/countries.dart';
+import 'package:Smarthome/controller/buildings.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
@@ -15,8 +18,11 @@ class BuildingEditPage extends StatefulWidget {
 }
 
 class _BuildingEditPageState extends State<BuildingEditPage> {
-  _BuildingEditPageState(this.selectedBuilding);
+  _BuildingEditPageState(this.selectedBuilding) {
+    add = this.selectedBuilding.ID == null;
+  }
 
+  late bool add;
   final Building selectedBuilding;
   late TextEditingController nameController;
   late TextEditingController streetController;
@@ -46,6 +52,7 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    log(this.selectedBuilding.ID.toString());
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       body: Padding(
@@ -65,8 +72,10 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
                     ),
                   ),
                   Text(
-                    this.selectedBuilding.name,
-                    style: TextStyle(color: WHITE, fontSize: 30.0),
+                    this.add
+                        ? "Gebäude hinzufügen"
+                        : this.selectedBuilding.name,
+                    style: TextStyle(color: WHITE, fontSize: 24.0),
                   ),
                 ],
               ),
@@ -134,7 +143,26 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => {},
+                          onTap: () {
+                            if (add) {
+                              addBuilding(
+                                this.nameController.text,
+                                this.streetController.text,
+                                this.postcodeController.text,
+                                this.cityController.text,
+                                this.selectedBuilding.country,
+                              ).then((value) => Navigator.pop(context));
+                            } else {
+                              updateBuilding(
+                                this.selectedBuilding.ID!,
+                                this.nameController.text,
+                                this.streetController.text,
+                                this.postcodeController.text,
+                                this.cityController.text,
+                                this.selectedBuilding.country,
+                              ).then((value) => Navigator.pop(context));
+                            }
+                          },
                           child: RoundedContainer(
                             margin: EdgeInsets.only(
                               top: 25.0,
