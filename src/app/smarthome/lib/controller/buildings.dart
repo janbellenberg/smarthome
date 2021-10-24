@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:Smarthome/controller/base.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/redux/actions.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/constants/countries.dart';
 import 'package:Smarthome/controller/buildings.dart';

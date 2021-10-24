@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/models/app_state.dart';
-import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
