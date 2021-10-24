@@ -11,6 +11,12 @@ bool ValidateCaCertificate(
   String host,
   int port,
 ) {
+  // validate start and end date
+  if (DateTime.now().isBefore(cert.startValidity) ||
+      DateTime.now().isAfter(cert.endValidity)) {
+    return false;
+  }
+
   // re-parse certificate
   x509.X509Certificate certificate = x509.parsePem(cert.pem).single;
   x509.Signature signature = new x509.Signature(
