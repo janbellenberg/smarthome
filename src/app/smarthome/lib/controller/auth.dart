@@ -17,13 +17,12 @@ void login(String uid, String password) async {
   store.dispatch(new Action(ActionTypes.updateSessionID, result["sessionID"]));
 }
 
-void logout() async {
-  Map<String, dynamic>? result = await performApiOperation(
+void logout() {
+  saveSessionID(null);
+
+  store.dispatch(new Action(ActionTypes.updateSessionID, null));
+
+  performApiOperation(
     () => service.logout(),
   );
-
-  if (result != null) {
-    saveSessionID(null);
-    store.dispatch(new Action(ActionTypes.updateSessionID, null));
-  }
 }

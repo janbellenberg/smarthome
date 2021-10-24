@@ -99,9 +99,11 @@ class HTTP {
       }
 
       return "";
-    } on TimeoutException catch (_) {
+    } on TimeoutException catch (e) {
+      log(e.message ?? "");
       return HTTPError.CONNECTION_ERROR;
-    } on SocketException catch (_) {
+    } on SocketException catch (e) {
+      log(e.message);
       return HTTPError.CONNECTION_ERROR;
     } on FormatException catch (_) {
       return HTTPError.CLIENT_ERROR;

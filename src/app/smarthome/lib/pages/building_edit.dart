@@ -52,7 +52,6 @@ class _BuildingEditPageState extends State<BuildingEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    log(this.selectedBuilding.ID.toString());
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       body: Padding(
