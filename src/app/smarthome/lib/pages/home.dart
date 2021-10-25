@@ -1,4 +1,5 @@
 import 'package:Smarthome/controller/buildings.dart';
+import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/services/api/weather.dart';
 import 'package:flutter/material.dart';
@@ -119,8 +120,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BuildingEditPage(
-                                  new Building("Test", "Musterstr. 40", "45134",
-                                      "Berlin", "Deutschland"),
+                                  new Building("", "", "", "", "Deutschland"),
                                 ),
                               ),
                             ),
@@ -283,8 +283,13 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () =>
-                                  deleteBuilding(this.selectedBuilding),
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (context) => ConfirmDeleteDialog(
+                                  () => deleteBuilding(this.selectedBuilding),
+                                  "Möchten Sie das Gebäude löschen?",
+                                ),
+                              ),
                               child: RoundedContainer(
                                 padding: const EdgeInsets.only(
                                   left: 20.0,
