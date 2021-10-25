@@ -8,6 +8,7 @@ import 'package:Smarthome/services/shared_prefs/base.dart';
 import 'package:Smarthome/themes/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'app.dart';
@@ -47,6 +48,12 @@ class Main extends StatelessWidget {
       title: 'SmartHome',
       theme: LightTheme,
       debugShowCheckedModeBanner: false,
+      supportedLocales: [const Locale("de", "DE")],
+      localizationsDelegates: [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: StoreProvider<AppState>(
         store: store,
         child: StoreConnector<AppState, AppState>(
