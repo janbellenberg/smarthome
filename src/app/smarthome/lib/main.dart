@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/models/app_state.dart';
+import 'package:Smarthome/pages/offline.dart';
 import 'package:Smarthome/pages/wait.dart';
 import 'package:Smarthome/services/shared_prefs/base.dart';
 import 'package:Smarthome/themes/light.dart';
@@ -20,6 +23,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     readSessionID().then((value) {
+      log(value ?? "");
       store.dispatch(
         new redux.Action(redux.ActionTypes.updateSessionID, value),
       );
@@ -52,6 +56,7 @@ class Main extends StatelessWidget {
               children: [
                 state.sessionID != null ? App() : LoginPage(),
                 if (state.waiting) WaitingPage(),
+                if (!state.serverAvailable) OfflinePage(),
               ],
             );
           },

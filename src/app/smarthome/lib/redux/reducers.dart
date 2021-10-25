@@ -15,6 +15,8 @@ AppState appReducer(AppState state, dynamic action) {
           orElse: () => new Building("", "", "", "", ""),
         )
         .weather = action.payload["weather"];
+  } else if (action.type == ActionTypes.setOffline) {
+    state.serverAvailable = false;
   } else if (action.type == ActionTypes.addBuilding) {
     state.buildings.add(action.payload);
   } else if (action.type == ActionTypes.clearBuildings) {

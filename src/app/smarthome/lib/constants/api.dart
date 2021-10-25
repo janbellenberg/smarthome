@@ -15,7 +15,6 @@ Map<HTTPError, String> errorDescription = {
   HTTPError.SERVER_ERROR: "Auf dem Server ist ein Fehler aufgetreten",
   HTTPError.NOT_AUTHORIZED: "Sie sind für diesen Vorgang nicht berechtigt",
   HTTPError.DEPRECATED: "Die Schnittstelle scheint veraltet zu sein",
-  HTTPError.CONNECTION_ERROR: "Keine Verbindung zum Server"
 };
 
 const int HTTP_OK = 200;

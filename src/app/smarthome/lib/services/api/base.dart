@@ -7,6 +7,7 @@ import 'package:Smarthome/constants/api.dart';
 import 'package:Smarthome/constants/constants.dart';
 import 'package:Smarthome/core/certificates.dart';
 import 'package:Smarthome/models/rest_resource.dart';
+import 'package:Smarthome/redux/actions.dart';
 import 'package:Smarthome/redux/store.dart';
 
 class HTTP {

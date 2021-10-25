@@ -1,7 +1,8 @@
+import 'package:Smarthome/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class WaitingPage extends StatelessWidget {
-  const WaitingPage({Key? key}) : super(key: key);
+class OfflinePage extends StatelessWidget {
+  const OfflinePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,21 +13,16 @@ class WaitingPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 50.0),
-              child: SizedBox(
-                height: 150.0,
-                width: 150.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).colorScheme.secondary,
-                  ),
-                  strokeWidth: 3.0,
-                ),
+              child: Icon(
+                Icons.signal_wifi_off_outlined,
+                color: ACCENT,
+                size: 170.0,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Text(
-                "Bitte warten...",
+                "Keine Verbindung",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30.0,
