@@ -24,7 +24,6 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     readSessionID().then((value) {
-      log(value ?? "");
       store.dispatch(
         new redux.Action(redux.ActionTypes.updateSessionID, value),
       );

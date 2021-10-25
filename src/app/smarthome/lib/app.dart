@@ -94,17 +94,22 @@ class _AppState extends State<App> {
             ),
             // BODY
             Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.background,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30.0),
-                            topRight: Radius.circular(30.0))),
-                    child: SingleChildScrollView(
-                        child: Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
-                      child: currentPage,
-                    ))))
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: currentPage,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

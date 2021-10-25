@@ -2,6 +2,7 @@ import 'package:Smarthome/controller/buildings.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/services/api/weather.dart';
+import 'package:Smarthome/widgets/no_buildings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           loadWeather();
           return state.buildings.length < 1
-              ? Container() // TODO: add first building
+              ? NoBuildingsWidget()
               : Column(
                   children: [
                     // Building Selector
