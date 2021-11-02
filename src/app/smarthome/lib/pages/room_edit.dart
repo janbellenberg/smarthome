@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/controller/rooms.dart';
 import 'package:Smarthome/models/room.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
@@ -85,7 +86,20 @@ class _RoomEditPageState extends State<RoomEditPage> {
                           controller: this.nameController,
                         ),
                         GestureDetector(
-                          onTap: () => {},
+                          onTap: () {
+                            if (this.add) {
+                              addRoom(
+                                this.nameController.text,
+                                this.selectedRoom.building,
+                              ).then((value) => Navigator.pop(context));
+                            } else {
+                              updateRoom(
+                                this.selectedRoom.ID ?? 0,
+                                this.nameController.text,
+                                this.selectedRoom.building,
+                              ).then((value) => Navigator.pop(context));
+                            }
+                          },
                           child: RoundedContainer(
                             margin: EdgeInsets.only(
                               top: 25.0,

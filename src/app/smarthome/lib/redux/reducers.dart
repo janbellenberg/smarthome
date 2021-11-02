@@ -12,7 +12,7 @@ AppState appReducer(AppState state, dynamic action) {
     state.buildings
         .firstWhere(
           (element) => element.ID == action.payload["building"],
-          orElse: () => new Building("", "", "", "", ""),
+          orElse: () => new Building.fromDB({}),
         )
         .weather = action.payload["weather"];
   } else if (action.type == ActionTypes.setOffline) {
@@ -25,15 +25,15 @@ AppState appReducer(AppState state, dynamic action) {
     state.buildings
         .firstWhere(
           (element) => element.ID == action.payload.building,
-          orElse: () => new Building("", "", "", "", ""),
+          orElse: () => new Building.fromDB({}),
         )
         .rooms
         .add(action.payload);
   } else if (action.type == ActionTypes.clearRooms) {
     state.buildings
         .firstWhere(
-          (element) => element.ID == action.payload.building,
-          orElse: () => new Building("", "", "", "", ""),
+          (element) => element.ID == action.payload,
+          orElse: () => new Building.fromDB({}),
         )
         .rooms
         .clear();
@@ -41,14 +41,14 @@ AppState appReducer(AppState state, dynamic action) {
     state.buildings.forEach((building) {
       Room result = building.rooms.firstWhere(
         (room) => room.ID = action.payload.room,
-        orElse: () => new Room.fromDB(-1, "", 0),
+        orElse: () => new Room.fromDB({}, 0),
       );
 
       if ((result.ID ?? 0) > 0) {
         building.rooms
             .firstWhere(
               (room) => room.ID = action.payload.room,
-              orElse: () => new Room.fromDB(-1, "", 0),
+              orElse: () => new Room.fromDB({}, 0),
             )
             .devices
             .add(action.payload);
@@ -58,7 +58,7 @@ AppState appReducer(AppState state, dynamic action) {
     state.buildings
         .firstWhere(
           (element) => element.ID == action.payload.building,
-          orElse: () => new Building("", "", "", "", ""),
+          orElse: () => new Building.fromDB({}),
         )
         .rooms
         .clear();

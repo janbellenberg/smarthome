@@ -1,4 +1,5 @@
 import 'package:Smarthome/controller/buildings.dart';
+import 'package:Smarthome/controller/rooms.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/services/api/weather.dart';
@@ -27,7 +28,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Room> rooms = List<Room>.empty(growable: true);
+  //List<Room> rooms = List<Room>.empty(growable: true);
   String? currentWeather;
   int selectedBuilding = 1;
 
@@ -36,12 +37,17 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     if (store.state.buildings.length < 1) {
-      loadBuildings().then((_) => loadWeather());
+      loadBuildings().then((_) {
+        loadWeather();
+        store.state.buildings.forEach((building) {
+          if (building.ID != null) loadRooms(building.ID ?? 0);
+        });
+      });
     }
 
-    rooms.add(Room.fromDB(1, "Wohnzimmer", 1));
-    rooms.add(Room.fromDB(2, "Schlafzimmer", 1));
-    rooms.add(Room.fromDB(3, "Jan", 1));
+    /*rooms.add(Room.fromDB({"id": 1, "name": "Wohnzimmer"}, 1));
+    rooms.add(Room.fromDB({"id": 2, "name": "Schlafzimmer"}, 1));
+    rooms.add(Room.fromDB({"id": 3, "name": "Jan"}, 1));*/
   }
 
   void loadWeather() {
@@ -144,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     WeatherWidget(state.buildings
                         .firstWhere(
                             (element) => element.ID == this.selectedBuilding,
-                            orElse: () => new Building("", "", "", "", ""))
+                            orElse: () => new Building.fromDB({}))
                         .weather),
                     // Room selector
                     Wrap(
@@ -152,12 +158,18 @@ class _HomePageState extends State<HomePage> {
                       spacing: 20.0,
                       runSpacing: 20.0,
                       children: [
-                        for (var item in rooms)
+                        for (var item in state.buildings
+                            .firstWhere(
+                              (element) => element.ID == this.selectedBuilding,
+                              orElse: () => new Building.fromDB({}),
+                            )
+                            .rooms)
                           GestureDetector(
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RoomDetailsPage(item)),
+                                  builder: (context) => RoomDetailsPage(
+                                      item.ID ?? 0, item.building)),
                             ),
                             child: RoundedContainer(
                               width: 150.0,

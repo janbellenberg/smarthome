@@ -22,8 +22,13 @@ Future<void> loadBuildings() async {
   });
 }
 
-Future<void> addBuilding(String name, String street, String postcode,
-    String city, String country) async {
+Future<void> addBuilding(
+  String name,
+  String street,
+  String postcode,
+  String city,
+  String country,
+) async {
   await performApiOperation(
     () => service.addBuilding(name, street, postcode, city, country),
   );
@@ -31,8 +36,14 @@ Future<void> addBuilding(String name, String street, String postcode,
   await loadBuildings();
 }
 
-Future<void> updateBuilding(int id, String name, String street, String postcode,
-    String city, String country) async {
+Future<void> updateBuilding(
+  int id,
+  String name,
+  String street,
+  String postcode,
+  String city,
+  String country,
+) async {
   await performApiOperation(
     () => service.updateBuilding(id, name, street, postcode, city, country),
   );
