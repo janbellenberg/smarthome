@@ -29,7 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //List<Room> rooms = List<Room>.empty(growable: true);
   String? currentWeather;
   int selectedBuilding = 1;
 
@@ -45,10 +44,6 @@ class _HomePageState extends State<HomePage> {
         });
       });
     }
-
-    /*rooms.add(Room.fromDB({"id": 1, "name": "Wohnzimmer"}, 1));
-    rooms.add(Room.fromDB({"id": 2, "name": "Schlafzimmer"}, 1));
-    rooms.add(Room.fromDB({"id": 3, "name": "Jan"}, 1));*/
   }
 
   void loadWeather() {
@@ -294,6 +289,7 @@ class _HomePageState extends State<HomePage> {
                             GestureDetector(
                               onTap: () => showDialog(
                                 context: context,
+                                barrierColor: Colors.transparent,
                                 builder: (context) => ConfirmDeleteDialog(
                                   () => deleteBuilding(this.selectedBuilding),
                                   "Möchten Sie das Gebäude löschen?",

@@ -137,6 +137,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                               onPressed: () => {
                                 showModalBottomSheet(
                                   context: context,
+                                  barrierColor: Colors.transparent,
                                   builder: (context) {
                                     return buildBottomSheet(selectedRoom);
                                   },
@@ -190,7 +191,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
       child: Container(
         height: 200.0,
-        color: Color(0x75000000),
+        color: Colors.transparent,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
           child: Container(
@@ -200,6 +201,13 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                 topLeft: const Radius.circular(30),
                 topRight: const Radius.circular(30),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -243,6 +251,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                       Navigator.pop(context);
                       showDialog(
                         context: context,
+                        barrierColor: Colors.transparent,
                         builder: (context) => ConfirmDeleteDialog(
                           () {
                             Navigator.pop(context);

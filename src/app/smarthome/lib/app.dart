@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/dialogs/Info.dart';
 import 'package:Smarthome/pages/add_device.dart';
 import 'package:Smarthome/pages/home.dart';
 import 'package:Smarthome/pages/quick_actions.dart';
@@ -6,7 +7,6 @@ import 'package:Smarthome/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 
 import 'controller/auth.dart';
-import 'pages/info.dart';
 
 class App extends StatefulWidget {
   App({Key? key}) : super(key: key);
@@ -67,11 +67,10 @@ class _AppState extends State<App> {
                         Padding(
                           padding: const EdgeInsets.only(right: 5.0),
                           child: IconButton(
-                              onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => InfoPage(),
-                                    ),
+                              onPressed: () => showDialog(
+                                    barrierColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) => InfoDialog(),
                                   ),
                               icon: Icon(
                                 Icons.info_outline,
