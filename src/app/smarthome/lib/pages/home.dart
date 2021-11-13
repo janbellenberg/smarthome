@@ -1,9 +1,9 @@
 import 'package:Smarthome/controller/buildings.dart';
 import 'package:Smarthome/controller/rooms.dart';
+import 'package:Smarthome/controller/weather.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
-import 'package:Smarthome/services/api/weather.dart';
 import 'package:Smarthome/widgets/no_buildings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -17,7 +17,6 @@ import '../pages/invite.dart';
 import '../widgets/rounded_container.dart';
 import '../widgets/weather.dart';
 import 'building_edit.dart';
-import 'package:Smarthome/redux/actions.dart' as redux;
 import 'package:Smarthome/redux/store.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,34 +38,10 @@ class _HomePageState extends State<HomePage> {
       loadBuildings().then((_) {
         loadWeather();
         store.state.buildings.forEach((building) {
-          if (building.ID != null) loadRooms(building.ID ?? 0);
+          if (building.ID != null) loadRooms(building.ID!);
         });
       });
     }
-  }
-
-  void loadWeather() {
-    store.state.buildings.forEach((building) {
-      if (building.weather != null) {
-        return;
-      }
-
-      store.dispatch(new redux.Action(redux.ActionTypes.startTask));
-      fetchWeatherData(building.city, building.country).then((value) {
-        setState(() {
-          store.dispatch(
-            new redux.Action(redux.ActionTypes.updateWeather, payload: {
-              "building": building.ID,
-              "weather": value,
-            }),
-          );
-        });
-
-        store.dispatch(
-          new redux.Action(redux.ActionTypes.stopTask),
-        );
-      });
-    });
   }
 
   @override

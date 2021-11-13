@@ -21,7 +21,7 @@ class HTTP {
           host,
           port,
         ))
-    ..connectionTimeout = const Duration(seconds: 3);
+    ..connectionTimeout = const Duration(seconds: 5);
 
   static dynamic fetch(RestResource resource) async {
     try {
