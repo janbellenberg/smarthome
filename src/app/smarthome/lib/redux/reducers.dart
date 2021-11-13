@@ -6,8 +6,12 @@ import 'actions.dart';
 AppState appReducer(AppState state, dynamic action) {
   if (action.type == ActionTypes.updateSessionID) {
     state.sessionID = action.payload;
-  } else if (action.type == ActionTypes.updateWaiting) {
-    state.waiting = action.payload;
+  } else if (action.type == ActionTypes.startTask) {
+    state.runningTasks++;
+  } else if (action.type == ActionTypes.stopTask) {
+    state.runningTasks--;
+  } else if (action.type == ActionTypes.setupDone) {
+    state.setupDone = true;
   } else if (action.type == ActionTypes.updateWeather) {
     state.buildings
         .firstWhere(

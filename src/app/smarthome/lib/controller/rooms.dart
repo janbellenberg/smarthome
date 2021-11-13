@@ -14,12 +14,12 @@ Future<void> loadRooms(int building) async {
     return;
   }
 
-  store.dispatch(new Action(ActionTypes.clearRooms, building));
+  store.dispatch(new Action(ActionTypes.clearRooms, payload: building));
 
   result.forEach((element) {
     store.dispatch(new Action(
       ActionTypes.addRoom,
-      new Room.fromDB(element, building),
+      payload: new Room.fromDB(element, building),
     ));
   });
 }

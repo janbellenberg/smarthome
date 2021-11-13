@@ -56,11 +56,11 @@ class _HomePageState extends State<HomePage> {
         return;
       }
 
-      store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, true));
+      store.dispatch(new redux.Action(redux.ActionTypes.startTask));
       fetchWeatherData(building.city, building.country).then((value) {
         setState(() {
           store.dispatch(
-            new redux.Action(redux.ActionTypes.updateWeather, {
+            new redux.Action(redux.ActionTypes.updateWeather, payload: {
               "building": building.ID,
               "weather": value,
             }),
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
         });
 
         store.dispatch(
-          new redux.Action(redux.ActionTypes.updateWaiting, false),
+          new redux.Action(redux.ActionTypes.stopTask),
         );
       });
     });

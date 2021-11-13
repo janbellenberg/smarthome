@@ -1,6 +1,8 @@
 enum ActionTypes {
   updateSessionID,
-  updateWaiting,
+  startTask,
+  stopTask,
+  setupDone,
   updateWeather,
   setOffline,
   addBuilding,
@@ -15,5 +17,5 @@ class Action {
   ActionTypes type;
   dynamic payload;
 
-  Action(this.type, this.payload);
+  Action(this.type, {this.payload = null});
 }

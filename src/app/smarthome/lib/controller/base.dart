@@ -12,7 +12,7 @@ Future<dynamic> performApiOperation(
   Function() apiOperation,
 ) async {
   // activate wait screen
-  store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, true));
+  store.dispatch(new redux.Action(redux.ActionTypes.startTask));
 
   // perform api fetch
   dynamic result = await apiOperation();
@@ -24,7 +24,7 @@ Future<dynamic> performApiOperation(
     }
 
     if (result == HTTPError.CONNECTION_ERROR) {
-      store.dispatch(new Action(ActionTypes.setOffline, null));
+      store.dispatch(new Action(ActionTypes.setOffline));
     } else {
       Fluttertoast.showToast(
         msg: errorDescription[result] ??
@@ -38,11 +38,11 @@ Future<dynamic> performApiOperation(
       );
     }
 
-    store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, false));
+    store.dispatch(new redux.Action(redux.ActionTypes.stopTask));
     return null;
   }
 
   // disable wait screen
-  store.dispatch(new redux.Action(redux.ActionTypes.updateWaiting, false));
+  store.dispatch(new redux.Action(redux.ActionTypes.stopTask));
   return result.runtimeType == String ? null : result;
 }

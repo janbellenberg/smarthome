@@ -14,13 +14,14 @@ void login(String uid, String password) async {
   }
 
   saveSessionID(result["sessionID"]);
-  store.dispatch(new Action(ActionTypes.updateSessionID, result["sessionID"]));
+  store.dispatch(
+      new Action(ActionTypes.updateSessionID, payload: result["sessionID"]));
 }
 
 void logout() {
   saveSessionID(null);
 
-  store.dispatch(new Action(ActionTypes.updateSessionID, null));
+  store.dispatch(new Action(ActionTypes.updateSessionID));
 
   performApiOperation(
     () => service.logout(),

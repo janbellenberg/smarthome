@@ -25,7 +25,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     readSessionID().then((value) {
       store.dispatch(
-        new redux.Action(redux.ActionTypes.updateSessionID, value),
+        new redux.Action(redux.ActionTypes.updateSessionID, payload: value),
       );
     });
 
@@ -61,7 +61,7 @@ class Main extends StatelessWidget {
             return Stack(
               children: [
                 state.sessionID != null ? App() : LoginPage(),
-                if (state.waiting) WaitingPage(),
+                if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
                 if (!state.serverAvailable) OfflinePage(),
               ],
             );

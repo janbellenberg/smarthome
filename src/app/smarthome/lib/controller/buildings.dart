@@ -13,12 +13,13 @@ Future<void> loadBuildings() async {
     return;
   }
 
-  store.dispatch(new Action(ActionTypes.clearBuildings, null));
+  store.dispatch(new Action(ActionTypes.clearBuildings));
   result.forEach((data) {
     store.dispatch(new Action(
       ActionTypes.addBuilding,
-      new Building.fromDB(data),
+      payload: new Building.fromDB(data),
     ));
+    store.dispatch(new Action(ActionTypes.setupDone));
   });
 }
 
