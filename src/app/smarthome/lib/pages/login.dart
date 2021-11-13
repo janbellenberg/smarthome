@@ -2,7 +2,6 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/auth.dart' as authController;
 import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/pages/sign_up.dart';
-import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
 import 'package:Smarthome/widgets/wave_animation.dart';
 import 'package:flutter/material.dart';
@@ -83,14 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                     SignUpPage(),
                     context,
                   ),
-                  child: Hero(
-                    flightShuttleBuilder: flightShuttleBuilder,
-                    tag: "sign-up",
-                    child: Text("Konto erstellen",
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            color: Theme.of(context).colorScheme.primary)),
-                  ),
+                  child: Text("Konto erstellen",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Theme.of(context).colorScheme.primary)),
                 ),
                 Spacer(),
                 WaveAnimation(),

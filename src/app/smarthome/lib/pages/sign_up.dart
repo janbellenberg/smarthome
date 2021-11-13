@@ -1,5 +1,4 @@
 import 'package:Smarthome/constants/colors.dart';
-import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
 import 'package:Smarthome/widgets/wave_animation.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +21,9 @@ class _SignUpPageState extends State<SignUpPage> {
             padding: const EdgeInsets.only(top: 60.0),
             child: Column(
               children: [
-                Hero(
-                  flightShuttleBuilder: flightShuttleBuilder,
-                  tag: "sign-up",
-                  child: Text(
-                    "Konto erstellen",
-                    style: TextStyle(fontSize: 40.0),
-                  ),
+                Text(
+                  "Konto erstellen",
+                  style: TextStyle(fontSize: 40.0),
                 ),
                 RoundedTextField(
                   padding: const EdgeInsets.only(

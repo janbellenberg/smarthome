@@ -13,7 +13,6 @@ import '../models/building.dart';
 import '../models/room.dart';
 import '../pages/room_details.dart';
 import '../pages/room_edit.dart';
-import '../widgets/heroStyleBuilder.dart';
 import '../pages/invite.dart';
 import '../widgets/rounded_container.dart';
 import '../widgets/weather.dart';
@@ -166,16 +165,12 @@ class _HomePageState extends State<HomePage> {
                             child: RoundedContainer(
                               width: 150.0,
                               margin: const EdgeInsets.all(0),
-                              child: Hero(
-                                flightShuttleBuilder: flightShuttleBuilder,
-                                tag: item.ID.toString(),
-                                child: Text(
-                                  item.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0),
-                                  textAlign: TextAlign.center,
-                                ),
+                              child: Text(
+                                item.name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
