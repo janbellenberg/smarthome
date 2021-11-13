@@ -5,7 +5,7 @@ import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/services/api/buildings.dart' as service;
 
 Future<void> loadBuildings() async {
-  List<dynamic>? result = await performApiOperation(
+  List<dynamic>? result = await runApiService(
     () => service.loadBuildings(),
   );
 
@@ -30,7 +30,7 @@ Future<void> addBuilding(
   String city,
   String country,
 ) async {
-  await performApiOperation(
+  await runApiService(
     () => service.addBuilding(name, street, postcode, city, country),
   );
 
@@ -45,7 +45,7 @@ Future<void> updateBuilding(
   String city,
   String country,
 ) async {
-  await performApiOperation(
+  await runApiService(
     () => service.updateBuilding(id, name, street, postcode, city, country),
   );
 
@@ -53,7 +53,7 @@ Future<void> updateBuilding(
 }
 
 Future<void> deleteBuilding(int id) async {
-  await performApiOperation(
+  await runApiService(
     () => service.deleteBuilding(id),
   );
 

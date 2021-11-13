@@ -8,7 +8,7 @@ import 'package:Smarthome/redux/actions.dart';
 import 'package:Smarthome/redux/store.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-Future<dynamic> performApiOperation(
+Future<dynamic> runApiService(
   Function() apiOperation,
 ) async {
   // activate wait screen

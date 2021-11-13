@@ -5,7 +5,7 @@ import 'package:Smarthome/services/api/auth.dart' as service;
 import 'package:Smarthome/services/shared_prefs/base.dart';
 
 void login(String uid, String password) async {
-  Map<String, dynamic>? result = await performApiOperation(
+  Map<String, dynamic>? result = await runApiService(
     () => service.login(int.parse(uid), password),
   );
 
@@ -23,7 +23,7 @@ void logout() {
 
   store.dispatch(new Action(ActionTypes.updateSessionID));
 
-  performApiOperation(
+  runApiService(
     () => service.logout(),
   );
 }
