@@ -1,3 +1,5 @@
+import 'package:Smarthome/core/page_wrapper.dart';
+
 import '../models/device.dart';
 import 'web_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +17,12 @@ class DetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WebWidget(
-            "https://" + this.device.local + this.command,
-            this.device.name + ": " + this.label,
-          ),
+      onTap: () => PageWrapper.routeToPage(
+        WebWidget(
+          "https://" + this.device.local + this.command,
+          this.device.name + ": " + this.label,
         ),
+        context,
       ),
       child: RoundedContainer(
         padding: EdgeInsets.symmetric(

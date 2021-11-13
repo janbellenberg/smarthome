@@ -1,5 +1,6 @@
 import 'package:Smarthome/controller/buildings.dart';
 import 'package:Smarthome/controller/rooms.dart';
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/services/api/weather.dart';
@@ -123,13 +124,11 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BuildingEditPage(
-                                  new Building("", "", "", "", "Deutschland"),
-                                ),
+                            onTap: () => PageWrapper.routeToPage(
+                              BuildingEditPage(
+                                new Building("", "", "", "", "Deutschland"),
                               ),
+                              context,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -165,11 +164,9 @@ class _HomePageState extends State<HomePage> {
                             )
                             .rooms)
                           GestureDetector(
-                            onTap: () => Navigator.push(
+                            onTap: () => PageWrapper.routeToPage(
+                              RoomDetailsPage(item.ID ?? 0, item.building),
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => RoomDetailsPage(
-                                      item.ID ?? 0, item.building)),
                             ),
                             child: RoundedContainer(
                               width: 150.0,
@@ -198,11 +195,11 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             // Add room
                             GestureDetector(
-                              onTap: () => Navigator.push(
+                              onTap: () => PageWrapper.routeToPage(
+                                RoomEditPage(
+                                  new Room("", this.selectedBuilding),
+                                ),
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => RoomEditPage(
-                                        new Room("", this.selectedBuilding))),
                               ),
                               child: RoundedContainer(
                                 padding: const EdgeInsets.only(
@@ -229,10 +226,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () => Navigator.push(
+                              onTap: () => PageWrapper.routeToPage(
+                                InvitePage(),
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => InvitePage()),
                               ),
                               child: RoundedContainer(
                                 padding: const EdgeInsets.only(
@@ -262,14 +258,14 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BuildingEditPage(
-                                    state.buildings.firstWhere((element) =>
-                                        element.ID == this.selectedBuilding),
+                              onTap: () => PageWrapper.routeToPage(
+                                BuildingEditPage(
+                                  state.buildings.firstWhere(
+                                    (element) =>
+                                        element.ID == this.selectedBuilding,
                                   ),
                                 ),
+                                context,
                               ),
                               child: RoundedContainer(
                                 padding: const EdgeInsets.only(

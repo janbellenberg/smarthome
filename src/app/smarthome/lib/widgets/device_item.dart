@@ -1,3 +1,5 @@
+import 'package:Smarthome/core/page_wrapper.dart';
+
 import '../pages/device_details.dart';
 import 'package:flutter/material.dart';
 import '../constants/device_types.dart';
@@ -15,11 +17,9 @@ class DeviceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
+      onTap: () => PageWrapper.routeToPage(
+        DeviceDetailsPage(this.device),
         context,
-        MaterialPageRoute(
-          builder: (context) => DeviceDetailsPage(this.device),
-        ),
       ),
       onDoubleTap: () => {}, // TODO: default action
       child: RoundedContainer(

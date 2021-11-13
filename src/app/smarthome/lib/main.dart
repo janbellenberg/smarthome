@@ -1,18 +1,11 @@
-import 'dart:developer';
-
 import 'package:Smarthome/constants/colors.dart';
-import 'package:Smarthome/models/app_state.dart';
-import 'package:Smarthome/pages/offline.dart';
-import 'package:Smarthome/pages/wait.dart';
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/services/shared_prefs/base.dart';
 import 'package:Smarthome/themes/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-
 import 'app.dart';
-import 'pages/login.dart';
 import 'redux/actions.dart' as redux;
 import 'redux/store.dart';
 
@@ -53,20 +46,8 @@ class Main extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      home: StoreProvider<AppState>(
-        store: store,
-        child: StoreConnector<AppState, AppState>(
-          converter: (store) => store.state,
-          builder: (context, state) {
-            return Stack(
-              children: [
-                state.sessionID != null ? App() : LoginPage(),
-                if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
-                if (!state.serverAvailable) OfflinePage(),
-              ],
-            );
-          },
-        ),
+      home: PageWrapper(
+        App(),
       ),
     );
   }

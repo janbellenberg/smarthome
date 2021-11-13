@@ -1,5 +1,6 @@
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/auth.dart' as authController;
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/pages/sign_up.dart';
 import 'package:Smarthome/widgets/heroStyleBuilder.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
@@ -78,11 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.push(
+                  onPressed: () => PageWrapper.routeToPage(
+                    SignUpPage(),
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUpPage(),
-                    ),
                   ),
                   child: Hero(
                     flightShuttleBuilder: flightShuttleBuilder,

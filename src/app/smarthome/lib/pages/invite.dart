@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/pages/qr_scanner.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
@@ -68,11 +69,9 @@ class _InvitePageState extends State<InvitePage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => Navigator.push(
+                          onTap: () => PageWrapper.routeToPage(
+                            QR_Scanner_Page(),
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => QR_Scanner_Page(),
-                            ),
                           ),
                           child: RoundedContainer(
                             padding: EdgeInsets.all(20.0),

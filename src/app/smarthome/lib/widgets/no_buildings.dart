@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/pages/building_edit.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
@@ -26,13 +27,11 @@ class NoBuildingsWidget extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BuildingEditPage(
-                  new Building("Zuhause", "", "", "", "Deutschland"),
-                ),
+            onTap: () => PageWrapper.routeToPage(
+              BuildingEditPage(
+                new Building("Zuhause", "", "", "", "Deutschland"),
               ),
+              context,
             ),
             child: RoundedContainer(
               child: Row(

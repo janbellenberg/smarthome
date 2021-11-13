@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:Smarthome/controller/rooms.dart';
+import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/models/building.dart';
@@ -225,13 +226,11 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                       title: Text("Raum bearbeiten"),
                       onTap: () {
                         Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RoomEditPage(
-                              selectedRoom,
-                            ),
+                        PageWrapper.routeToPage(
+                          RoomEditPage(
+                            selectedRoom,
                           ),
+                          context,
                         );
                       }),
                   ListTile(
