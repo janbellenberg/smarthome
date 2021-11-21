@@ -31,20 +31,6 @@ class _HomePageState extends State<HomePage> {
   int selectedBuilding = 1;
 
   @override
-  void initState() {
-    super.initState();
-
-    if (store.state.buildings.length < 1) {
-      loadBuildings().then((_) {
-        loadWeather();
-        store.state.buildings.forEach((building) {
-          if (building.ID != null) loadRooms(building.ID!);
-        });
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     double actionSize = MediaQuery.of(context).size.width / 2 - 25.0;
 

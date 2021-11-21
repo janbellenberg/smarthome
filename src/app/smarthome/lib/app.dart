@@ -3,10 +3,15 @@ import 'package:Smarthome/dialogs/Info.dart';
 import 'package:Smarthome/pages/add_device.dart';
 import 'package:Smarthome/pages/home.dart';
 import 'package:Smarthome/pages/quick_actions.dart';
+import 'package:Smarthome/redux/actions.dart' as redux;
+import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 
 import 'controller/auth.dart';
+import 'controller/buildings.dart';
+import 'controller/rooms.dart';
+import 'controller/weather.dart';
 
 class App extends StatefulWidget {
   App({Key? key}) : super(key: key);
@@ -17,6 +22,12 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late int currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    this.reloadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +107,24 @@ class _AppState extends State<App> {
                     topRight: Radius.circular(30.0),
                   ),
                 ),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: this.getSelectedPage(),
+                child: RefreshIndicator(
+                  color: ACCENT,
+                  strokeWidth: 2.0,
+                  onRefresh: () async {
+                    store.dispatch(
+                      new redux.Action(redux.ActionTypes.clearBuildings),
+                    );
+                    this.reloadData();
+                  },
+                  child: Container(
+                    height: double.infinity,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: this.getSelectedPage(),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -114,6 +139,17 @@ class _AppState extends State<App> {
         }),
       ),
     );
+  }
+
+  void reloadData() {
+    if (store.state.buildings.length < 1) {
+      loadBuildings().then((_) {
+        loadWeather();
+        store.state.buildings.forEach((building) {
+          if (building.ID != null) loadRooms(building.ID!);
+        });
+      });
+    }
   }
 
   Widget getSelectedPage() {

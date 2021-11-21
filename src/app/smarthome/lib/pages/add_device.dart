@@ -93,17 +93,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Text(
-                  "Gerät hinzufügen",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
               RoundedContainer(
                 gradient: LinearGradient(colors: [Colors.white, Colors.white]),
                 child: Column(
