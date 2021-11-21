@@ -16,13 +16,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late Widget currentPage;
-
-  @override
-  void initState() {
-    super.initState();
-    currentPage = HomePage();
-  }
+  late int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +73,13 @@ class _AppState extends State<App> {
                               )),
                         ),
                         IconButton(
-                            onPressed: logout,
-                            icon: Icon(
-                              Icons.logout,
-                              color: WHITE,
-                              size: 30.0,
-                            )),
+                          onPressed: logout,
+                          icon: Icon(
+                            Icons.logout,
+                            color: WHITE,
+                            size: 30.0,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -104,7 +99,7 @@ class _AppState extends State<App> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30.0),
-                    child: currentPage,
+                    child: this.getSelectedPage(),
                   ),
                 ),
               ),
@@ -113,35 +108,24 @@ class _AppState extends State<App> {
         ),
       ),
       bottomNavigationBar: Navigation(
-        onSelectedChanged: changeSelectedPage,
+        currentIndex: this.currentPage,
+        onSelectedChanged: (i) => setState(() {
+          this.currentPage = i;
+        }),
       ),
     );
   }
 
-  void changeSelectedPage(int index) {
-    setState(() {
-      switch (index) {
-        case 0:
-          setState(() {
-            currentPage = HomePage();
-          });
-          break;
-        case 1:
-          setState(() {
-            currentPage = AddDevicePage();
-          });
-          break;
-        case 2:
-          setState(() {
-            currentPage = QuickActionsPage();
-          });
-          break;
-        default:
-          setState(() {
-            currentPage = HomePage();
-          });
-          break;
-      }
-    });
+  Widget getSelectedPage() {
+    switch (this.currentPage) {
+      case 0:
+        return HomePage();
+      case 1:
+        return AddDevicePage();
+      case 2:
+        return QuickActionsPage();
+      default:
+        return HomePage();
+    }
   }
 }
