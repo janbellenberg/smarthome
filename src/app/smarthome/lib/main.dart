@@ -20,6 +20,12 @@ class Main extends StatelessWidget {
       store.dispatch(
         new redux.Action(redux.ActionTypes.updateSessionID, payload: value),
       );
+
+      if (value == null) {
+        store.dispatch(
+          new redux.Action(redux.ActionTypes.setupDone, payload: true),
+        );
+      }
     });
 
     if (store.state.sessionID != null) {
