@@ -17,8 +17,7 @@ public class MongoConnectionManager {
   private MongoConnectionManager() {
   }
 
-  private static final String MONGO_HOST = Configuration.getCurrentConfiguration().isInDocker() ? "mongo"
-      : "192.168.178.23";
+  private static final String MONGO_HOST = Configuration.getCurrentConfiguration().isInDocker() ? "mongo" : "localhost";
   private static final int MONGO_PORT = 27017;
   private static final String MONGO_USER = "smarthome";
   private static final char[] MONGO_PSWD = "gXg33Ep4urGp6bF2".toCharArray();

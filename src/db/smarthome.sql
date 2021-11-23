@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `members` (
   `user` INT UNSIGNED NOT NULL,
   `building` INT UNSIGNED NOT NULL,
   CONSTRAINT fk_user FOREIGN KEY (`user`) REFERENCES `users_general` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_building_m FOREIGN KEY (`building`) REFERENCES `buildings` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+  CONSTRAINT fk_building_m FOREIGN KEY (`building`) REFERENCES `buildings` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT unique_user_building UNIQUE (`user`, `building`)
 );
 
 CREATE TABLE IF NOT EXISTS `shortcuts` (

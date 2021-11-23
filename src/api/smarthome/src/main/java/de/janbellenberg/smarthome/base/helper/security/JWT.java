@@ -45,7 +45,7 @@ public class JWT {
    * @param user employee the jwt should be for
    * @return new jwt
    */
-  public static JWT generate() {
+  public static JWT generate(int subject) {
     JsonObjectBuilder header = Json.createObjectBuilder();
     JsonObjectBuilder payload = Json.createObjectBuilder();
 
@@ -54,30 +54,8 @@ public class JWT {
     header.add("typ", "JWT");
 
     // set payload
-    // TODO: add user class
-    // payload.add("sub", user.getId()); // get user id
+    payload.add("sub", subject);
     payload.add("iat", System.currentTimeMillis() / 1000L); // get current time
-
-    JWT jwt = new JWT(header.build(), payload.build());
-    return jwt;
-  }
-
-  /**
-   * generate jwt for admin user
-   * 
-   * @return new jwt
-   */
-  public static JWT generateForAdmin() {
-    JsonObjectBuilder header = Json.createObjectBuilder();
-    JsonObjectBuilder payload = Json.createObjectBuilder();
-
-    // set header params to default
-    header.add("alg", ALGORITHM);
-    header.add("typ", "JWT");
-
-    // set payload
-    payload.add("sub", 0);
-    payload.add("iat", System.currentTimeMillis() / 1000L);
 
     return new JWT(header.build(), payload.build());
   }
@@ -89,32 +67,37 @@ public class JWT {
    * @return parsed jwt
    * @throws NoSuchAlgorithmException if the jwt algorithm is unsupported
    */
-  public static JWT parse(String jwtData) throws NoSuchAlgorithmException {
-    String[] items = jwtData.split("\\.");
+  public static JWT parse(String jwtData) {
+    try {
+      String[] items = jwtData.split("\\.");
 
-    if (items.length != 3)
+      if (items.length != 3)
+        return null;
+
+      // parse json
+      JsonObject header = getFromBase64(items[0]);
+      JsonObject payload = getFromBase64(items[1]);
+
+      // check if algorithm is supported
+      if (!header.containsKey("alg") || !header.getString("alg").equals(ALGORITHM))
+        throw new NoSuchAlgorithmException();
+
+      // check if type is supported
+      if (!header.containsKey("typ") || !header.getString("typ").equals("JWT"))
+        throw new NoSuchAlgorithmException();
+
+      // create jwt object
+      JWT jwt = new JWT(header, payload);
+
+      // check if signature is valid
+      if (jwt.getSignature() == null || !jwt.getSignature().equals(items[2]))
+        return null;
+
+      return jwt;
+    } catch (NoSuchAlgorithmException ex) {
+      ex.printStackTrace();
       return null;
-
-    // parse json
-    JsonObject header = getFromBase64(items[0]);
-    JsonObject payload = getFromBase64(items[1]);
-
-    // check if algorithm is supported
-    if (!header.containsKey("alg") || !header.getString("alg").equals(ALGORITHM))
-      throw new NoSuchAlgorithmException();
-
-    // check if type is supported
-    if (!header.containsKey("typ") || !header.getString("typ").equals("JWT"))
-      throw new NoSuchAlgorithmException();
-
-    // create jwt object
-    JWT jwt = new JWT(header, payload);
-
-    // check if signature is valid
-    if (jwt.getSignature() == null || !jwt.getSignature().equals(items[2]))
-      return null;
-
-    return jwt;
+    }
   }
 
   /**
