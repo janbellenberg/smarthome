@@ -48,3 +48,18 @@ dynamic deleteBuilding(int id) async {
       {"id": id.toString()},
     ));
 }
+
+dynamic getJoinToken(int building) async {
+  return await HTTP.fetch(
+    GET_JOIN_TOKEN
+      ..parameters.addAll(
+        {"bid": building.toString()},
+      ),
+  );
+}
+
+dynamic joinBuilding(String token) async {
+  return await HTTP.fetch(
+    JOIN_BUILDING..requestString = token,
+  );
+}

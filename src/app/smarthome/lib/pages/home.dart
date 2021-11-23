@@ -178,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () => PageWrapper.routeToPage(
-                                InvitePage(),
+                                InvitePage(this.selectedBuilding),
                                 context,
                               ),
                               child: RoundedContainer(

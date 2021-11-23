@@ -1,22 +1,29 @@
-import 'dart:developer';
-
+import 'package:Smarthome/controller/buildings.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QR_Scanner_Page extends StatelessWidget {
-  QR_Scanner_Page({Key? key}) : super(key: key);
+  QR_Scanner_Page(this.onSuccess, {Key? key}) : super(key: key) {
+    success = false;
+  }
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  late bool success;
+  final Function() onSuccess;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
             flex: 5,
             child: QRView(
               key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+              onQRViewCreated: (controller) => _onQRViewCreated(
+                controller,
+                context,
+              ),
             ),
           ),
         ],
@@ -24,9 +31,12 @@ class QR_Scanner_Page extends StatelessWidget {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      log(scanData.code);
+  void _onQRViewCreated(QRViewController controller, context) {
+    controller.scannedDataStream.listen((scanData) async {
+      controller.stopCamera();
+      joinBuilding(scanData.code);
+      onSuccess();
+      Navigator.pop(context);
     });
   }
 }

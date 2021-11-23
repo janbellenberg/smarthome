@@ -76,6 +76,18 @@ RestResource DELETE_BUILDING = new RestResource(
   expectedStatus: HTTP_NO_CONTENT,
 );
 
+RestResource GET_JOIN_TOKEN = new RestResource(
+  HTTPMethod.GET,
+  "/buildings/join/{bid}",
+  responseData: true,
+);
+
+RestResource JOIN_BUILDING = new RestResource(
+  HTTPMethod.POST,
+  "/buildings/join",
+  expectedStatus: HTTP_CREATED,
+);
+
 // DEVICES //
 
 RestResource GET_DEVICES = new RestResource(

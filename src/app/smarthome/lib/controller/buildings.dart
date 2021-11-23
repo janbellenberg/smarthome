@@ -59,3 +59,20 @@ Future<void> deleteBuilding(int id) async {
 
   await loadBuildings();
 }
+
+Future<String> getJoinToken(int building) async {
+  dynamic result = await runApiService(
+    () => service.getJoinToken(building),
+    isString: true,
+  );
+
+  return result.runtimeType == String ? result : "";
+}
+
+Future<void> joinBuilding(String token) async {
+  await runApiService(
+    () => service.joinBuilding(token),
+  );
+
+  loadBuildings();
+}

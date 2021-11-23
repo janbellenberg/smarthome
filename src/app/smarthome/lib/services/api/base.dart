@@ -60,7 +60,12 @@ class HTTP {
       }
 
       // send request body
-      if (resource.requestData != null) {
+      if (resource.requestString != null) {
+        req.headers.contentType = ContentType.text;
+        req.headers.contentLength = resource.requestString!.length;
+
+        req.write(resource.requestString!);
+      } else if (resource.requestData != null) {
         String encoded = json.encoder.convert(resource.requestData);
         req.headers.contentType = ContentType.json;
         req.headers.contentLength = encoded.length;
