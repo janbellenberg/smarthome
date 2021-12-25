@@ -1,8 +1,9 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/controller/shortcuts.dart';
 import 'package:Smarthome/dialogs/Info.dart';
 import 'package:Smarthome/pages/add_device.dart';
 import 'package:Smarthome/pages/home.dart';
-import 'package:Smarthome/pages/quick_actions.dart';
+import 'package:Smarthome/pages/shortcuts.dart';
 import 'package:Smarthome/redux/actions.dart' as redux;
 import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/widgets/navigation.dart';
@@ -146,7 +147,10 @@ class _AppState extends State<App> {
       loadBuildings().then((_) {
         loadWeather();
         store.state.buildings.forEach((building) {
-          if (building.ID != null) loadRooms(building.ID!);
+          if (building.ID != null) {
+            loadRooms(building.ID!);
+            loadShortcuts(building.ID!);
+          }
         });
       });
     }
@@ -159,7 +163,7 @@ class _AppState extends State<App> {
       case 1:
         return AddDevicePage();
       case 2:
-        return QuickActionsPage();
+        return ShortcutsPage();
       default:
         return HomePage();
     }

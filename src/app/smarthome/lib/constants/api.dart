@@ -151,7 +151,7 @@ RestResource DELETE_ROOM = new RestResource(
 
 RestResource GET_SHORTCUTS = new RestResource(
   HTTPMethod.GET,
-  "/buildings/{id}/shortcuts",
+  "/buildings/{bid}/shortcuts",
   responseData: true,
 );
 

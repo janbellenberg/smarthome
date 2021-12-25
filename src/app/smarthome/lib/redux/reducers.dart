@@ -4,7 +4,9 @@ import '../models/room.dart';
 import 'actions.dart';
 
 AppState appReducer(AppState state, dynamic action) {
-  if (action.type == ActionTypes.updateSessionID) {
+  if (action.type == ActionTypes.updateSelectedBuilding) {
+    state.selectedBuilding = action.payload;
+  } else if (action.type == ActionTypes.updateSessionID) {
     state.sessionID = action.payload;
   } else if (action.type == ActionTypes.startTask) {
     state.runningTasks++;
@@ -61,10 +63,26 @@ AppState appReducer(AppState state, dynamic action) {
   } else if (action.type == ActionTypes.clearDevices) {
     state.buildings
         .firstWhere(
-          (element) => element.ID == action.payload.building,
+          (element) => element.ID == action.payload,
           orElse: () => new Building.fromDB({}),
         )
         .rooms
+        .clear();
+  } else if (action.type == ActionTypes.addShortcut) {
+    state.buildings
+        .firstWhere(
+          (element) => element.ID == action.payload.building,
+          orElse: () => new Building.fromDB({}),
+        )
+        .shortcuts
+        .add(action.payload);
+  } else if (action.type == ActionTypes.clearShortcuts) {
+    state.buildings
+        .firstWhere(
+          (element) => element.ID == action.payload,
+          orElse: () => new Building.fromDB({}),
+        )
+        .shortcuts
         .clear();
   }
 

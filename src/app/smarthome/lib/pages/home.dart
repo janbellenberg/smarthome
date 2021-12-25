@@ -1,9 +1,9 @@
 import 'package:Smarthome/controller/buildings.dart';
-import 'package:Smarthome/controller/rooms.dart';
 import 'package:Smarthome/controller/weather.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
+import 'package:Smarthome/redux/actions.dart' as redux;
 import 'package:Smarthome/widgets/no_buildings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -28,20 +28,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? currentWeather;
-  int selectedBuilding = 1;
 
   @override
   Widget build(BuildContext context) {
+    int selectedBuilding = store.state.selectedBuilding;
     double actionSize = MediaQuery.of(context).size.width / 2 - 25.0;
 
     // set active to first if deleted
     if (store.state.buildings.length > 0 &&
         store.state.buildings
-                .where((element) => element.ID == this.selectedBuilding)
+                .where((element) => element.ID == selectedBuilding)
                 .length <
             1) {
       setState(() {
-        this.selectedBuilding = store.state.buildings[0].ID!;
+        selectedBuilding = store.state.buildings[0].ID!;
       });
     }
 
@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
         converter: (store) => store.state,
         builder: (context, state) {
           loadWeather();
+          selectedBuilding = state.selectedBuilding;
           return state.buildings.length < 1
               ? NoBuildingsWidget()
               : Column(
@@ -63,7 +64,12 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.only(left: 20.0),
                               child: GestureDetector(
                                 onTap: () => setState(() {
-                                  selectedBuilding = item.ID!;
+                                  store.dispatch(
+                                    new redux.Action(
+                                      redux.ActionTypes.updateSelectedBuilding,
+                                      payload: item.ID!,
+                                    ),
+                                  );
                                 }),
                                 child: Text(
                                   item.name,
@@ -102,8 +108,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     // Weather
                     WeatherWidget(state.buildings
-                        .firstWhere(
-                            (element) => element.ID == this.selectedBuilding,
+                        .firstWhere((element) => element.ID == selectedBuilding,
                             orElse: () => new Building.fromDB({}))
                         .weather),
                     // Room selector
@@ -114,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         for (var item in state.buildings
                             .firstWhere(
-                              (element) => element.ID == this.selectedBuilding,
+                              (element) => element.ID == selectedBuilding,
                               orElse: () => new Building.fromDB({}),
                             )
                             .rooms)
@@ -148,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                             GestureDetector(
                               onTap: () => PageWrapper.routeToPage(
                                 RoomEditPage(
-                                  new Room("", this.selectedBuilding),
+                                  new Room("", selectedBuilding),
                                 ),
                                 context,
                               ),
@@ -178,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () => PageWrapper.routeToPage(
-                                InvitePage(this.selectedBuilding),
+                                InvitePage(selectedBuilding),
                                 context,
                               ),
                               child: RoundedContainer(
@@ -212,8 +217,7 @@ class _HomePageState extends State<HomePage> {
                               onTap: () => PageWrapper.routeToPage(
                                 BuildingEditPage(
                                   state.buildings.firstWhere(
-                                    (element) =>
-                                        element.ID == this.selectedBuilding,
+                                    (element) => element.ID == selectedBuilding,
                                   ),
                                 ),
                                 context,
@@ -247,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                 context: context,
                                 barrierColor: Colors.transparent,
                                 builder: (context) => ConfirmDeleteDialog(
-                                  () => deleteBuilding(this.selectedBuilding),
+                                  () => deleteBuilding(selectedBuilding),
                                   "Möchten Sie das Gebäude löschen?",
                                 ),
                               ),
@@ -287,7 +291,7 @@ class _HomePageState extends State<HomePage> {
   void updateWeather() {
     setState(() {
       this.currentWeather = store.state.buildings
-          .firstWhere((i) => i.ID == selectedBuilding,
+          .firstWhere((i) => i.ID == store.state.selectedBuilding,
               orElse: () => new Building("", "", "", "", ""))
           .weather;
     });

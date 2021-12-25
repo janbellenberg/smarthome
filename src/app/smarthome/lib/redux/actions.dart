@@ -1,4 +1,5 @@
 enum ActionTypes {
+  updateSelectedBuilding,
   updateSessionID,
   startTask,
   stopTask,
@@ -10,7 +11,9 @@ enum ActionTypes {
   addRoom,
   clearRooms,
   addDevice,
-  clearDevices
+  clearDevices,
+  addShortcut,
+  clearShortcuts,
 }
 
 class Action {

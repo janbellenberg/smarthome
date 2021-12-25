@@ -19,8 +19,16 @@ Future<void> loadBuildings() async {
       ActionTypes.addBuilding,
       payload: new Building.fromDB(data),
     ));
-    store.dispatch(new Action(ActionTypes.setupDone));
   });
+
+  if (store.state.buildings.length > 0) {
+    store.dispatch(new Action(
+      ActionTypes.updateSelectedBuilding,
+      payload: store.state.buildings[0].ID,
+    ));
+  }
+
+  store.dispatch(new Action(ActionTypes.setupDone));
 }
 
 Future<void> addBuilding(

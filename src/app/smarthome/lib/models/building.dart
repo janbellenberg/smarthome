@@ -1,4 +1,5 @@
 import 'package:Smarthome/models/room.dart';
+import 'package:Smarthome/models/shortcut.dart';
 
 class Building {
   int? ID;
@@ -10,6 +11,7 @@ class Building {
   String? weather;
 
   List<Room> rooms = List.empty(growable: true);
+  List<Shortcut> shortcuts = List.empty(growable: true);
 
   Building(this.name, this.street, this.postcode, this.city, this.country);
   Building.fromDB(Map<String, dynamic> data) {
