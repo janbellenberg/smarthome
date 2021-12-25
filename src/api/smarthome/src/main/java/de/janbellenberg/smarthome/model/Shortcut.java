@@ -75,6 +75,11 @@ public class Shortcut implements Serializable {
 	}
 
 	@JsonProperty
+	public int getDeviceID() {
+		return this.device.getId();
+	}
+
+	@JsonProperty
 	public void setDevice(Device device) {
 		this.device = device;
 	}

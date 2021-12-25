@@ -21,7 +21,6 @@ public class Configuration {
 
   public static Configuration getCurrentConfiguration() {
     if (currentConfiguration == null) {
-      // TODO: load configuration
       currentConfiguration = new Configuration();
     }
 
@@ -29,7 +28,7 @@ public class Configuration {
   }
 
   public void update() {
-    // TODO: update configuration
+    throw new UnsupportedOperationException();
   }
 
   /**

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -24,6 +25,18 @@ public class MembersDAO {
     q.setParameter("building", building);
 
     return PersistenceHelper.castList(Member.class, q.getResultList());
+  }
+
+  public Member getMember(final int userID, final int building) {
+    Query q = this.em.createNamedQuery("Member.findMember");
+    q.setParameter("user", userID);
+    q.setParameter("building", building);
+
+    try {
+      return (Member) q.getSingleResult();
+    } catch (NoResultException ignore) {
+      return null;
+    }
   }
 
   public void createMembership(final int userID, final int buildingID) {

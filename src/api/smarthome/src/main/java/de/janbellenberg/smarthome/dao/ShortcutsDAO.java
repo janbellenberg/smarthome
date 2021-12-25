@@ -18,7 +18,7 @@ public class ShortcutsDAO {
   @PersistenceContext(name = "mysql")
   private EntityManager em;
 
-  public List<Shortcut> getAllShortcutsOfUser(final int building) {
+  public List<Shortcut> getAllShortcutsOfBuilding(final int building) {
     Query q = this.em.createNamedQuery("Shortcut.findAllInBuilding");
     q.setParameter("building", building);
 
