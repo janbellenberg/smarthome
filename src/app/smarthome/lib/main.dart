@@ -1,4 +1,5 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/controller/info.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/services/shared_prefs/base.dart';
 import 'package:Smarthome/themes/light.dart';
@@ -27,6 +28,8 @@ class Main extends StatelessWidget {
         );
       }
     });
+
+    checkAppVersion();
 
     if (store.state.sessionID != null) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

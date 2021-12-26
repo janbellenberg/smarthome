@@ -36,6 +36,13 @@ const String BASE_URL = (USE_TLS ? "https" : "http") +
     PORT +
     "/smarthome-api";
 
+RestResource GET_INFO = new RestResource(
+  HTTPMethod.GET,
+  "/info",
+  useToken: false,
+  responseData: true,
+);
+
 // AUTH //
 
 RestResource LOGIN = new RestResource(
