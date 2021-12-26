@@ -1,16 +1,11 @@
 package de.janbellenberg.smarthome.core;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
-
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 public class Configuration {
 
@@ -25,10 +20,6 @@ public class Configuration {
     }
 
     return currentConfiguration;
-  }
-
-  public void update() {
-    throw new UnsupportedOperationException();
   }
 
   /**
@@ -65,24 +56,4 @@ public class Configuration {
       return "localhost";
     }
   }
-
-  public String getSoftwareVersion() {
-    // just works with maven build
-    try {
-      MavenXpp3Reader reader = new MavenXpp3Reader();
-
-      // load pom from resources
-      Model model = reader.read(new InputStreamReader(
-          Configuration.class.getResourceAsStream("/META-INF/maven/de.janbellenberg/internally/pom.xml")));
-
-      return model.getVersion();
-    } catch (IOException | XmlPullParserException e) {
-      e.printStackTrace();
-      return "";
-    } catch (NullPointerException e) {
-      // if pom.xml is not in the resources, the application was not build using maven
-      return "DEBUGGING";
-    }
-  }
-
 }
