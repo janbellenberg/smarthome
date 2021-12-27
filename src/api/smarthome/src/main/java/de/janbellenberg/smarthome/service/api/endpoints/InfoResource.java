@@ -9,20 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 
-import org.bson.Document;
-
-import de.janbellenberg.smarthome.base.MongoConnectionManager;
+import de.janbellenberg.smarthome.core.Configuration;
 
 /**
  * 
@@ -52,19 +41,8 @@ public class InfoResource {
     JsonObjectBuilder result = Json.createObjectBuilder();
     JsonObjectBuilder version = Json.createObjectBuilder();
 
-    // get mongo db data
-    MongoCollection<Document> settings = MongoConnectionManager.getInstance().getSettingsCollection();
-    FindIterable<Document> docs = settings.find();
-    MongoCursor<Document> iterator = docs.iterator();
+    JsonNode node = Configuration.getCurrentConfiguration().getVersionConfig();
 
-    if(!iterator.hasNext()) {
-      return Response.serverError().build();
-    }
-
-    // parse mongo db json
-    JsonParser json = new JsonFactory().createParser(iterator.next().toJson());
-    JsonNode  node = new ObjectMapper().readValue(json, ObjectNode.class).get("versions");
-    
     // format result
     version.add("api", node.get("api").asDouble());
     version.add("app", node.get("app").asDouble());

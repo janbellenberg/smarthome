@@ -1,10 +1,13 @@
 package de.janbellenberg.smarthome.core;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Singleton
 @Startup
@@ -68,5 +71,19 @@ public class Initialization {
 
     if (Configuration.getCurrentConfiguration().isInDocker())
       logger.info("Docker environment detected");
+
+    this.loadMailSettings();
+  }
+
+  /**
+   * loading the mail configurations into the system properties
+   */
+  private void loadMailSettings() {
+    JsonNode smtpConfig = Configuration.getCurrentConfiguration().getMailConfig();
+    Properties properties = System.getProperties();
+    properties.setProperty("mail.smtp.auth", "true");
+    properties.setProperty("mail.smtp.starttls.enable", "true");
+    properties.setProperty("mail.smtp.host", smtpConfig.get("host").textValue());
+    properties.setProperty("mail.smtp.port", String.valueOf(smtpConfig.get("port").asInt()));
   }
 }

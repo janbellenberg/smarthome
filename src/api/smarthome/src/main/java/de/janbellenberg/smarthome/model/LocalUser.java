@@ -26,6 +26,8 @@ public class LocalUser implements Serializable {
 	@Id
 	private int id;
 
+	private String email;
+
 	private String password;
 
 	private String salt;
@@ -42,6 +44,14 @@ public class LocalUser implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

@@ -7,6 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+
+import org.bson.Document;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import de.janbellenberg.smarthome.base.MongoConnectionManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public class Configuration {
 
   private Configuration() {
@@ -20,6 +33,46 @@ public class Configuration {
     }
 
     return currentConfiguration;
+  }
+
+  public JsonNode getMailConfig() {
+    try {
+      // get mongo db data
+      MongoCollection<Document> settings = MongoConnectionManager.getInstance().getSettingsCollection();
+      FindIterable<Document> docs = settings.find();
+      MongoCursor<Document> iterator = docs.iterator();
+
+      if (!iterator.hasNext()) {
+        return null;
+      }
+
+      // parse mongo db json
+      JsonParser json = new JsonFactory().createParser(iterator.next().toJson());
+      return new ObjectMapper().readValue(json, ObjectNode.class).get("mail");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public JsonNode getVersionConfig() {
+    try {
+      // get mongo db data
+      MongoCollection<Document> settings = MongoConnectionManager.getInstance().getSettingsCollection();
+      FindIterable<Document> docs = settings.find();
+      MongoCursor<Document> iterator = docs.iterator();
+
+      if (!iterator.hasNext()) {
+        return null;
+      }
+
+      // parse mongo db json
+      JsonParser json = new JsonFactory().createParser(iterator.next().toJson());
+      return new ObjectMapper().readValue(json, ObjectNode.class).get("versions");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   /**
