@@ -52,6 +52,14 @@ RestResource LOGIN = new RestResource(
   responseData: true,
 );
 
+RestResource SIGN_UP = new RestResource(
+  HTTPMethod.POST,
+  "/user/local",
+  expectedStatus: HTTP_CREATED,
+  useToken: false,
+  responseData: true,
+);
+
 RestResource LOGOUT = new RestResource(
   HTTPMethod.DELETE,
   "/auth",

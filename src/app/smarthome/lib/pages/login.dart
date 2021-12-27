@@ -81,11 +81,15 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () => PageWrapper.routeToPage(
                     SignUpPage(),
                     context,
+                    overrideLogin: true,
                   ),
-                  child: Text("Konto erstellen",
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: Theme.of(context).colorScheme.primary)),
+                  child: Text(
+                    "Konto erstellen",
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                 ),
                 Spacer(),
                 WaveAnimation(),

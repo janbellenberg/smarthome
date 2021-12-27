@@ -7,18 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class PageWrapper extends StatelessWidget {
-  const PageWrapper(this.page, {Key? key}) : super(key: key);
+  const PageWrapper(this.page, {Key? key, this.overrideLogin = false})
+      : super(key: key);
 
-  static void routeToPage(Widget page, BuildContext context) {
+  static void routeToPage(Widget page, BuildContext context,
+      {bool overrideLogin = true}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PageWrapper(page),
+        builder: (context) => PageWrapper(page, overrideLogin: overrideLogin),
       ),
     );
   }
 
   final Widget page;
+  final bool overrideLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class PageWrapper extends StatelessWidget {
         builder: (context, state) {
           return Stack(
             children: [
-              state.sessionID != null ? page : LoginPage(),
+              state.sessionID == null || overrideLogin ? page : LoginPage(),
               if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
               if (!state.serverAvailable) OfflinePage(),
             ],

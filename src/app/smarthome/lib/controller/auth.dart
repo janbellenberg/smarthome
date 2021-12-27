@@ -27,3 +27,14 @@ void logout() {
     () => service.logout(),
   );
 }
+
+Future<bool> signUp(
+  String firstname,
+  String lastname,
+  String email,
+  String password,
+) async {
+  return await runApiService(
+    () => service.signUp(firstname, lastname, email, password),
+  ) != null;
+}

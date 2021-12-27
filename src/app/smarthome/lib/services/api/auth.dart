@@ -11,3 +11,22 @@ dynamic login(int uid, String password) async {
 dynamic logout() {
   return HTTP.fetch(LOGOUT);
 }
+
+dynamic signUp(
+  String firstname,
+  String lastname,
+  String email,
+  String password,
+) async {
+  return await HTTP.fetch(
+    SIGN_UP
+      ..requestData = {
+        "firstname": firstname,
+        "lastname": lastname,
+        "localUser": {
+          "email": email,
+          "password": password,
+        }
+      },
+  );
+}
