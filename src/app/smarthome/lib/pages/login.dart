@@ -63,8 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   },
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 50.0,
+                      vertical: 15.0,
+                    ),
+                    margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.all(

@@ -23,6 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          width: double.infinity,
           height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

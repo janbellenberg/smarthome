@@ -8,6 +8,7 @@ class RoundedTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
+    this.maxWidth = 900,
     Key? key,
   }) : super(key: key);
 
@@ -17,32 +18,37 @@ class RoundedTextField extends StatelessWidget {
   final bool obscureText;
   final IconData? prefixIcon;
   final TextEditingController? controller;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: this.padding ?? EdgeInsets.all(0),
-      child: TextField(
-        controller: this.controller,
-        obscureText: this.obscureText,
-        keyboardType: this.keyboardType,
-        enableSuggestions:
-            !(obscureText || this.keyboardType != TextInputType.text),
-        autocorrect: !(obscureText || this.keyboardType != TextInputType.text),
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.secondary, width: 2.0),
-            borderRadius: BorderRadius.all(
-              Radius.circular(30.0),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: this.maxWidth),
+      child: Padding(
+        padding: this.padding ?? EdgeInsets.all(0),
+        child: TextField(
+          controller: this.controller,
+          obscureText: this.obscureText,
+          keyboardType: this.keyboardType,
+          enableSuggestions:
+              !(obscureText || this.keyboardType != TextInputType.text),
+          autocorrect:
+              !(obscureText || this.keyboardType != TextInputType.text),
+          decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary, width: 2.0),
+              borderRadius: BorderRadius.all(
+                Radius.circular(30.0),
+              ),
             ),
+            labelText: this.labelText,
+            labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+            prefixIcon: prefixIcon == null
+                ? null
+                : Icon(prefixIcon,
+                    color: Theme.of(context).colorScheme.secondary),
           ),
-          labelText: this.labelText,
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-          prefixIcon: prefixIcon == null
-              ? null
-              : Icon(prefixIcon,
-                  color: Theme.of(context).colorScheme.secondary),
         ),
       ),
     );

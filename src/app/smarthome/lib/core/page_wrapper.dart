@@ -32,7 +32,7 @@ class PageWrapper extends StatelessWidget {
         builder: (context, state) {
           return Stack(
             children: [
-              state.sessionID == null || overrideLogin ? page : LoginPage(),
+              state.sessionID != null || overrideLogin ? page : LoginPage(),
               if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
               if (!state.serverAvailable) OfflinePage(),
             ],

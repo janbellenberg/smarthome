@@ -7,6 +7,7 @@ enum HTTPError {
   NOT_AUTHORIZED,
   DEPRECATED,
   CONNECTION_ERROR,
+  PLATFORM_ERROR,
   UNKNOWN
 }
 
@@ -15,6 +16,7 @@ Map<HTTPError, String> errorDescription = {
   HTTPError.SERVER_ERROR: "Auf dem Server ist ein Fehler aufgetreten",
   HTTPError.NOT_AUTHORIZED: "Sie sind für diesen Vorgang nicht berechtigt",
   HTTPError.DEPRECATED: "Die Schnittstelle scheint veraltet zu sein",
+  HTTPError.PLATFORM_ERROR: "Diese Plattform wird noch nicht unterstützt"
 };
 
 const int HTTP_OK = 200;
@@ -24,7 +26,7 @@ const int HTTP_NO_CONTENT = 204;
 const String JSON_MIME = "application/json";
 
 const bool USE_TLS = true;
-const String HOSTNAME = "192.168.178.21";
+const String HOSTNAME = "lnxsrv";
 const String PORT = USE_TLS ? "8443" : "8080";
 
 const String WEATHER_API_KEY = "b20d6931ba5b7dc2c9579f38d1d05264";

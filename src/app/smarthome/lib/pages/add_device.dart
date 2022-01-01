@@ -6,8 +6,8 @@ import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:nfc_manager/nfc_manager.dart';
-import 'package:nfc_manager/platform_tags.dart';
+/*import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';*/
 
 class AddDevicePage extends StatefulWidget {
   AddDevicePage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class AddDevicePage extends StatefulWidget {
 class _AddDevicePageState extends State<AddDevicePage> {
   int selectedBuilding = 1;
 
-  @override
+  /*@override
   initState() {
     super.initState();
     startNFC();
@@ -59,7 +59,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
 
     // Stop Session
     //NfcManager.instance.stopSession();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
