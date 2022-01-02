@@ -16,6 +16,7 @@ void setup()
   // init system
   Serial.begin(9600);
   EEPROM.begin(4096);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   // write data to eeprom
   char ssid[] = "Jan";
@@ -110,6 +111,16 @@ void read()
   {
     JWT[i] = char(EEPROM.read(i + addr));
   }
+}
+
+void on()
+{
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
+void off()
+{
+  digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void loop()
