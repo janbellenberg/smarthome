@@ -8,6 +8,9 @@ char *SSID;
 char *KEY;
 char *JWT;
 
+const char ddcp[] = "{'name':'LED','isNameEditable':false,'description':'Testmodul für eine LED','type':'l','vendor':'Jan Bellenberg','sections':[{'name':'Allgemein','properties':[{'label':'LED an/aus','value':true,'type':4,'id':'led_state','mode':'instant'}]}]}";
+const char ping[] = "{'name':'LED','description':'Testmodul für eine LED','type':'l'}";
+
 void setup()
 {
   // init system
