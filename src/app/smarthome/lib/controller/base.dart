@@ -38,6 +38,22 @@ Future<dynamic> runApiService(Function() apiOperation,
     }
 
     store.dispatch(new redux.Action(redux.ActionTypes.stopTask));
+    if (!store.state.setupDone) {
+      if (result == HTTPError.NOT_AUTHORIZED) {
+        // goto login screen, if application cannot load correctly
+        store.dispatch(
+          new redux.Action(redux.ActionTypes.updateSessionID, payload: null),
+        );
+      } else {
+        // goto offline screen, if application cannot load correctly
+        store.dispatch(
+          new redux.Action(redux.ActionTypes.setOffline),
+        );
+      }
+      store.dispatch(
+        new redux.Action(redux.ActionTypes.setupDone),
+      );
+    }
     return null;
   }
 

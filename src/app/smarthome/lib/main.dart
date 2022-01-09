@@ -24,7 +24,7 @@ class Main extends StatelessWidget {
 
       if (value == null) {
         store.dispatch(
-          new redux.Action(redux.ActionTypes.setupDone, payload: true),
+          new redux.Action(redux.ActionTypes.setupDone),
         );
       }
     });
