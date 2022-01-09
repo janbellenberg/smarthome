@@ -15,7 +15,7 @@ RUN wget -q -O "flutter.tar.xz" "${FLUTTER_SDK_URL}" \
   && rm flutter.tar.xz
 
 # run build
-RUN ./../flutter/bin/flutter build web
+RUN ./../flutter/bin/flutter build web --csp 
 
 # NGINX 
 FROM nginx:1.21.1-alpine as nginx

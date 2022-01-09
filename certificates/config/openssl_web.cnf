@@ -83,7 +83,10 @@ subjectAltName          = @alt_names
 DNS.1 = localhost
 DNS.2 = janbellenberg
 DNS.3 = LAPTOP-G9RT5HK6
+DNS.4 = lnxsrv
 IP.1 = 127.0.0.1
 IP.2 = 192.168.178.23
 IP.3 = 192.168.178.21
 IP.4 = 172.24.144.22
+IP.5 = 192.168.178.72
+
