@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                             .rooms)
                           GestureDetector(
                             onTap: () => PageWrapper.routeToPage(
-                              RoomDetailsPage(item.ID ?? 0, item.building),
+                              RoomDetailsPage(item.ID ?? 0),
                               context,
                             ),
                             child: RoundedContainer(

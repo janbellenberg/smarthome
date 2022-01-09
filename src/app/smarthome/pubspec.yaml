@@ -39,7 +39,6 @@ flutter:
     - assets/fonts/raleway-700.ttf
     - assets/fonts/raleway-regular.ttf
     - assets/images/icon_inverted.png
-    - assets/images/icons8_NFC_N_96px.png
     - pubspec.yaml
   fonts:
     - family: Raleway

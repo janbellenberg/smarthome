@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:Smarthome/controller/device.dart';
 import 'package:Smarthome/controller/rooms.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
@@ -10,177 +11,127 @@ import 'package:Smarthome/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../constants/colors.dart';
-import '../constants/device_types.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../widgets/device_item.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetailsPage extends StatefulWidget {
-  RoomDetailsPage(this.roomID, this.buildingID, {Key? key}) : super(key: key);
+  RoomDetailsPage(this.roomID, {Key? key}) : super(key: key);
   final int roomID;
-  final int buildingID;
 
   @override
-  _RoomDetailsPageState createState() =>
-      _RoomDetailsPageState(this.roomID, this.buildingID);
+  _RoomDetailsPageState createState() => _RoomDetailsPageState(this.roomID);
 }
 
 class _RoomDetailsPageState extends State<RoomDetailsPage> {
-  _RoomDetailsPageState(this.roomID, this.buildingID);
+  _RoomDetailsPageState(this.roomID);
   int roomID;
-  int buildingID;
-  List<Device> devices = List<Device>.empty(growable: true);
 
   @override
   void initState() {
     super.initState();
-    this.devices.add(Device.fromDB(
-          1,
-          "Deckenlampe",
-          DeviceType.LIGHT,
-          "",
-          "Jan Bellenberg",
-          "mac",
-          "local",
-          1,
-          status: "Eingeschaltet",
-        ));
-    this.devices.add(Device.fromDB(
-          2,
-          "Netzwerk",
-          DeviceType.INFRASTRUCTURE,
-          "",
-          "",
-          "mac",
-          "local",
-          1,
-          status: "Eingeschaltet",
-        ));
-    this.devices.add(Device.fromDB(
-          3,
-          "Fernseher",
-          DeviceType.VIDEO,
-          "",
-          "",
-          "mac",
-          "local",
-          1,
-          status: "Eingeschaltet",
-        ));
-    this.devices.add(Device.fromDB(
-          4,
-          "Licht Fenster",
-          DeviceType.LIGHT,
-          "",
-          "",
-          "mac",
-          "local",
-          1,
-          status: "Ausgeschaltet",
-        ));
-    this.devices.add(Device.fromDB(
-          5,
-          "Ring-Kamera",
-          null,
-          "",
-          "",
-          "mac",
-          "local",
-          1,
-        ));
+    loadDevices(this.roomID);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
-      body: StoreProvider(
-        store: store,
-        child: StoreConnector<AppState, AppState>(
-          converter: (store) => store.state,
-          builder: (context, state) {
-            Building selectedBuilding = state.buildings.firstWhere(
-              (element) => element.ID == this.buildingID,
-              orElse: () => new Building.fromDB({}),
-            );
+      body: RefreshIndicator(
+        color: ACCENT,
+        strokeWidth: 2.0,
+        onRefresh: () async {
+          await loadDevices(this.roomID);
+        },
+        child: StoreProvider(
+          store: store,
+          child: StoreConnector<AppState, AppState>(
+            converter: (store) => store.state,
+            builder: (context, state) {
+              Building selectedBuilding = state.buildings.firstWhere(
+                (element) => element.ID == state.selectedBuilding,
+                orElse: () => new Building.fromDB({}),
+              );
 
-            Room selectedRoom = selectedBuilding.rooms.firstWhere(
-              (element) => element.ID == this.roomID,
-              orElse: () => new Room.fromDB({}, this.buildingID),
-            );
+              Room selectedRoom = selectedBuilding.rooms.firstWhere(
+                (element) => element.ID == this.roomID,
+                orElse: () => new Room.fromDB({}, state.selectedBuilding),
+              );
 
-            return Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: WHITE,
-                            size: 25.0,
-                          ),
-                        ),
-                        Text(
-                          selectedRoom.name,
-                          style: TextStyle(color: WHITE, fontSize: 25.0),
-                        ),
-                        Spacer(),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () => {
-                                showModalBottomSheet(
-                                  context: context,
-                                  barrierColor: Colors.transparent,
-                                  builder: (context) {
-                                    return buildBottomSheet(selectedRoom);
-                                  },
-                                )
-                              },
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: WHITE,
-                                size: 30.0,
-                              ),
+              return Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: WHITE,
+                              size: 25.0,
                             ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.background,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Column(
+                          ),
+                          Text(
+                            selectedRoom.name,
+                            style: TextStyle(color: WHITE, fontSize: 25.0),
+                          ),
+                          Spacer(),
+                          Row(
                             children: [
-                              for (var device in this.devices)
-                                DeviceItem(device: device)
+                              IconButton(
+                                onPressed: () => {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    barrierColor: Colors.transparent,
+                                    builder: (context) {
+                                      return buildBottomSheet(selectedRoom);
+                                    },
+                                  )
+                                },
+                                icon: Icon(
+                                  Icons.more_vert,
+                                  color: WHITE,
+                                  size: 30.0,
+                                ),
+                              ),
                             ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: Column(
+                              children: [
+                                for (Device device in selectedRoom.devices)
+                                  DeviceItem(device: device)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -257,7 +208,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                             Navigator.pop(context);
                             deleteRoom(
                               roomID,
-                              buildingID,
+                              selectedRoom.building,
                             );
                           },
                           "Möchten Sie den Raum löschen?",

@@ -44,29 +44,30 @@ AppState appReducer(AppState state, dynamic action) {
         .rooms
         .clear();
   } else if (action.type == ActionTypes.addDevice) {
-    state.buildings.forEach((building) {
-      Room result = building.rooms.firstWhere(
-        (room) => room.ID = action.payload.room,
-        orElse: () => new Room.fromDB({}, 0),
-      );
-
-      if ((result.ID ?? 0) > 0) {
-        building.rooms
-            .firstWhere(
-              (room) => room.ID = action.payload.room,
-              orElse: () => new Room.fromDB({}, 0),
-            )
-            .devices
-            .add(action.payload);
-      }
-    });
-  } else if (action.type == ActionTypes.clearDevices) {
     state.buildings
         .firstWhere(
-          (element) => element.ID == action.payload,
+          (element) => element.ID == action.payload["building"],
           orElse: () => new Building.fromDB({}),
         )
         .rooms
+        .firstWhere(
+          (element) => element.ID == action.payload["room"],
+          orElse: () => new Room.fromDB({}, 0),
+        )
+        .devices
+        .add(action.payload["data"]);
+  } else if (action.type == ActionTypes.clearDevices) {
+    state.buildings
+        .firstWhere(
+          (element) => element.ID == action.payload["building"],
+          orElse: () => new Building.fromDB({}),
+        )
+        .rooms
+        .firstWhere(
+          (element) => element.ID == action.payload["room"],
+          orElse: () => new Room.fromDB({}, 0),
+        )
+        .devices
         .clear();
   } else if (action.type == ActionTypes.addShortcut) {
     state.buildings

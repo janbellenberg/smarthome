@@ -9,7 +9,7 @@ class QR_Scanner_Page extends StatelessWidget {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   late bool success;
-  final Function() onSuccess;
+  final Function(Barcode scaData) onSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,8 @@ class QR_Scanner_Page extends StatelessWidget {
   void _onQRViewCreated(QRViewController controller, context) {
     controller.scannedDataStream.listen((scanData) async {
       controller.stopCamera();
-      joinBuilding(scanData.code);
-      onSuccess();
       Navigator.pop(context);
+      onSuccess(scanData);
     });
   }
 }

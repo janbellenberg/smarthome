@@ -109,33 +109,19 @@ RestResource JOIN_BUILDING = new RestResource(
 
 RestResource GET_DEVICES = new RestResource(
   HTTPMethod.GET,
-  "/rooms/{rid}/devices",
+  "/devices/room/1",
   responseData: true,
 );
 
 RestResource ADD_DEVICE = new RestResource(
   HTTPMethod.POST,
-  "/rooms/{rid}/devices/{id}",
+  "/devices",
   expectedStatus: HTTP_CREATED,
 );
 
 RestResource DELETE_DEVICE = new RestResource(
   HTTPMethod.DELETE,
-  "/rooms/{rid}/devices/{id}",
-  expectedStatus: HTTP_NO_CONTENT,
-);
-
-// MEMBERS //
-
-RestResource ENTER_BUILDING = new RestResource(
-  HTTPMethod.POST,
-  "/building/{bid}/members",
-  expectedStatus: HTTP_CREATED,
-);
-
-RestResource LEAVE_BUILDING = new RestResource(
-  HTTPMethod.DELETE,
-  "/building/{bid}/members",
+  "/devices/{id}",
   expectedStatus: HTTP_NO_CONTENT,
 );
 

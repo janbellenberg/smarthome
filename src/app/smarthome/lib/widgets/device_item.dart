@@ -42,7 +42,10 @@ class DeviceItem extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold),
                     ),
-                    Text(device.status, style: TextStyle(fontSize: 17.0)),
+                    Text(
+                      device.online ? "Eingeschaltet" : "Offline",
+                      style: TextStyle(fontSize: 17.0),
+                    ),
                   ],
                 ),
               )
