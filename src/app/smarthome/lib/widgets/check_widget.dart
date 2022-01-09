@@ -32,16 +32,7 @@ class _CheckPropertyWidgetState extends State<CheckPropertyWidget> {
       margin: EdgeInsets.symmetric(
         vertical: 10.0,
       ),
-      gradient: this.property.value
-          ? null
-          : LinearGradient(
-              colors: [
-                Colors.red.withOpacity(0.5),
-                Colors.red.withOpacity(0.3),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      color: this.property.value ? null : Colors.red.withOpacity(0.4),
       child: SwitchListTile(
         activeColor: ACCENT,
         inactiveThumbColor: BLACK.withAlpha((0.8 * 200).toInt()),

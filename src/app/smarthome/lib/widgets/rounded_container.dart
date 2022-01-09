@@ -7,14 +7,14 @@ class RoundedContainer extends StatelessWidget {
     this.width,
     this.margin,
     this.padding,
-    this.gradient,
+    this.color,
   }) : super(key: key);
 
   final Widget? child;
   final double? width;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
-  final Gradient? gradient;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,8 @@ class RoundedContainer extends StatelessWidget {
           ),
       child: this.child,
       decoration: BoxDecoration(
-        gradient: this.gradient ??
-            LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.secondary.withOpacity(0.25),
-                Theme.of(context).colorScheme.secondary.withOpacity(0.07),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        color: this.color ??
+            Theme.of(context).colorScheme.secondary.withOpacity(0.15),
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
     );

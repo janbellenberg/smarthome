@@ -94,7 +94,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                 ),
               ),
               RoundedContainer(
-                gradient: LinearGradient(colors: [Colors.white, Colors.white]),
+                color: Colors.white,
                 child: Column(
                   children: [
                     Padding(
