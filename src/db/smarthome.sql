@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 );
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `type` ENUM('l', 'v', 'a', 's', 'r', 'c', 'i', 'e', 'p') DEFAULT NULL,
-  `description` VARCHAR(500) NOT NULL DEFAULT '',
-  `vendor` VARCHAR(100) NOT NULL,
-  `mac` VARCHAR(17) NOT NULL,
-  `local` VARCHAR(20),
+  `name` VARCHAR(50) DEFAULT '',
+  `type` VARCHAR(3) DEFAULT NULL,
+  `description` VARCHAR(500) DEFAULT '',
+  `vendor` VARCHAR(100) DEFAULT '',
+  `mac` VARCHAR(17) DEFAULT '',
+  `local` VARCHAR(20) DEFAULT '',
   `room` INT UNSIGNED,
   CONSTRAINT unique_mac UNIQUE (`mac`),
   CONSTRAINT fk_room FOREIGN KEY (`room`) REFERENCES `rooms` (`id`) ON UPDATE CASCADE ON DELETE
@@ -101,7 +101,7 @@ INSERT INTO
 VALUES
   (
     'D1 Mini',
-    'l',
+    'lgt',
     'Test',
     'Jan Bellenberg',
     '',
