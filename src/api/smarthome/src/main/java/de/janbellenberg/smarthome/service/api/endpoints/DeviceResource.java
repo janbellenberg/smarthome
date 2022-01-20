@@ -1,8 +1,11 @@
 package de.janbellenberg.smarthome.service.api.endpoints;
 
+import java.io.IOException;
+
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import javax.websocket.Session;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.janbellenberg.smarthome.base.annotations.Secured;
+import de.janbellenberg.smarthome.core.DeviceRequestsManager;
+import de.janbellenberg.smarthome.core.SocketConnectionManager;
 import de.janbellenberg.smarthome.dao.DevicesDAO;
 import de.janbellenberg.smarthome.dao.RoomsDAO;
 import de.janbellenberg.smarthome.model.Device;
@@ -73,9 +78,27 @@ public class DeviceResource {
   @POST
   @Secured
   @Path("{id}/cmd")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Response sendComandToDevice(JsonObject request) {
-    // TODO: implement sendComandToDevce
-    return Response.ok().build();
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  public Response sendComandToDevice(@PathParam("id") int deviceID, String command) throws IOException {
+    command = command.trim();
+
+    Session session = SocketConnectionManager.getInstance().getSessionByDeviceID(deviceID);
+
+    if (session == null) {
+      return Response.status(502).build(); // Bad Gateway
+    }
+
+    DeviceRequestsManager manager = DeviceRequestsManager.getInstance();
+    manager.addRequest(command);
+
+    session.getBasicRemote().sendText(command);
+
+    String response;
+    // TODO: implement timeout
+    while ((response = manager.getResponse(command)) == null)
+      ;
+
+    return Response.ok(response).build();
   }
 }

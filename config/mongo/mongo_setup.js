@@ -1,6 +1,7 @@
 db = db.getSiblingDB('smarthome');
 db.createCollection("sessions");
 db.createCollection("settings");
+db.createCollection("devices_infos");
 
 db.settings.insertOne({
   mail:{
