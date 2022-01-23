@@ -2,9 +2,13 @@ package de.janbellenberg.smarthome.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.websocket.Session;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import de.janbellenberg.smarthome.core.SocketConnectionManager;
 
 import java.util.List;
 
@@ -53,6 +57,12 @@ public class Device implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "device")
 	private List<Shortcut> shortcuts;
+
+	@JsonProperty
+	public boolean isOnline(){
+		Session session = SocketConnectionManager.getInstance().getSessionByDeviceID(this.getId());
+		return session != null;
+	}
 
 	public int getId() {
 		return this.id;

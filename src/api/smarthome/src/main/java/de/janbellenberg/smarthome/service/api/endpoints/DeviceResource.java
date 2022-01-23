@@ -1,6 +1,8 @@
 package de.janbellenberg.smarthome.service.api.endpoints;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -90,15 +92,23 @@ public class DeviceResource {
     }
 
     DeviceRequestsManager manager = DeviceRequestsManager.getInstance();
-    manager.addRequest(command);
+    manager.addRequest(deviceID, command);
 
     session.getBasicRemote().sendText(command);
 
     String response;
-    // TODO: implement timeout
-    while ((response = manager.getResponse(command)) == null)
-      ;
+    LocalDateTime start = LocalDateTime.now();
 
+    while ((response = manager.getResponse(deviceID, command)) == null) {
+
+      // timeout after 3 seconds
+      if (Duration.between(start, LocalDateTime.now()).toSeconds() > 3) {
+        manager.removeRequest(deviceID, command);
+        return Response.status(504).build();
+      }
+    }
+
+    manager.removeRequest(deviceID, command);
     return Response.ok(response).build();
   }
 }

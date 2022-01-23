@@ -2,9 +2,11 @@ package de.janbellenberg.smarthome.core;
 
 import java.util.HashMap;
 
+import de.janbellenberg.smarthome.base.helper.Tupel;
+
 public class DeviceRequestsManager {
   private static DeviceRequestsManager instance;
-  private HashMap<String, String> requests;
+  private HashMap<Tupel<Integer, String>, String> requests;
 
   private DeviceRequestsManager() {
     this.requests = new HashMap<>();
@@ -18,17 +20,24 @@ public class DeviceRequestsManager {
     return instance;
   }
 
-  public void addRequest(String command) {
-    this.requests.put(command, null);
-
-    // TODO: start timer for timeout
+  public void addRequest(int deviceID, String command) {
+    Tupel<Integer, String> request = new Tupel<>(deviceID, command);
+    this.requests.put(request, null);
   }
 
-  public void finishRequest(String command, String data) {
-    this.requests.computeIfAbsent(command, c -> data);
+  public void finishRequest(int deviceID, String command, String data) {
+    Tupel<Integer, String> request = new Tupel<>(deviceID, command);
+
+    this.requests.computeIfAbsent(request, c -> data);
   }
 
-  public String getResponse(String command) {
-    return this.requests.get(command);
+  public void removeRequest(int deviceID, String command) {
+    Tupel<Integer, String> request = new Tupel<>(deviceID, command);
+    this.requests.remove(request);
+  }
+
+  public String getResponse(int deviceID, String command) {
+    Tupel<Integer, String> request = new Tupel<>(deviceID, command);
+    return this.requests.get(request);
   }
 }

@@ -65,7 +65,6 @@ public class JWT {
    * 
    * @param jwtData jwt in string format
    * @return parsed jwt
-   * @throws NoSuchAlgorithmException if the jwt algorithm is unsupported
    */
   public static JWT parse(String jwtData) {
     try {
@@ -94,7 +93,7 @@ public class JWT {
         return null;
 
       return jwt;
-    } catch (NoSuchAlgorithmException ex) {
+    } catch (NoSuchAlgorithmException | NullPointerException ex) {
       ex.printStackTrace();
       return null;
     }
