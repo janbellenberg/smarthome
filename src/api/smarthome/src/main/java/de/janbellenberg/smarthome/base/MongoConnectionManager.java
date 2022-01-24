@@ -24,6 +24,7 @@ public class MongoConnectionManager {
   private static final String MONGO_DB = MONGO_USER;
   private static final String COLL_SESSION = "sessions";
   private static final String COLL_SETTINGS = "settings";
+  private static final String COLL_DEVICES = "devices_infos";
   private static MongoConnectionManager instance;
 
   private MongoClient client;
@@ -64,6 +65,10 @@ public class MongoConnectionManager {
 
   public MongoCollection<Document> getSessionCollection() {
     return this.client.getDatabase(MONGO_DB).getCollection(COLL_SESSION);
+  }
+
+  public MongoCollection<Document> getDeviceInfosCollection() {
+    return this.client.getDatabase(MONGO_DB).getCollection(COLL_DEVICES);
   }
 
 }

@@ -10,9 +10,16 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.mongodb.client.MongoCollection;
+
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import de.janbellenberg.smarthome.base.MongoConnectionManager;
 import de.janbellenberg.smarthome.base.helper.security.JWT;
 import de.janbellenberg.smarthome.core.DeviceRequestsManager;
 import de.janbellenberg.smarthome.core.SocketConnectionManager;
+import static com.mongodb.client.model.Filters.*;
 
 @ServerEndpoint(value = "/device/socket")
 public class DeviceSocket {
@@ -65,7 +72,15 @@ public class DeviceSocket {
       String data = msg.replaceFirst("#" + command + "\n", "");
       DeviceRequestsManager.getInstance().finishRequest(deviceID, command, data);
     } else {
-      // TODO: save info to mongo
+      MongoCollection<Document> deviceInfos = MongoConnectionManager.getInstance().getDeviceInfosCollection();
+
+      deviceInfos.deleteMany(eq("id", deviceID));
+
+      Document deviceInfo = Document.parse(msg);
+      deviceInfo.put("_id", new ObjectId());
+      deviceInfo.put("id", deviceID);
+
+      deviceInfos.insertOne(deviceInfo);
     }
   }
 

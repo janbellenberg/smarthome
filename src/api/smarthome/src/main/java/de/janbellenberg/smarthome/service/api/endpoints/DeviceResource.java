@@ -18,6 +18,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.*;
+
+import org.bson.Document;
+
+import de.janbellenberg.smarthome.base.MongoConnectionManager;
 import de.janbellenberg.smarthome.base.annotations.Secured;
 import de.janbellenberg.smarthome.core.DeviceRequestsManager;
 import de.janbellenberg.smarthome.core.SocketConnectionManager;
@@ -42,6 +48,23 @@ public class DeviceResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getAllDevicesInRoom(@PathParam("rid") final int roomID) {
     return Response.ok(this.dao.getAllDevicesInRoom(roomID)).build();
+  }
+
+  @GET
+  @Path("/{id}")
+  @Secured
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getDeviceConfig(@PathParam("id") final int deviceID) {
+    MongoCollection<Document> deviceInfos = MongoConnectionManager.getInstance().getDeviceInfosCollection();
+    Document info = deviceInfos.find(eq("id", deviceID)).first();
+
+    if (info == null) {
+      return Response.noContent().build();
+    }
+
+    info.remove("_id");
+    info.remove("id");
+    return Response.ok(info.toJson()).build();
   }
 
   @POST
