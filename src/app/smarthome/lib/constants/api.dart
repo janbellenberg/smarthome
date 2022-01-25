@@ -4,6 +4,7 @@ enum HTTPMethod { GET, POST, PUT, PATCH, DELETE }
 enum HTTPError {
   CLIENT_ERROR,
   SERVER_ERROR,
+  PROXY_ERROR,
   NOT_AUTHORIZED,
   DEPRECATED,
   CONNECTION_ERROR,
@@ -14,6 +15,7 @@ enum HTTPError {
 Map<HTTPError, String> errorDescription = {
   HTTPError.CLIENT_ERROR: "Die Daten sind falsch oder die App ist veraltet",
   HTTPError.SERVER_ERROR: "Auf dem Server ist ein Fehler aufgetreten",
+  HTTPError.PROXY_ERROR: "Das Gerät kann nicht erreicht werden",
   HTTPError.NOT_AUTHORIZED: "Sie sind für diesen Vorgang nicht berechtigt",
   HTTPError.DEPRECATED: "Die Schnittstelle scheint veraltet zu sein",
   HTTPError.PLATFORM_ERROR: "Diese Plattform wird noch nicht unterstützt"
@@ -25,7 +27,7 @@ const int HTTP_NO_CONTENT = 204;
 
 const String JSON_MIME = "application/json";
 
-const bool USE_TLS = true;
+const bool USE_TLS = false;
 const String HOSTNAME = "lnxsrv";
 const String PORT = USE_TLS ? "8443" : "8080";
 
@@ -109,7 +111,19 @@ RestResource JOIN_BUILDING = new RestResource(
 
 RestResource GET_DEVICES = new RestResource(
   HTTPMethod.GET,
-  "/devices/room/1",
+  "/devices/room/{room}",
+  responseData: true,
+);
+
+RestResource GET_DEVICE_CONFIG = new RestResource(
+  HTTPMethod.GET,
+  "/devices/{id}",
+  responseData: true,
+);
+
+RestResource SEND_CMD = new RestResource(
+  HTTPMethod.POST,
+  "/devices/{id}/cmd",
   responseData: true,
 );
 

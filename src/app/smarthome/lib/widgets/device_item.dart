@@ -1,3 +1,4 @@
+import 'package:Smarthome/controller/device.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 
 import '../pages/device_details.dart';
@@ -17,11 +18,22 @@ class DeviceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => PageWrapper.routeToPage(
-        DeviceDetailsPage(this.device),
-        context,
-      ),
-      onDoubleTap: () => {}, // TODO: default action
+      onTap: this.device.online
+          ? () => PageWrapper.routeToPage(
+                DeviceDetailsPage(this.device),
+                context,
+              )
+          : null,
+      onDoubleTap: this.device.online
+          ? () async {
+              if (this.device.defaultCommand != null) {
+                sendCommand(
+                  this.device.defaultCommand!,
+                  this.device.ID!,
+                );
+              }
+            }
+          : null,
       child: RoundedContainer(
           margin: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
           padding: EdgeInsets.all(20.0),

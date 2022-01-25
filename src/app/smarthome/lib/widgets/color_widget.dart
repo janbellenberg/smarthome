@@ -1,3 +1,4 @@
+import 'package:Smarthome/controller/device.dart';
 import 'package:cyclop/cyclop.dart';
 import 'package:flutter/material.dart';
 
@@ -5,16 +6,26 @@ import '../models/property.dart';
 import 'rounded_container.dart';
 
 class ColorPropertyWidget extends StatefulWidget {
-  ColorPropertyWidget(this.property, {Key? key}) : super(key: key);
+  ColorPropertyWidget(
+    this.property,
+    this.deviceID, {
+    Key? key,
+  }) : super(key: key);
+  
+  final int deviceID;
   final Property property;
 
   @override
-  _ColorPropertyWidgetState createState() =>
-      _ColorPropertyWidgetState(this.property);
+  _ColorPropertyWidgetState createState() => _ColorPropertyWidgetState(
+        this.property,
+        this.deviceID,
+      );
 }
 
 class _ColorPropertyWidgetState extends State<ColorPropertyWidget> {
-  _ColorPropertyWidgetState(this.property);
+  _ColorPropertyWidgetState(this.property, this.deviceID);
+
+  final int deviceID;
   final Property property;
 
   @override
@@ -38,18 +49,28 @@ class _ColorPropertyWidgetState extends State<ColorPropertyWidget> {
             ),
           ),
           ColorButton(
-            darkMode: true,
-            color: this.property.value,
-            boxShape: BoxShape.rectangle,
-            size: 32,
-            config: ColorPickerConfig(
-              enableOpacity: false,
-              enableLibrary: false,
-            ),
-            onColorChanged: (value) => setState(
-              () => this.property.value = value,
-            ),
-          ),
+              darkMode: true,
+              color: this.property.value,
+              boxShape: BoxShape.rectangle,
+              size: 32,
+              config: ColorPickerConfig(
+                enableOpacity: false,
+                enableLibrary: false,
+              ),
+              onColorChanged: (value) {
+                sendCommand(
+                    this.property.identifier +
+                        ":" +
+                        value.red.toString() +
+                        ":" +
+                        value.green.toString() +
+                        ":" +
+                        value.blue.toString(),
+                    deviceID);
+                setState(
+                  () => this.property.value = value,
+                );
+              }),
         ],
       ),
     );

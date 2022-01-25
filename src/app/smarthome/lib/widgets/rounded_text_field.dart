@@ -4,7 +4,7 @@ class RoundedTextField extends StatelessWidget {
   const RoundedTextField({
     required this.labelText,
     this.padding,
-    this.controller, // TODO: make required
+    this.controller,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,

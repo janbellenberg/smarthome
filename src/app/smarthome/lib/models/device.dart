@@ -10,6 +10,7 @@ class Device {
   late String mac;
   late String local;
   late bool online;
+  String? defaultCommand;
 
   List<Section> sections = new List.empty(growable: true);
 
@@ -25,12 +26,13 @@ class Device {
 
   Device.fromDB(Map<String, dynamic> data) {
     this.ID = data["id"];
-    this.name = data["name"];
-    this.description = data["description"];
-    this.vendor = data["vendor"];
-    this.mac = data["mac"];
-    this.local = data["local"];
-    this.online = true;
+    this.name = data["name"] ?? "Unbekannt";
+    this.description = data["description"] ?? "";
+    this.vendor = data["vendor"] ?? "";
+    this.defaultCommand = data["defaultCommand"];
+    this.mac = data["mac"] ?? "";
+    this.local = data["local"] ?? "";
+    this.online = data["online"] ?? false;
 
     this.type = typeID.keys.firstWhere(
       (key) => typeID[key] == data["type"],

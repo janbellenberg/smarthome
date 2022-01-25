@@ -1,17 +1,26 @@
+import 'package:Smarthome/controller/device.dart';
+
 import '../models/property.dart';
 import 'package:flutter/material.dart';
 
 class SliderPropertyWidget extends StatefulWidget {
-  SliderPropertyWidget(this.property, {Key? key}) : super(key: key);
+  SliderPropertyWidget(
+    this.property,
+    this.deviceID, {
+    Key? key,
+  }) : super(key: key);
+  final int deviceID;
   final Property property;
 
   @override
-  _SliderPropertyWidgetState createState() =>
-      _SliderPropertyWidgetState(this.property);
+  _SliderPropertyWidgetState createState() => _SliderPropertyWidgetState(
+        this.property,
+        this.deviceID,
+      );
 }
 
 class _SliderPropertyWidgetState extends State<SliderPropertyWidget> {
-  _SliderPropertyWidgetState(this.property) {
+  _SliderPropertyWidgetState(this.property, this.deviceID) {
     if (property.moreInfo["min"].runtimeType == double) {
       this.min = property.moreInfo["min"];
     } else if (property.moreInfo["min"].runtimeType == int) {
@@ -31,6 +40,7 @@ class _SliderPropertyWidgetState extends State<SliderPropertyWidget> {
     }
   }
 
+  final int deviceID;
   final Property property;
   double min = 0;
   double max = 100;
@@ -59,6 +69,11 @@ class _SliderPropertyWidgetState extends State<SliderPropertyWidget> {
           child: this.property.type == PropertyType.SLIDER
               ? Slider(
                   onChanged: (value) {
+                    sendCommand(
+                      this.property.identifier + ":" + value.toString(),
+                      deviceID,
+                    );
+
                     setState(() {
                       this.property.value = value;
                     });
@@ -71,6 +86,15 @@ class _SliderPropertyWidgetState extends State<SliderPropertyWidget> {
               : RangeSlider(
                   values: this.property.value,
                   onChanged: (value) {
+                    sendCommand(
+                      this.property.identifier +
+                          ":" +
+                          value.start.toString() +
+                          ":" +
+                          value.end.toString(),
+                      deviceID,
+                    );
+
                     setState(() {
                       this.property.value = value;
                     });

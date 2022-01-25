@@ -1,19 +1,29 @@
+import 'package:Smarthome/controller/device.dart';
+
 import '../models/property.dart';
 import 'rounded_text_field.dart';
 import 'package:flutter/material.dart';
 
 class InputPropertyWidget extends StatefulWidget {
-  InputPropertyWidget(this.property, {Key? key}) : super(key: key);
+  InputPropertyWidget(
+    this.property,
+    this.deviceID, {
+    Key? key,
+  }) : super(key: key);
 
+  final int deviceID;
   final Property property;
 
   @override
-  _InputPropertyWidgetState createState() =>
-      _InputPropertyWidgetState(this.property);
+  _InputPropertyWidgetState createState() => _InputPropertyWidgetState(
+        this.property,
+        this.deviceID,
+      );
 }
 
 class _InputPropertyWidgetState extends State<InputPropertyWidget> {
-  _InputPropertyWidgetState(this.property) {
+  _InputPropertyWidgetState(this.property, this.deviceID) {
+    
     controller = TextEditingController.fromValue(
       TextEditingValue(
         text: this.property.value.toString(),
@@ -21,10 +31,11 @@ class _InputPropertyWidgetState extends State<InputPropertyWidget> {
     );
 
     controller.addListener(() {
-      // TODO: send data to device
+      sendCommand(this.property.identifier + ":" + controller.text, deviceID);
     });
   }
 
+  final int deviceID;
   Property property;
   late TextEditingController controller;
 

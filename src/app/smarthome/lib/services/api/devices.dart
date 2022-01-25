@@ -9,7 +9,22 @@ dynamic loadDevices(int room) async {
     });
 }
 
-dynamic sendCommand() async {}
+dynamic sendCommand(String cmd, int deviceID) async {
+  return await HTTP.fetch(
+    SEND_CMD
+      ..requestString = cmd
+      ..parameters = {
+        "id": deviceID.toString(),
+      },
+  );
+}
+
+dynamic getDeviceConfiguration(int device) async {
+  return await HTTP.fetch(GET_DEVICE_CONFIG
+    ..parameters = {
+      "id": device.toString(),
+    });
+}
 
 dynamic addDevice(
   final String mac,

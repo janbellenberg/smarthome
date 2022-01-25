@@ -1,9 +1,7 @@
-import 'dart:developer';
-
+import 'package:Smarthome/controller/device.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/models/shortcut.dart';
-import 'package:Smarthome/redux/store.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -40,8 +38,8 @@ class _ShortcutsPageState extends State<ShortcutsPage> {
                       for (Shortcut shortcut in building.shortcuts)
                         GestureDetector(
                           onTap: () {
-                            log("/" + shortcut.command);
-                          }, // TODO: send command
+                            sendCommand(shortcut.command, shortcut.device);
+                          },
                           child: RoundedContainer(
                             margin: EdgeInsets.zero,
                             width: 150.0,

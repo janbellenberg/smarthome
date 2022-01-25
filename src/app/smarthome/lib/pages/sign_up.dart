@@ -2,7 +2,6 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/auth.dart';
 import 'package:Smarthome/dialogs/SignUpDialog.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
-import 'package:Smarthome/widgets/wave_animation.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {

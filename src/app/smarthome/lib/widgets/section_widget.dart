@@ -61,28 +61,28 @@ class SectionWidget extends StatelessWidget {
       switch (property.type) {
         case PropertyType.TEXT:
         case PropertyType.NUMBER:
-          c.children.add(InputPropertyWidget(property));
+          c.children.add(InputPropertyWidget(property, device.ID ?? 0));
           break;
         case PropertyType.SLIDER:
         case PropertyType.RANGE:
-          c.children.add(SliderPropertyWidget(property));
+          c.children.add(SliderPropertyWidget(property, device.ID ?? 0));
           break;
         case PropertyType.CHECK:
-          c.children.add(CheckPropertyWidget(property));
+          c.children.add(CheckPropertyWidget(property, device.ID ?? 0));
           break;
         case PropertyType.COLOR:
-          c.children.add(ColorPropertyWidget(property));
+          c.children.add(ColorPropertyWidget(property, device.ID ?? 0));
           break;
         case PropertyType.TIME:
         case PropertyType.DATE:
-          c.children.add(DateTimePropertyWidget(property));
+          c.children.add(DateTimePropertyWidget(property, device.ID ?? 0));
           break;
       }
     });
 
     this.section.actions.forEach((command, label) {
       c.children.add(
-        ActionWidget(label, command),
+        ActionWidget(label, command, device.ID ?? 0),
       );
     });
 

@@ -1,14 +1,9 @@
-import 'dart:developer';
-import 'dart:typed_data';
-
-import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/device.dart';
 import 'package:Smarthome/dialogs/SelectRoom.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/pages/qr_scanner.dart';
 import 'package:Smarthome/widgets/rounded_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
 

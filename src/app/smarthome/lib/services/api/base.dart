@@ -81,6 +81,8 @@ class HTTP {
 
       if (response.statusCode == 401) {
         return HTTPError.NOT_AUTHORIZED;
+      } else if (response.statusCode == 502 || response.statusCode == 504) {
+        return HTTPError.PROXY_ERROR;
       } else if (response.statusCode >= 500) {
         return HTTPError.SERVER_ERROR;
       } else if (response.statusCode >= 400) {
@@ -158,6 +160,8 @@ class HTTP {
       // handle http statuscodes
       if (res.statusCode == 401) {
         return HTTPError.NOT_AUTHORIZED;
+      } else if (res.statusCode == 502 || res.statusCode == 504) {
+        return HTTPError.PROXY_ERROR;
       } else if (res.statusCode >= 500) {
         return HTTPError.SERVER_ERROR;
       } else if (res.statusCode >= 400) {

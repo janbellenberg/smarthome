@@ -1,20 +1,31 @@
+import 'package:Smarthome/controller/device.dart';
+
 import '../models/property.dart';
 import 'package:flutter/material.dart';
 
 import 'rounded_container.dart';
 
 class DateTimePropertyWidget extends StatefulWidget {
-  DateTimePropertyWidget(this.property, {Key? key}) : super(key: key);
+  DateTimePropertyWidget(
+    this.property,
+    this.deviceID, {
+    Key? key,
+  }) : super(key: key);
+  
+  final int deviceID;
   final Property property;
 
   @override
-  _DateTimePropertyWidgetState createState() =>
-      _DateTimePropertyWidgetState(this.property);
+  _DateTimePropertyWidgetState createState() => _DateTimePropertyWidgetState(
+        this.property,
+        this.deviceID,
+      );
 }
 
 class _DateTimePropertyWidgetState extends State<DateTimePropertyWidget> {
-  _DateTimePropertyWidgetState(this.property);
+  _DateTimePropertyWidgetState(this.property, this.deviceID);
 
+  final int deviceID;
   final Property property;
 
   @override
@@ -40,13 +51,26 @@ class _DateTimePropertyWidgetState extends State<DateTimePropertyWidget> {
           : showTimePicker(
               context: context,
               initialTime: TimeOfDay.fromDateTime(this.property.value),
-            ).then(
-              (value) => setState(
+            ).then((value) {
+              sendCommand(
+                  this.property.identifier +
+                      ":" +
+                      this.property.value.day.toString() +
+                      ":" +
+                      this.property.value.month.toString() +
+                      ":" +
+                      this.property.value.year.toString() +
+                      ":" +
+                      this.property.value.hour.toString() +
+                      ":" +
+                      this.property.value.minute.toString(),
+                  deviceID);
+              setState(
                 () {
                   this.property.value = value;
                 },
-              ),
-            ),
+              );
+            }),
       child: RoundedContainer(
         padding: EdgeInsets.symmetric(
           horizontal: 30.0,
