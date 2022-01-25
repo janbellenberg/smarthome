@@ -125,7 +125,7 @@ public class DeviceResource {
     while ((response = manager.getResponse(deviceID, command)) == null) {
 
       // timeout after 3 seconds
-      if (Duration.between(start, LocalDateTime.now()).toSeconds() > 3) {
+      if (Duration.between(start, LocalDateTime.now()).toSeconds() > 5) {
         manager.removeRequest(deviceID, command);
         return Response.status(504).build();
       }

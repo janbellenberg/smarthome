@@ -47,6 +47,9 @@ public class Device implements Serializable {
 
 	private String vendor;
 
+	@Column(name = "def_cmd")
+	private String defaultCommand;
+
 	// bi-directional many-to-one association to Room
 	@JsonIgnore
 	@ManyToOne
@@ -59,7 +62,7 @@ public class Device implements Serializable {
 	private List<Shortcut> shortcuts;
 
 	@JsonProperty
-	public boolean isOnline(){
+	public boolean isOnline() {
 		Session session = SocketConnectionManager.getInstance().getSessionByDeviceID(this.getId());
 		return session != null;
 	}
@@ -118,6 +121,14 @@ public class Device implements Serializable {
 
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
+	}
+
+	public String getDefaultCommand() {
+		return defaultCommand;
+	}
+
+	public void setDefaultCommand(String defaultCommand) {
+		this.defaultCommand = defaultCommand;
 	}
 
 	public Room getRoom() {

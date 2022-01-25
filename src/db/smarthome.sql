@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `type` VARCHAR(3) DEFAULT NULL,
   `description` VARCHAR(500) DEFAULT '',
   `vendor` VARCHAR(100) DEFAULT '',
+  `def_cmd` VARCHAR(100),
   `mac` VARCHAR(17) DEFAULT '',
   `local` VARCHAR(20) DEFAULT '',
   `room` INT UNSIGNED,
@@ -94,8 +95,7 @@ INSERT INTO
     `type`,
     `description`,
     `vendor`,
-    `mac`,
-    `local`,
+    `def_cmd`,
     `room`
   )
 VALUES
@@ -104,8 +104,7 @@ VALUES
     'lgt',
     'Test',
     'Jan Bellenberg',
-    '',
-    NULL,
+    'led_state:true' '',
     1
   );
 INSERT INTO
@@ -115,8 +114,8 @@ VALUES
 INSERT INTO
   `shortcuts` (`building`, `device`, `description`, `command`)
 VALUES
-  (1, 1, "Licht an", "on"),
-  (1, 1, "Licht aus", "off");
+  (1, 1, "Licht an", "led_state:true"),
+  (1, 1, "Licht aus", "led_state:false");
 -- -- -- -- -- --
   --    USER     --
   -- -- -- -- -- --
