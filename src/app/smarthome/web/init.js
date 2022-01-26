@@ -3,17 +3,6 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers
 
 var serviceWorkerVersion = null;
-var scriptLoaded = false;
-function loadMainDartJs() {
-  if (scriptLoaded) {
-    return;
-  }
-  scriptLoaded = true;
-  var scriptTag = document.createElement('script');
-  scriptTag.src = 'main.dart.js';
-  scriptTag.type = 'application/javascript';
-  document.body.append(scriptTag);
-}
 if ('serviceWorker' in navigator) {
   // Service workers are supported. Use them.
   window.addEventListener('load', function () {
@@ -27,7 +16,6 @@ if ('serviceWorker' in navigator) {
           serviceWorker.addEventListener('statechange', () => {
             if (serviceWorker.state == 'activated') {
               console.log('Installed new service worker.');
-              loadMainDartJs();
             }
           });
         }
@@ -44,21 +32,7 @@ if ('serviceWorker' in navigator) {
         } else {
           // Existing service worker is still good.
           console.log('Loading app from service worker.');
-          loadMainDartJs();
         }
       });
-    // If service worker doesn't succeed in a reasonable amount of time,
-    // fallback to plaint <script> tag.
-    setTimeout(() => {
-      if (!scriptLoaded) {
-        console.warn(
-          'Failed to load app from service worker. Falling back to plain <script> tag.',
-        );
-        loadMainDartJs();
-      }
-    }, 4000);
   });
-} else {
-  // Service workers not supported. Just drop the <script> tag.
-  loadMainDartJs();
 }
