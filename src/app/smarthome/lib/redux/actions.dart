@@ -1,6 +1,7 @@
 enum ActionTypes {
   updateSelectedBuilding,
   updateSessionID,
+  updateUsername,
   startTask,
   stopTask,
   setupDone,

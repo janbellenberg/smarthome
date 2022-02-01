@@ -8,6 +8,8 @@ AppState appReducer(AppState state, dynamic action) {
     state.selectedBuilding = action.payload;
   } else if (action.type == ActionTypes.updateSessionID) {
     state.sessionID = action.payload;
+  } else if (action.type == ActionTypes.updateUsername) {
+    state.username = action.payload;
   } else if (action.type == ActionTypes.startTask) {
     state.runningTasks++;
   } else if (action.type == ActionTypes.stopTask) {
