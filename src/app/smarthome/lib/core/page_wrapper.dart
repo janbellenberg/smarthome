@@ -1,3 +1,5 @@
+import 'package:Smarthome/constants/screen_types.dart';
+import 'package:Smarthome/core/responsive.dart';
 import 'package:Smarthome/dialogs/DialogWrapper.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/pages/login.dart';
@@ -16,7 +18,7 @@ class PageWrapper extends StatelessWidget {
     BuildContext context, {
     bool overrideLogin = true,
   }) {
-    if (MediaQuery.of(context).size.width < 700) {
+    if (getScreenType(context) == ScreenType.SMARTPHONE) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -48,19 +50,21 @@ class PageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
-      store: store,
-      child: StoreConnector<AppState, AppState>(
-        converter: (store) => store.state,
-        builder: (context, state) {
-          return Stack(
-            children: [
-              state.sessionID != null || overrideLogin ? page : LoginPage(),
-              if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
-              if (!state.serverAvailable) OfflinePage(),
-            ],
-          );
-        },
+    return SafeArea(
+      child: StoreProvider<AppState>(
+        store: store,
+        child: StoreConnector<AppState, AppState>(
+          converter: (store) => store.state,
+          builder: (context, state) {
+            return Stack(
+              children: [
+                state.sessionID != null || overrideLogin ? page : LoginPage(),
+                if (state.runningTasks > 0 || !state.setupDone) WaitingPage(),
+                if (!state.serverAvailable) OfflinePage(),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

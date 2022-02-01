@@ -2,6 +2,7 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/auth.dart';
 import 'package:Smarthome/dialogs/SignUpDialog.dart';
 import 'package:Smarthome/widgets/rounded_text_field.dart';
+import 'package:Smarthome/widgets/wave_animation.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -22,8 +23,11 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          padding: EdgeInsets.only(top: 25.0),
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -1,6 +1,8 @@
+import 'package:Smarthome/constants/screen_types.dart';
 import 'package:Smarthome/controller/buildings.dart';
 import 'package:Smarthome/controller/weather.dart';
 import 'package:Smarthome/core/page_wrapper.dart';
+import 'package:Smarthome/core/responsive.dart';
 import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/redux/actions.dart' as redux;
@@ -41,9 +43,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     int selectedBuilding = store.state.selectedBuilding;
-    double actionSize =
-        MediaQuery.of(context).size.width / (this.isOnBigScreen ? 10 : 2) -
-            25.0;
+
+    double actionSize = MediaQuery.of(context).size.width;
+
+    if (getScreenType(context) == ScreenType.SMARTPHONE) {
+      actionSize /= 2;
+    } else if (getScreenType(context) == ScreenType.TABLET) {
+      actionSize /= 5;
+    } else {
+      actionSize /= 8;
+    }
+
+    actionSize -= 25.0;
 
     // set active to first if deleted
     if (store.state.buildings.length > 0 &&
@@ -58,7 +69,7 @@ class _HomePageState extends State<HomePage> {
 
     return StoreConnector<AppState, AppState>(
         converter: (store) => store.state,
-        builder: (context, state) {
+        builder: (ctx, state) {
           loadWeather();
           selectedBuilding = state.selectedBuilding;
           return state.buildings.length < 1
@@ -136,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                             .rooms)
                           GestureDetector(
                             onTap: () {
-                              if (MediaQuery.of(context).size.width < 700) {
+                              if (getScreenType(ctx) == ScreenType.SMARTPHONE) {
                                 PageWrapper.routeToPage(
                                   RoomDetailsPage(item.ID ?? 0),
                                   context,

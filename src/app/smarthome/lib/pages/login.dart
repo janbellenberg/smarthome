@@ -22,7 +22,9 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height < 675
+              ? 675
+              : MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.only(top: 60.0),
             child: Column(

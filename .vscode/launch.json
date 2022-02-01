@@ -17,6 +17,14 @@
       "deviceId": "XEDDU18208001213"
     },
     {
+      "name": "Flutter on Tablet",
+      "type": "dart",
+      "request": "launch",
+      "program": "src/app/smarthome/lib/main.dart",
+      "flutterMode": "debug",
+      "deviceId": "R52N519QGWY"
+    },
+    {
       "name": "Flutter Chrome",
       "request": "launch",
       "type": "dart",

@@ -1,5 +1,7 @@
 import 'package:Smarthome/constants/colors.dart';
+import 'package:Smarthome/constants/screen_types.dart';
 import 'package:Smarthome/controller/shortcuts.dart';
+import 'package:Smarthome/core/responsive.dart';
 import 'package:Smarthome/dialogs/Info.dart';
 import 'package:Smarthome/pages/add_device.dart';
 import 'package:Smarthome/pages/full_width_home.dart';
@@ -14,6 +16,7 @@ import 'controller/auth.dart';
 import 'controller/buildings.dart';
 import 'controller/rooms.dart';
 import 'controller/weather.dart';
+import 'pages/tablet_width_home.dart';
 
 class App extends StatefulWidget {
   App({Key? key}) : super(key: key);
@@ -36,7 +39,8 @@ class _AppState extends State<App> {
     // build the welcome string for the top
     String titleString = "Jan!";
     titleString =
-        (MediaQuery.of(context).size.width > 700 ? ", " : ",\n") + titleString;
+        (getScreenType(context) == ScreenType.SMARTPHONE ? ",\n" : ", ") +
+            titleString;
     int currentHour = DateTime.now().hour;
 
     if (currentHour <= 10) {
@@ -53,11 +57,15 @@ class _AppState extends State<App> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.width < 700 ? 125.0 : 75.0,
+              height: getScreenType(context) == ScreenType.SMARTPHONE
+                  ? 125.0
+                  : 75.0,
               color: Theme.of(context).colorScheme.secondary,
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.width < 700 ? 15.0 : 0,
+                    top: getScreenType(context) == ScreenType.SMARTPHONE
+                        ? 15.0
+                        : 0,
                     right: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,9 +136,18 @@ class _AppState extends State<App> {
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 30.0),
-                        child: MediaQuery.of(context).size.width < 700
-                            ? this.getSelectedPage()
-                            : FullWidthHomePage(),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            switch (getScreenType(context)) {
+                              case ScreenType.TABLET:
+                                return TabletWidthHomePage();
+                              case ScreenType.DESKTOP:
+                                return FullWidthHomePage();
+                              default:
+                                return this.getSelectedPage();
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -140,7 +157,7 @@ class _AppState extends State<App> {
           ],
         ),
       ),
-      bottomNavigationBar: MediaQuery.of(context).size.width < 700
+      bottomNavigationBar: getScreenType(context) == ScreenType.SMARTPHONE
           ? Navigation(
               currentIndex: this.currentPage,
               onSelectedChanged: (i) => setState(() {

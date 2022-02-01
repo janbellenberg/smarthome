@@ -1,16 +1,15 @@
 import 'package:Smarthome/pages/home.dart';
 import 'package:Smarthome/pages/room_details.dart';
-import 'package:Smarthome/pages/shortcuts.dart';
 import 'package:flutter/material.dart';
 
-class FullWidthHomePage extends StatefulWidget {
-  FullWidthHomePage({Key? key}) : super(key: key);
+class TabletWidthHomePage extends StatefulWidget {
+  TabletWidthHomePage({Key? key}) : super(key: key);
 
   @override
-  State<FullWidthHomePage> createState() => _FullWidthHomePageState();
+  State<TabletWidthHomePage> createState() => _TabletWidthHomePageState();
 }
 
-class _FullWidthHomePageState extends State<FullWidthHomePage> {
+class _TabletWidthHomePageState extends State<TabletWidthHomePage> {
   int? roomID;
 
   @override
@@ -27,7 +26,7 @@ class _FullWidthHomePageState extends State<FullWidthHomePage> {
               this.roomID = id;
             }),
           ),
-          width: width * 0.3,
+          width: width * 0.4,
           height: fullHeight,
         ),
         Padding(
@@ -37,14 +36,9 @@ class _FullWidthHomePageState extends State<FullWidthHomePage> {
               this.roomID,
               isOnBigScreen: true,
             ),
-            width: width * 0.4,
+            width: width * 0.5,
             height: fullHeight,
           ),
-        ),
-        Container(
-          child: ShortcutsPage(),
-          width: width * 0.2,
-          height: fullHeight,
         ),
       ],
     );
