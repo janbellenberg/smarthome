@@ -133,12 +133,6 @@ RestResource ADD_DEVICE = new RestResource(
   expectedStatus: HTTP_CREATED,
 );
 
-RestResource DELETE_DEVICE = new RestResource(
-  HTTPMethod.DELETE,
-  "/devices/{id}",
-  expectedStatus: HTTP_NO_CONTENT,
-);
-
 // ROOMS //
 
 RestResource GET_ROOMS = new RestResource(
@@ -178,21 +172,4 @@ RestResource GET_USER = new RestResource(
   HTTPMethod.GET,
   "/user",
   responseData: true,
-);
-
-RestResource ADD_USER = new RestResource(
-  HTTPMethod.POST,
-  "/user/local",
-  expectedStatus: HTTP_CREATED,
-);
-
-RestResource UPDATE_USER = new RestResource(
-  HTTPMethod.PATCH,
-  "/user",
-);
-
-RestResource DELETE_USER = new RestResource(
-  HTTPMethod.DELETE,
-  "/user",
-  expectedStatus: HTTP_NO_CONTENT,
 );
