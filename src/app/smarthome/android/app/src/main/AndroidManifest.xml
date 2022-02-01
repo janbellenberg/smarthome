@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- <uses-permission android:name="android.permission.NFC"/>  -->
 
-    <application android:label="Smart Home" android:icon="@mipmap/ic_launcher">
+    <application android:label="Smart Home" android:icon="@mipmap/ic_launcher" android:resizeableActivity="false">
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
             <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
             <intent-filter>
