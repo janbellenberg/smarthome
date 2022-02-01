@@ -1,14 +1,15 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class DialogWrapper extends StatelessWidget {
   const DialogWrapper({
     this.text = "Smart Home",
     this.children,
+    this.isSubPage = false,
     Key? key,
   }) : super(key: key);
 
+  final bool isSubPage;
   final String text;
   final List<Widget>? children;
 
@@ -21,13 +22,16 @@ class DialogWrapper extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        contentPadding: const EdgeInsets.all(25.0),
-        title: Text(
-          this.text,
-          style: TextStyle(
-            fontSize: 25.0,
-          ),
-        ),
+        contentPadding:
+            this.isSubPage ? EdgeInsets.all(0) : EdgeInsets.all(25.0),
+        title: this.isSubPage
+            ? null
+            : Text(
+                this.text,
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),
+              ),
         children: this.children,
       ),
     );

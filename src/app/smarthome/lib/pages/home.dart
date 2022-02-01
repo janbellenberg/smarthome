@@ -20,19 +20,30 @@ import 'building_edit.dart';
 import 'package:Smarthome/redux/store.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({this.roomIdChanged, this.isOnBigScreen = false, Key? key})
+      : super(key: key);
+  final bool isOnBigScreen;
+  final Function(int)? roomIdChanged;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(
+        isOnBigScreen: this.isOnBigScreen,
+        roomIdChanged: this.roomIdChanged,
+      );
 }
 
 class _HomePageState extends State<HomePage> {
+  _HomePageState({this.roomIdChanged, this.isOnBigScreen = false});
   String? currentWeather;
+  bool isOnBigScreen;
+  Function(int)? roomIdChanged;
 
   @override
   Widget build(BuildContext context) {
     int selectedBuilding = store.state.selectedBuilding;
-    double actionSize = MediaQuery.of(context).size.width / 2 - 25.0;
+    double actionSize =
+        MediaQuery.of(context).size.width / (this.isOnBigScreen ? 10 : 2) -
+            25.0;
 
     // set active to first if deleted
     if (store.state.buildings.length > 0 &&
@@ -124,10 +135,17 @@ class _HomePageState extends State<HomePage> {
                             )
                             .rooms)
                           GestureDetector(
-                            onTap: () => PageWrapper.routeToPage(
-                              RoomDetailsPage(item.ID ?? 0),
-                              context,
-                            ),
+                            onTap: () {
+                              if (MediaQuery.of(context).size.width < 700) {
+                                PageWrapper.routeToPage(
+                                  RoomDetailsPage(item.ID ?? 0),
+                                  context,
+                                );
+                              } else {
+                                if (this.roomIdChanged != null)
+                                  this.roomIdChanged!(item.ID!);
+                              }
+                            },
                             child: RoundedContainer(
                               width: 150.0,
                               margin: const EdgeInsets.all(0),

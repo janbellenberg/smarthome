@@ -28,7 +28,6 @@ class _RoomEditPageState extends State<RoomEditPage> {
     nameController = TextEditingController.fromValue(
       TextEditingValue(text: this.selectedRoom.name),
     );
-    print(add);
   }
 
   @override

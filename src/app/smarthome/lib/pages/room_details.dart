@@ -16,128 +16,144 @@ import '../models/room.dart';
 import '../widgets/device_item.dart';
 import 'package:flutter/material.dart';
 
-class RoomDetailsPage extends StatefulWidget {
-  RoomDetailsPage(this.roomID, {Key? key}) : super(key: key);
-  final int roomID;
-
-  @override
-  _RoomDetailsPageState createState() => _RoomDetailsPageState(this.roomID);
-}
-
-class _RoomDetailsPageState extends State<RoomDetailsPage> {
-  _RoomDetailsPageState(this.roomID);
-  int roomID;
-
-  @override
-  void initState() {
-    super.initState();
-    loadDevices(this.roomID);
+class RoomDetailsPage extends StatelessWidget {
+  RoomDetailsPage(this.roomID, {this.isOnBigScreen = false, Key? key})
+      : super(key: key) {
+    if (this.roomID != null) {
+      loadDevices(this.roomID!);
+    }
   }
+  final int? roomID;
+  final bool isOnBigScreen;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      body: RefreshIndicator(
-        color: ACCENT,
-        strokeWidth: 2.0,
-        onRefresh: () async {
-          await loadDevices(this.roomID);
-        },
-        child: StoreProvider(
-          store: store,
-          child: StoreConnector<AppState, AppState>(
-            converter: (store) => store.state,
-            builder: (context, state) {
-              Building selectedBuilding = state.buildings.firstWhere(
-                (element) => element.ID == state.selectedBuilding,
-                orElse: () => new Building.fromDB({}),
-              );
-
-              Room selectedRoom = selectedBuilding.rooms.firstWhere(
-                (element) => element.ID == this.roomID,
-                orElse: () => new Room.fromDB({}, state.selectedBuilding),
-              );
-
-              return Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: WHITE,
-                              size: 25.0,
-                            ),
-                          ),
-                          Text(
-                            selectedRoom.name,
-                            style: TextStyle(color: WHITE, fontSize: 25.0),
-                          ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    barrierColor: Colors.transparent,
-                                    builder: (context) {
-                                      return buildBottomSheet(selectedRoom);
-                                    },
-                                  )
-                                },
-                                icon: Icon(
-                                  Icons.more_vert,
-                                  color: WHITE,
-                                  size: 30.0,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.background,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                          ),
-                        ),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20.0),
-                            child: Column(
-                              children: [
-                                for (Device device in selectedRoom.devices)
-                                  DeviceItem(device: device)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+    return StoreProvider(
+      store: store,
+      child: StoreConnector<AppState, AppState>(
+        converter: (store) => store.state,
+        builder: (context, state) {
+          if (this.roomID == null) {
+            return Center(
+              child: Text(
+                "Bitte wählen Sie einen Raum aus.",
+                style: TextStyle(
+                  color: ACCENT,
+                  fontSize: 25.0,
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+            );
+          }
+
+          Building selectedBuilding = state.buildings.firstWhere(
+            (element) => element.ID == state.selectedBuilding,
+            orElse: () => new Building.fromDB({}),
+          );
+
+          Room selectedRoom = selectedBuilding.rooms.firstWhere(
+            (element) => element.ID == this.roomID,
+            orElse: () => new Room.fromDB({}, state.selectedBuilding),
+          );
+
+          if (this.isOnBigScreen) {
+            return Column(
+              children: [
+                for (Device device in selectedRoom.devices)
+                  DeviceItem(device: device)
+              ],
+            );
+          } else {
+            return Scaffold(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              body: RefreshIndicator(
+                color: ACCENT,
+                strokeWidth: 2.0,
+                onRefresh: () async {
+                  await loadDevices(this.roomID!);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: WHITE,
+                                size: 25.0,
+                              ),
+                            ),
+                            Text(
+                              selectedRoom.name,
+                              style: TextStyle(color: WHITE, fontSize: 25.0),
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () => {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      barrierColor: Colors.transparent,
+                                      builder: (context) {
+                                        return buildBottomSheet(
+                                          selectedRoom,
+                                          context,
+                                        );
+                                      },
+                                    )
+                                  },
+                                  icon: Icon(
+                                    Icons.more_vert,
+                                    color: WHITE,
+                                    size: 30.0,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: Column(
+                                children: [
+                                  for (Device device in selectedRoom.devices)
+                                    DeviceItem(device: device)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
-  buildBottomSheet(Room selectedRoom) {
+  buildBottomSheet(Room selectedRoom, BuildContext context) {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
       child: Container(
@@ -207,7 +223,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
                           () {
                             Navigator.pop(context);
                             deleteRoom(
-                              roomID,
+                              this.roomID!,
                               selectedRoom.building,
                             );
                           },

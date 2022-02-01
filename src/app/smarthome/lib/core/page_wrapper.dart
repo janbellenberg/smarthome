@@ -1,3 +1,4 @@
+import 'package:Smarthome/dialogs/DialogWrapper.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/pages/login.dart';
 import 'package:Smarthome/pages/offline.dart';
@@ -10,14 +11,36 @@ class PageWrapper extends StatelessWidget {
   const PageWrapper(this.page, {Key? key, this.overrideLogin = false})
       : super(key: key);
 
-  static void routeToPage(Widget page, BuildContext context,
-      {bool overrideLogin = true}) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PageWrapper(page, overrideLogin: overrideLogin),
-      ),
-    );
+  static void routeToPage(
+    Widget page,
+    BuildContext context, {
+    bool overrideLogin = true,
+  }) {
+    if (MediaQuery.of(context).size.width < 700) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PageWrapper(page, overrideLogin: overrideLogin),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => DialogWrapper(
+          isSubPage: true,
+          children: [
+            Container(
+              child: page,
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.9,
+                maxWidth: MediaQuery.of(context).size.width * 0.9,
+                minWidth: MediaQuery.of(context).size.width * 0.45,
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 
   final Widget page;

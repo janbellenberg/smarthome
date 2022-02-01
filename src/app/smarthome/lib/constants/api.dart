@@ -27,7 +27,7 @@ const int HTTP_NO_CONTENT = 204;
 
 const String JSON_MIME = "application/json";
 
-const bool USE_TLS = false;
+const bool USE_TLS = true;
 const String HOSTNAME = "lnxsrv";
 const String PORT = USE_TLS ? "8443" : "8080";
 

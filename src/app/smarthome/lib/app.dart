@@ -2,6 +2,7 @@ import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/shortcuts.dart';
 import 'package:Smarthome/dialogs/Info.dart';
 import 'package:Smarthome/pages/add_device.dart';
+import 'package:Smarthome/pages/full_width_home.dart';
 import 'package:Smarthome/pages/home.dart';
 import 'package:Smarthome/pages/shortcuts.dart';
 import 'package:Smarthome/redux/actions.dart' as redux;
@@ -33,7 +34,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     // build the welcome string for the top
-    String titleString = ",\nJan!";
+    String titleString = "Jan!";
+    titleString =
+        (MediaQuery.of(context).size.width > 700 ? ", " : ",\n") + titleString;
     int currentHour = DateTime.now().hour;
 
     if (currentHour <= 10) {
@@ -50,10 +53,12 @@ class _AppState extends State<App> {
         child: Column(
           children: [
             Container(
-              height: 125.0,
+              height: MediaQuery.of(context).size.width < 700 ? 125.0 : 75.0,
               color: Theme.of(context).colorScheme.secondary,
               child: Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 10.0),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.width < 700 ? 15.0 : 0,
+                    right: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -123,7 +128,9 @@ class _AppState extends State<App> {
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 30.0),
-                        child: this.getSelectedPage(),
+                        child: MediaQuery.of(context).size.width < 700
+                            ? this.getSelectedPage()
+                            : FullWidthHomePage(),
                       ),
                     ),
                   ),
@@ -133,12 +140,14 @@ class _AppState extends State<App> {
           ],
         ),
       ),
-      bottomNavigationBar: Navigation(
-        currentIndex: this.currentPage,
-        onSelectedChanged: (i) => setState(() {
-          this.currentPage = i;
-        }),
-      ),
+      bottomNavigationBar: MediaQuery.of(context).size.width < 700
+          ? Navigation(
+              currentIndex: this.currentPage,
+              onSelectedChanged: (i) => setState(() {
+                this.currentPage = i;
+              }),
+            )
+          : null,
     );
   }
 
