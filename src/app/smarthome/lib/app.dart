@@ -70,57 +70,50 @@ class _AppState extends State<App> {
               children: [
                 Container(
                   height: getScreenType(context) == ScreenType.SMARTPHONE
-                      ? 125.0
+                      ? 100.0
                       : 75.0,
                   color: Theme.of(context).colorScheme.secondary,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: getScreenType(context) == ScreenType.SMARTPHONE
-                            ? 15.0
-                            : 0,
-                        right: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            greeting,
-                            style: TextStyle(
-                                color: WHITE,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w700),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Text(
+                          greeting,
+                          style: TextStyle(
+                              color: WHITE,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Row(
+                        // IconButtons
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: IconButton(
+                                onPressed: () => showDialog(
+                                      barrierColor: Colors.transparent,
+                                      context: context,
+                                      builder: (context) => InfoDialog(),
+                                    ),
+                                icon: Icon(
+                                  Icons.info_outline,
+                                  color: WHITE,
+                                  size: 30.0,
+                                )),
                           ),
-                        ),
-                        Row(
-                          // IconButtons
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child: IconButton(
-                                  onPressed: () => showDialog(
-                                        barrierColor: Colors.transparent,
-                                        context: context,
-                                        builder: (context) => InfoDialog(),
-                                      ),
-                                  icon: Icon(
-                                    Icons.info_outline,
-                                    color: WHITE,
-                                    size: 30.0,
-                                  )),
+                          IconButton(
+                            onPressed: logout,
+                            icon: Icon(
+                              Icons.logout,
+                              color: WHITE,
+                              size: 30.0,
                             ),
-                            IconButton(
-                              onPressed: logout,
-                              icon: Icon(
-                                Icons.logout,
-                                color: WHITE,
-                                size: 30.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 // BODY

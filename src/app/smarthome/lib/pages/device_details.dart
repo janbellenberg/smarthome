@@ -47,79 +47,76 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
             );
           },
           child: EyeDrop(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: WHITE,
-                            size: 30.0,
-                          ),
-                        ),
-                        Text(
-                          this.selectedDevice.name,
-                          style: TextStyle(color: WHITE, fontSize: 30.0),
-                        ),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () => {},
-                          icon: Icon(Icons.delete_outline, color: WHITE),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.background,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: WHITE,
+                          size: 30.0,
                         ),
                       ),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 30.0, bottom: 20.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                deviceIcons[this.selectedDevice.type],
-                                color: Theme.of(context).colorScheme.secondary,
-                                size: 150.0,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 7.0),
-                                child: Text(
-                                  this.selectedDevice.name,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontSize: 30.0,
-                                  ),
+                      Text(
+                        this.selectedDevice.name,
+                        style: TextStyle(color: WHITE, fontSize: 30.0),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () => {},
+                        icon: Icon(Icons.delete_outline, color: WHITE),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 30.0, bottom: 20.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              deviceIcons[this.selectedDevice.type],
+                              color: Theme.of(context).colorScheme.secondary,
+                              size: 150.0,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 7.0),
+                              child: Text(
+                                this.selectedDevice.name,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 30.0,
                                 ),
                               ),
-                              Text("Hersteller: " + this.selectedDevice.vendor),
-                              for (Section section
-                                  in this.selectedDevice.sections)
-                                SectionWidget(selectedDevice, section)
-                            ],
-                          ),
+                            ),
+                            Text("Hersteller: " + this.selectedDevice.vendor),
+                            for (Section section
+                                in this.selectedDevice.sections)
+                              SectionWidget(selectedDevice, section)
+                          ],
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           )),
     );

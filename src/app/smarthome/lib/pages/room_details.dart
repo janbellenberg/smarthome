@@ -71,79 +71,76 @@ class RoomDetailsPage extends StatelessWidget {
                 onRefresh: () async {
                   await loadDevices(this.roomID!);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              onPressed: () => Navigator.pop(context),
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: WHITE,
-                                size: 25.0,
-                              ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: WHITE,
+                              size: 25.0,
                             ),
-                            Text(
-                              selectedRoom.name,
-                              style: TextStyle(color: WHITE, fontSize: 25.0),
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () => {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      barrierColor: Colors.transparent,
-                                      builder: (context) {
-                                        return buildBottomSheet(
-                                          selectedRoom,
-                                          context,
-                                        );
-                                      },
-                                    )
-                                  },
-                                  icon: Icon(
-                                    Icons.more_vert,
-                                    color: WHITE,
-                                    size: 30.0,
-                                  ),
+                          ),
+                          Text(
+                            selectedRoom.name,
+                            style: TextStyle(color: WHITE, fontSize: 25.0),
+                          ),
+                          Spacer(),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () => {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    barrierColor: Colors.transparent,
+                                    builder: (context) {
+                                      return buildBottomSheet(
+                                        selectedRoom,
+                                        context,
+                                      );
+                                    },
+                                  )
+                                },
+                                icon: Icon(
+                                  Icons.more_vert,
+                                  color: WHITE,
+                                  size: 30.0,
                                 ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: Column(
+                              children: [
+                                for (Device device in selectedRoom.devices)
+                                  DeviceItem(device: device)
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.background,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: Column(
-                                children: [
-                                  for (Device device in selectedRoom.devices)
-                                    DeviceItem(device: device)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             );
