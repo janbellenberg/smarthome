@@ -27,6 +27,7 @@ void setup()
   Serial.begin(9600);
   EEPROM.begin(4096);
   pinMode(LED_BUILTIN, OUTPUT);
+  off();
 
   // enable debugging
   Serial.setDebugOutput(true);
@@ -46,7 +47,6 @@ void setup()
 
   // connect to wifi
   WiFi.begin(SSID, KEY);
-  on();
   while (WiFi.status() != WL_CONNECTED)
     delay(100);
 
@@ -74,16 +74,26 @@ void onMessageCallback(WebsocketsMessage message)
   {
     if (strstr(message.c_str(), "true"))
     {
-      on();
       client.send("#led_state:true\n+LED an");
       state.setLED(true);
+      on();
     }
     else
     {
-      off();
       client.send("#led_state:false\n+LED aus");
       state.setLED(false);
+      off();
     }
+  }
+  else
+  {
+    char *errorResponse = (char *)malloc(strlen(message.c_str()) + 4);
+    strcat(errorResponse, "");
+    strcat(errorResponse, "#");
+    strcat(errorResponse, message.c_str());
+    strcat(errorResponse, "\n-");
+    client.send(errorResponse);
+    free(errorResponse);
   }
 }
 
@@ -92,13 +102,10 @@ void onEventsCallback(WebsocketsEvent event, String data)
   if (event == WebsocketsEvent::ConnectionOpened)
   {
     Serial.println("open");
-    off();
-    state.setLED(false);
   }
   else if (event == WebsocketsEvent::ConnectionClosed)
   {
     Serial.println("close");
-    on();
   }
 }
 
