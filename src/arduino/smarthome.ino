@@ -1,15 +1,25 @@
 #include <EEPROM.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ESP8266WiFi.h>
+#include <ArduinoWebsockets.h>
 
-void write(char *ssid, char *key, char *jwt);
-void read();
+#include "smarthome_eeprom.h"
+#include "state.h"
+
+using namespace websockets;
+
+#define SERVER "192.168.137.193"
+#define MAC "e8:db:84:dc:d0:5c"
 
 char *SSID;
 char *KEY;
 char *JWT;
 
-const char ddcp[] = "{'name':'LED','isNameEditable':false,'description':'Testmodul für eine LED','type':'l','vendor':'Jan Bellenberg','sections':[{'name':'Allgemein','properties':[{'label':'LED an/aus','value':true,'type':4,'id':'led_state','mode':'instant'}]}]}";
-const char ping[] = "{'name':'LED','description':'Testmodul für eine LED','type':'l'}";
+WebsocketsClient client;
+State state(sendUpdatedConfig);
+
+const char *configPattern = "{\"sections\":[{\"name\":\"Allgemein\",\"properties\":[{\"label\":\"LED an/aus\",\"value\":{led_val},\"type\":4,\"id\":\"led_state\",\"mode\":\"instant\"}]}]}";
 
 void setup()
 {
@@ -18,98 +28,77 @@ void setup()
   EEPROM.begin(4096);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // write data to eeprom
-  char ssid[] = "Jan";
-  char key[] = "jHgi0geWHwvsg8ks";
-  char jwt[] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-  write(ssid, key, jwt);
+  // enable debugging
+  Serial.setDebugOutput(true);
+
+  // setup websocket client
+  client.onMessage(onMessageCallback);
+  client.onEvent(onEventsCallback);
+  client.setInsecure();
 
   // read to global vars
-  read();
+  EEPROM_CONFIG conf = readEEPROM();
+  SSID = conf.SSID;
+  KEY = conf.KEY;
+  JWT = conf.JWT;
+  Serial.println(SSID);
+  Serial.println(KEY);
+
+  // connect to wifi
+  WiFi.begin(SSID, KEY);
+  on();
+  while (WiFi.status() != WL_CONNECTED)
+    delay(100);
+
+  // Connect to server
+  client.connectSecure(SERVER, 8443, buildSocketLink());
 }
 
-size_t getSize(char *p)
+void loop()
 {
-  size_t s = 0;
-  do
+  if (client.available())
   {
-    s++;
-  } while (*(p + s) != '\0');
-  return (s + 1);
+    client.poll();
+  }
+  else
+  {
+    Serial.println("reconnect");
+    client.connectSecure(SERVER, 8443, buildSocketLink());
+    delay(100);
+  }
 }
 
-void write(char *ssid, char *key, char *jwt)
+void onMessageCallback(WebsocketsMessage message)
 {
-  int addr = 0;
-
-  int ssidLen = getSize(ssid);
-  int keyLen = getSize(key);
-  int jwtLen = getSize(jwt);
-
-  EEPROM.put(addr, ssidLen);
-  addr += 4;
-  EEPROM.put(addr, keyLen);
-  addr += 4;
-  EEPROM.put(addr, jwtLen);
-  addr += 4;
-
-  // SSID
-  for (int i = 0; i < ssidLen; i++)
+  if (strstr(message.c_str(), "led_state"))
   {
-    EEPROM.put(addr + i, *(ssid + i));
+    if (strstr(message.c_str(), "true"))
+    {
+      on();
+      client.send("#led_state:true\n+LED an");
+      state.setLED(true);
+    }
+    else
+    {
+      off();
+      client.send("#led_state:false\n+LED aus");
+      state.setLED(false);
+    }
   }
-  addr += ssidLen;
-
-  // KEY
-  for (int i = 0; i < keyLen; i++)
-  {
-    EEPROM.put(addr + i, *(key + i));
-  }
-  addr += keyLen;
-
-  // JWT
-  for (int i = 0; i < jwtLen; i++)
-  {
-    EEPROM.put(addr + i, *(jwt + i));
-  }
-  addr += jwtLen;
-
-  // commit data
-  EEPROM.commit();
 }
 
-void read()
+void onEventsCallback(WebsocketsEvent event, String data)
 {
-  // data data length
-  int ssidLen = EEPROM.read(0);
-  int keyLen = EEPROM.read(4);
-  int jwtLen = EEPROM.read(8);
-
-  int addr = 4 * 3;
-
-  // allocate data
-  SSID = (char *)calloc(ssidLen, sizeof(char));
-  KEY = (char *)calloc(keyLen, sizeof(char));
-  JWT = (char *)calloc(jwtLen, sizeof(char));
-
-  // read ssid
-  for (int i = 0; i < ssidLen; i++)
+  if (event == WebsocketsEvent::ConnectionOpened)
   {
-    SSID[i] = char(EEPROM.read(i + addr));
+    Serial.println("open");
+    off();
+    state.setLED(false);
   }
-  addr += ssidLen;
-
-  // read key
-  for (int i = 0; i < keyLen; i++)
+  else if (event == WebsocketsEvent::ConnectionClosed)
   {
-    KEY[i] = char(EEPROM.read(i + addr));
-  }
-  addr += keyLen;
-
-  // read jwt
-  for (int i = 0; i < jwtLen; i++)
-  {
-    JWT[i] = char(EEPROM.read(i + addr));
+    Serial.println("close");
+    on();
   }
 }
 
@@ -123,6 +112,27 @@ void off()
   digitalWrite(LED_BUILTIN, HIGH);
 }
 
-void loop()
+void writeDemoToEEPROM()
 {
+  char ssid[] = "Jan";
+  char key[] = "jHgi0geWHwvsg8ks";
+  char jwt[] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUxNjIzOTAyMn0.oGerxycgfnwFt6BmZKVfbtDvEY-pXoTCvYMPDWDA5r0";
+  write(ssid, key, jwt);
+}
+
+char *buildSocketLink()
+{
+  char lnk[] = "/smarthome-api/device/socket?token=";
+  char *url = (char *)malloc(strlen(lnk) + strlen(JWT) + 1);
+  strcpy(url, ""); // clear string for fixing errors
+  strcat(url, lnk);
+  strcat(url, JWT);
+  return url;
+}
+
+void sendUpdatedConfig()
+{
+  String config = configPattern;
+  config.replace("{led_val}", state.getLED() ? "true" : "false");
+  client.send(config);
 }
