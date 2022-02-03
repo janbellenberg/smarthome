@@ -85,8 +85,7 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                     ),
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 30.0, bottom: 20.0),
+                        padding: const EdgeInsets.only(top: 30.0, bottom: 20.0),
                         child: Column(
                           children: [
                             Icon(
@@ -109,7 +108,11 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                             Text("Hersteller: " + this.selectedDevice.vendor),
                             for (Section section
                                 in this.selectedDevice.sections)
-                              SectionWidget(selectedDevice, section)
+                              SectionWidget(
+                                selectedDevice,
+                                section,
+                                key: UniqueKey(),
+                              ),
                           ],
                         ),
                       ),

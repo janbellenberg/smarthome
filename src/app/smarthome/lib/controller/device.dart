@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:Smarthome/constants/colors.dart';
 import 'package:Smarthome/controller/base.dart';
 import 'package:Smarthome/models/device.dart';
@@ -80,6 +82,8 @@ Future<Device> getDeviceConfiguration(Device device) async {
   if (result == null) {
     return device;
   }
+
+  device.sections.clear();
 
   for (dynamic section in result["sections"]) {
     device.sections.add(new Section(section));
