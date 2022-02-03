@@ -7,5 +7,6 @@ class AppState {
   bool setupDone = false;
   bool serverAvailable = true;
   int selectedBuilding = 0;
+  int? selectedRoom;
   List<Building> buildings = List.empty(growable: true);
 }

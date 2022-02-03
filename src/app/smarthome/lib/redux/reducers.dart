@@ -6,6 +6,8 @@ import 'actions.dart';
 AppState appReducer(AppState state, dynamic action) {
   if (action.type == ActionTypes.updateSelectedBuilding) {
     state.selectedBuilding = action.payload;
+  } else if (action.type == ActionTypes.updateSelectedRoom) {
+    state.selectedRoom = action.payload;
   } else if (action.type == ActionTypes.updateSessionID) {
     state.sessionID = action.payload;
   } else if (action.type == ActionTypes.updateUsername) {

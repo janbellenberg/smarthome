@@ -1,5 +1,6 @@
 enum ActionTypes {
   updateSelectedBuilding,
+  updateSelectedRoom,
   updateSessionID,
   updateUsername,
   startTask,

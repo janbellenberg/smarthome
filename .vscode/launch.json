@@ -9,7 +9,7 @@
       "flutterMode": "debug"
     },
     {
-      "name": "Flutter on Device",
+      "name": "Flutter on Smartphone",
       "type": "dart",
       "request": "launch",
       "program": "src/app/smarthome/lib/main.dart",

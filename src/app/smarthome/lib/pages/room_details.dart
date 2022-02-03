@@ -7,7 +7,6 @@ import 'package:Smarthome/dialogs/ConfirmDelete.dart';
 import 'package:Smarthome/models/app_state.dart';
 import 'package:Smarthome/models/building.dart';
 import 'package:Smarthome/pages/room_edit.dart';
-import 'package:Smarthome/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../constants/colors.dart';
@@ -16,21 +15,41 @@ import '../models/room.dart';
 import '../widgets/device_item.dart';
 import 'package:flutter/material.dart';
 
-class RoomDetailsPage extends StatelessWidget {
+class RoomDetailsPage extends StatefulWidget {
   RoomDetailsPage(this.roomID, {this.isOnBigScreen = false, Key? key})
-      : super(key: key) {
+      : super(key: key);
+  int? roomID;
+  final bool isOnBigScreen;
+
+  @override
+  State<RoomDetailsPage> createState() =>
+      _RoomDetailsPageState(this.roomID, isOnBigScreen: this.isOnBigScreen);
+}
+
+class _RoomDetailsPageState extends State<RoomDetailsPage> {
+  _RoomDetailsPageState(this.roomID, {this.isOnBigScreen = false});
+  int? roomID;
+  final bool isOnBigScreen;
+
+  @override
+  void initState() {
+    super.initState();
     if (this.roomID != null) {
       loadDevices(this.roomID!);
     }
   }
-  final int? roomID;
-  final bool isOnBigScreen;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
+        // reload rooms if changes on big platform
+        if (this.roomID != state.selectedRoom && state.selectedRoom != null) {
+          this.roomID = state.selectedRoom;
+          loadDevices(this.roomID!);
+        }
+
         if (this.roomID == null) {
           return Center(
             child: Text(

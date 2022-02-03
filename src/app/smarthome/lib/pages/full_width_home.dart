@@ -23,9 +23,6 @@ class _FullWidthHomePageState extends State<FullWidthHomePage> {
         Container(
           child: HomePage(
             isOnBigScreen: true,
-            roomIdChanged: (id) => setState(() {
-              this.roomID = id;
-            }),
           ),
           width: width * 0.3,
           height: fullHeight,

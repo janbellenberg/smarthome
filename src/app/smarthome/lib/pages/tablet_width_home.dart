@@ -22,9 +22,6 @@ class _TabletWidthHomePageState extends State<TabletWidthHomePage> {
         Container(
           child: HomePage(
             isOnBigScreen: true,
-            roomIdChanged: (id) => setState(() {
-              this.roomID = id;
-            }),
           ),
           width: width * 0.4,
           height: fullHeight,

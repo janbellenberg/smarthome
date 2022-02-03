@@ -22,23 +22,20 @@ import 'building_edit.dart';
 import 'package:Smarthome/redux/store.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({this.roomIdChanged, this.isOnBigScreen = false, Key? key})
+  HomePage({this.isOnBigScreen = false, Key? key})
       : super(key: key);
   final bool isOnBigScreen;
-  final Function(int)? roomIdChanged;
 
   @override
   _HomePageState createState() => _HomePageState(
         isOnBigScreen: this.isOnBigScreen,
-        roomIdChanged: this.roomIdChanged,
       );
 }
 
 class _HomePageState extends State<HomePage> {
-  _HomePageState({this.roomIdChanged, this.isOnBigScreen = false});
+  _HomePageState({this.isOnBigScreen = false});
   String? currentWeather;
   bool isOnBigScreen;
-  Function(int)? roomIdChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +150,12 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                 );
                               } else {
-                                if (this.roomIdChanged != null)
-                                  this.roomIdChanged!(item.ID!);
+                                store.dispatch(
+                                  new redux.Action(
+                                    redux.ActionTypes.updateSelectedRoom,
+                                    payload: item.ID,
+                                  ),
+                                );
                               }
                             },
                             child: RoundedContainer(
