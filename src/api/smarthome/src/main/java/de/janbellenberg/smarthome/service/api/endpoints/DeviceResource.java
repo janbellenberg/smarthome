@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.*;
@@ -25,6 +26,7 @@ import org.bson.Document;
 
 import de.janbellenberg.smarthome.base.MongoConnectionManager;
 import de.janbellenberg.smarthome.base.annotations.Secured;
+import de.janbellenberg.smarthome.base.helper.security.JWT;
 import de.janbellenberg.smarthome.core.DeviceRequestsManager;
 import de.janbellenberg.smarthome.core.SocketConnectionManager;
 import de.janbellenberg.smarthome.dao.DevicesDAO;
@@ -67,14 +69,34 @@ public class DeviceResource {
     return Response.ok(info.toJson()).build();
   }
 
+  @GET
+  @Path("/{mac}/is-setup-done")
+  public Response checkSetupState(@PathParam("mac") final String mac) {
+    Device device = this.dao.getDeviceByMAC(mac);
+
+    boolean configMissing = device.getName() == null || device.getDescription() == null || device.getVendor() == null
+        || device.getType() == null
+        || device.getDefaultCommand() == null;
+
+    return Response.status(configMissing ? Status.NO_CONTENT : Status.OK).build();
+  }
+
   @POST
-  @Path("/configure")
-  @Secured
+  @Path("/{mac}/configure")
   @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response configureDevice(Device device) {
-    Device inserted = this.dao.saveDevice(device);
-    return Response.created(null).entity(inserted).build();
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response configureDevice(@PathParam("mac") final String mac, Device configuration) {
+    Device device = this.dao.getDeviceByMAC(mac);
+    configuration.setId(device.getId());
+    configuration.setMac(mac);
+    configuration.setLocal("");
+    configuration.setRoom(device.getRoom());
+
+    Device inserted = this.dao.saveDevice(configuration);
+
+    JWT token = JWT.generate(inserted.getId());
+
+    return Response.created(null).entity(token).build();
   }
 
   @POST

@@ -27,6 +27,12 @@ public class DevicesDAO {
     return this.em.find(Device.class, id, LockModeType.PESSIMISTIC_READ);
   }
 
+  public Device getDeviceByMAC(final String mac) {
+    Query q = this.em.createNamedQuery("Device.findDeviceByMac");
+    q.setParameter("mac", mac);
+    return (Device) q.getSingleResult();
+  }
+
   public Device saveDevice(Device device) {
     return this.em.merge(device);
   }
