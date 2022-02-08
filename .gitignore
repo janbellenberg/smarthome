@@ -54,3 +54,7 @@ gradlew.bat
 local.properties/
 GeneratedPluginRegistrant.java
 *.dill
+
+# app data
+config/data/
+log/
