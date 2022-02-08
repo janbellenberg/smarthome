@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 #include <ArduinoWebsockets.h>
 
 #include "smarthome_eeprom.h"
@@ -10,16 +11,17 @@
 using namespace websockets;
 
 #define SERVER "192.168.137.193"
-#define MAC "e8:db:84:dc:d0:5c"
+#define PORT 8443
 
 char *SSID;
 char *KEY;
 char *JWT;
 
 WebsocketsClient client;
-State state(sendUpdatedConfig);
+State state(applyUpdatedConfig);
 
 const char *configPattern = "{\"sections\":[{\"name\":\"Allgemein\",\"properties\":[{\"label\":\"LED an/aus\",\"value\":{led_val},\"type\":4,\"id\":\"led_state\",\"mode\":\"instant\"}]}]}";
+const char *setupData = "{\"name\": \"D1 Mini\",\"type\": \"lgt\",\"description\": \"Test\",\"vendor\": \"Jan Bellenberg\",\"defaultCommand\": \"led_toggle\"}";
 
 void setup()
 {
@@ -27,7 +29,7 @@ void setup()
   Serial.begin(9600);
   EEPROM.begin(4096);
   pinMode(LED_BUILTIN, OUTPUT);
-  off();
+  state.setLED(false);
 
   // enable debugging
   Serial.setDebugOutput(true);
@@ -44,14 +46,47 @@ void setup()
   JWT = conf.JWT;
   Serial.println(SSID);
   Serial.println(KEY);
+  Serial.println(WiFi.macAddress());
 
   // connect to wifi
   WiFi.begin(SSID, KEY);
   while (WiFi.status() != WL_CONNECTED)
     delay(100);
 
-  // Connect to server
-  client.connectSecure(SERVER, 8443, buildSocketLink());
+  // check, if server has all credentials
+  String baseUrl = "https://";
+  baseUrl.concat(SERVER);
+
+  WiFiClientSecure httpClient;
+  httpClient.setInsecure();
+  httpClient.connect(baseUrl, PORT);
+
+  HTTPClient http;
+  baseUrl.concat(":");
+  baseUrl.concat(PORT);
+
+  http.begin(httpClient, (baseUrl + "/smarthome-api/devices/" + WiFi.macAddress() + "/is-setup-done").c_str());
+  int httpCode = http.GET();
+  http.end();
+
+  // HTTP 204 -> No Content -> Server misses information
+  if (httpCode == 204)
+  {
+    free(JWT);
+
+    http.begin(httpClient, (baseUrl + "/smarthome-api/devices/" + WiFi.macAddress() + "/configure").c_str());
+    http.addHeader("Content-Type", "application/json");
+    http.POST(setupData);
+    String jwt = http.getString();
+    http.end();
+
+    JWT = (char *)malloc(jwt.length());
+    strcpy(JWT, jwt.c_str());
+    write(SSID, KEY, JWT);
+  }
+
+  // Connect to server via websocket
+  client.connectSecure(SERVER, PORT, buildSocketLink().c_str());
 }
 
 void loop()
@@ -63,8 +98,8 @@ void loop()
   else
   {
     Serial.println("reconnect");
-    client.connectSecure(SERVER, 8443, buildSocketLink());
-    delay(100);
+    client.connectSecure(SERVER, PORT, buildSocketLink().c_str());
+    delay(1000);
   }
 }
 
@@ -76,24 +111,23 @@ void onMessageCallback(WebsocketsMessage message)
     {
       client.send("#led_state:true\n+LED an");
       state.setLED(true);
-      on();
     }
     else
     {
       client.send("#led_state:false\n+LED aus");
       state.setLED(false);
-      off();
     }
+  }
+  else if (strstr(message.c_str(), "led_toggle"))
+  {
+    state.setLED(!state.getLED());
+    client.send("#led_toggle\n+OK");
   }
   else
   {
-    char *errorResponse = (char *)malloc(strlen(message.c_str()) + 4);
-    strcat(errorResponse, "");
-    strcat(errorResponse, "#");
-    strcat(errorResponse, message.c_str());
-    strcat(errorResponse, "\n-");
-    client.send(errorResponse);
-    free(errorResponse);
+    String msg = message.c_str();
+    String errorResponse = "#" + msg + "\n-";
+    client.send(errorResponse.c_str());
   }
 }
 
@@ -127,19 +161,21 @@ void writeDemoToEEPROM()
   write(ssid, key, jwt);
 }
 
-char *buildSocketLink()
+String buildSocketLink()
 {
-  char lnk[] = "/smarthome-api/device/socket?token=";
-  char *url = (char *)malloc(strlen(lnk) + strlen(JWT) + 1);
-  strcpy(url, ""); // clear string for fixing errors
-  strcat(url, lnk);
-  strcat(url, JWT);
+  String url = "/smarthome-api/device/socket?token=";
+  url += JWT;
   return url;
 }
 
-void sendUpdatedConfig()
+void applyUpdatedConfig()
 {
   String config = configPattern;
   config.replace("{led_val}", state.getLED() ? "true" : "false");
   client.send(config);
+
+  if (state.getLED())
+    on();
+  else
+    off();
 }
