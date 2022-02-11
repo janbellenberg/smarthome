@@ -39,7 +39,7 @@ public class Tupel<T, R> {
     }
 
     Tupel<T, R> t = Tupel.class.cast(obj);
-    return t.getValue1() == this.getValue1() && t.getValue2().equals(this.getValue2());
+    return t.getValue1().equals(this.getValue1()) && t.getValue2().equals(this.getValue2());
   }
 
 }
