@@ -48,3 +48,12 @@ target/
 log/
 config/data/mysql/
 config/data/mongo/
+
+# gradle
+gradle-wrapper.jar
+.gradle/
+captures/
+gradlew
+gradlew.bat
+local.properties
+GeneratedPluginRegistrant.java
