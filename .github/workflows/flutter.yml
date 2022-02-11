@@ -25,10 +25,6 @@ jobs:
         working-directory: ./src/app/smarthome
         run: flutter pub get
 
-      - name: Build APK
-        working-directory: ./src/app/smarthome
-        run: flutter build apk
-
       - name: Build web
         working-directory: ./src/app/smarthome
         run: flutter build web
