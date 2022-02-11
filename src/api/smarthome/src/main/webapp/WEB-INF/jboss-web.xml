@@ -1,0 +1,4 @@
+<!DOCTYPE jboss-web>
+<jboss-web>
+  <context-root>/smarthome-api</context-root>
+</jboss-web>

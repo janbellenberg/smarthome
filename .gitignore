@@ -39,4 +39,17 @@ app.*.map.json
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
-.settings/
+
+# Java App
+.settings
+target/
+
+
+# gradle
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
