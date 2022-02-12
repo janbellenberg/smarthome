@@ -119,6 +119,8 @@ public class DeviceResource {
   @Path("{id}")
   public Response deleteDevice(@PathParam("id") final int id) {
     this.dao.deleteDevice(id);
+    MongoCollection<Document> deviceInfos = MongoConnectionManager.getInstance().getDeviceInfosCollection();
+    deviceInfos.deleteOne(eq("id", id));
     return Response.noContent().build();
   }
 
