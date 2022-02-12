@@ -133,6 +133,12 @@ RestResource ADD_DEVICE = new RestResource(
   expectedStatus: HTTP_CREATED,
 );
 
+RestResource DELETE_DEVICE = new RestResource(
+  HTTPMethod.DELETE,
+  "/devices/{id}",
+  expectedStatus: HTTP_NO_CONTENT,
+);
+
 // ROOMS //
 
 RestResource GET_ROOMS = new RestResource(

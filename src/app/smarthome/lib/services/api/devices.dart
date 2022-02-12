@@ -38,3 +38,12 @@ dynamic addDevice(
       },
   );
 }
+
+dynamic deleteDevice(final int deviceID) async {
+  return await HTTP.fetch(
+    DELETE_DEVICE
+      ..parameters = {
+        "id": deviceID.toString(),
+      },
+  );
+}

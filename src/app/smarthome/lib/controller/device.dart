@@ -100,3 +100,9 @@ Future<void> addDevice(
     () => service.addDevice(mac, roomID),
   );
 }
+
+Future<void> deleteDevice(final int deviceID) async {
+  await runApiService(
+    () => service.deleteDevice(deviceID),
+  );
+}

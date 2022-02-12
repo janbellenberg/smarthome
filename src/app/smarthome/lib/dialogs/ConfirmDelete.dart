@@ -16,7 +16,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
       text: "Bestätigung",
       children: [
         Text(
-          "Möchten Sie das Gebäude löschen?",
+          this.message,
           style: TextStyle(fontSize: 15.5),
         ),
         Row(

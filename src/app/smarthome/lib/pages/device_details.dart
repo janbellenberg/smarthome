@@ -2,6 +2,7 @@ import 'package:Smarthome/controller/device.dart';
 
 import '../constants/colors.dart';
 import '../constants/device_types.dart';
+import '../dialogs/ConfirmDelete.dart';
 import '../models/device.dart';
 import '../models/section.dart';
 import '../widgets/section_widget.dart';
@@ -67,7 +68,17 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                       ),
                       Spacer(),
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () => showDialog(
+                          context: context,
+                          barrierColor: Colors.transparent,
+                          builder: (context) => ConfirmDeleteDialog(
+                            () async {
+                              await deleteDevice(this.selectedDevice.ID!);
+                              Navigator.pop(context);
+                            },
+                            "Möchten Sie das Gerät löschen?",
+                          ),
+                        ),
                         icon: Icon(Icons.delete_outline, color: WHITE),
                       )
                     ],
