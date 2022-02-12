@@ -1,16 +1,24 @@
 package de.janbellenberg.smarthome.core;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+
+import org.bson.Document;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import de.janbellenberg.smarthome.base.MongoConnectionManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Configuration {
 
@@ -21,15 +29,50 @@ public class Configuration {
 
   public static Configuration getCurrentConfiguration() {
     if (currentConfiguration == null) {
-      // TODO: load configuration
       currentConfiguration = new Configuration();
     }
 
     return currentConfiguration;
   }
 
-  public void update() {
-    // TODO: update configuration
+  public JsonNode getMailConfig() {
+    try {
+      // get mongo db data
+      MongoCollection<Document> settings = MongoConnectionManager.getInstance().getSettingsCollection();
+      FindIterable<Document> docs = settings.find();
+      MongoCursor<Document> iterator = docs.iterator();
+
+      if (!iterator.hasNext()) {
+        return null;
+      }
+
+      // parse mongo db json
+      JsonParser json = new JsonFactory().createParser(iterator.next().toJson());
+      return new ObjectMapper().readValue(json, ObjectNode.class).get("mail");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public JsonNode getVersionConfig() {
+    try {
+      // get mongo db data
+      MongoCollection<Document> settings = MongoConnectionManager.getInstance().getSettingsCollection();
+      FindIterable<Document> docs = settings.find();
+      MongoCursor<Document> iterator = docs.iterator();
+
+      if (!iterator.hasNext()) {
+        return null;
+      }
+
+      // parse mongo db json
+      JsonParser json = new JsonFactory().createParser(iterator.next().toJson());
+      return new ObjectMapper().readValue(json, ObjectNode.class).get("versions");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   /**
@@ -66,24 +109,4 @@ public class Configuration {
       return "localhost";
     }
   }
-
-  public String getSoftwareVersion() {
-    // just works with maven build
-    try {
-      MavenXpp3Reader reader = new MavenXpp3Reader();
-
-      // load pom from resources
-      Model model = reader.read(new InputStreamReader(
-          Configuration.class.getResourceAsStream("/META-INF/maven/de.janbellenberg/internally/pom.xml")));
-
-      return model.getVersion();
-    } catch (IOException | XmlPullParserException e) {
-      e.printStackTrace();
-      return "";
-    } catch (NullPointerException e) {
-      // if pom.xml is not in the resources, the application was not build using maven
-      return "DEBUGGING";
-    }
-  }
-
 }

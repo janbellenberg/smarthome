@@ -44,6 +44,10 @@ app.*.map.json
 .settings
 target/
 
+# Exclude runtime-generated files
+log/
+config/data/mysql/
+config/data/mongo/
 
 # gradle
 gradle-wrapper.jar
