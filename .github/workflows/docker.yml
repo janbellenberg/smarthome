@@ -4,19 +4,16 @@ on:
   pull_request:
     branches: [main]
 
-  push:
-    branches: [main]
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Build frontend image
-      run: docker build -t smarthome-api:latest -f ./src/api/smarthome/Dockerfile .
+      - name: Build backend image
+        run: docker build -t smarthome-api:latest -f ./src/api/smarthome/Dockerfile .
 
-    - name: Build backend image
-      working-directory: ./src/app/smarthome
-      run: docker build -t smarthome-frontend:latest .
+      - name: Build frontend image
+        working-directory: ./src/app/smarthome
+        run: docker build -t smarthome-frontend:latest .
