@@ -49,7 +49,12 @@ target/
 gradle-wrapper.jar
 .gradle/
 captures/
-gradlew
+gradlew/
 gradlew.bat
-local.properties
+local.properties/
 GeneratedPluginRegistrant.java
+*.dill
+
+# app data
+config/data/
+log/
