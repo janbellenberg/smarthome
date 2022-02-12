@@ -1,9 +1,29 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    {
+      "name": "Flutter on Emulator",
+      "type": "dart",
+      "request": "launch",
+      "program": "src/app/smarthome/lib/main.dart",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Flutter on Smartphone",
+      "type": "dart",
+      "request": "launch",
+      "program": "src/app/smarthome/lib/main.dart",
+      "flutterMode": "debug",
+      "deviceId": "XEDDU18208001213"
+    },
+    {
+      "name": "Flutter on Tablet",
+      "type": "dart",
+      "request": "launch",
+      "program": "src/app/smarthome/lib/main.dart",
+      "flutterMode": "debug",
+      "deviceId": "R52N519QGWY"
+    },
     {
       "name": "Flutter Chrome",
       "request": "launch",

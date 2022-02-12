@@ -6,5 +6,9 @@
     "flexbox",
     "mongodb",
     "msapplication"
-  ]
+  ],
+  "files.associations": {
+    "*.tcc": "cpp",
+    "vector": "cpp"
+  }
 }

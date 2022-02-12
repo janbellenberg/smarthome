@@ -1,9 +1,7 @@
 # FLUTTER BUILD
 FROM openjdk:8 as flutter-builder
-
 # load flutter project
 WORKDIR /root/smarthome
-COPY . .
 
 #load flutter sdk
 ARG FLUTTER_SDK_CHANNEL="stable"
@@ -14,8 +12,11 @@ RUN wget -q -O "flutter.tar.xz" "${FLUTTER_SDK_URL}" \
   && tar --extract --file="flutter.tar.xz" --directory="/root" \
   && rm flutter.tar.xz
 
+# load flutter project
+COPY . .
+
 # run build
-RUN ./../flutter/bin/flutter build web --csp 
+RUN ./../flutter/bin/flutter build web --csp --web-renderer html
 
 # NGINX 
 FROM nginx:1.21.1-alpine as nginx
