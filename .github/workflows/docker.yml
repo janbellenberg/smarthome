@@ -13,7 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions-hub/docker@v1.0.2
 
     - name: Build frontend image
       run: docker build -t smarthome-api:latest -f ./src/api/smarthome/Dockerfile .
