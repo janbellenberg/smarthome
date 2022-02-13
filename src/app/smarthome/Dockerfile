@@ -1,11 +1,12 @@
 # FLUTTER BUILD
 FROM openjdk:8 as flutter-builder
+
 # load flutter project
 WORKDIR /root/smarthome
 
 #load flutter sdk
 ARG FLUTTER_SDK_CHANNEL="stable"
-ARG FLUTTER_SDK_VERSION="2.2.3"
+ARG FLUTTER_SDK_VERSION="2.10.1"
 ENV FLUTTER_SDK_URL="https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_SDK_VERSION}-${FLUTTER_SDK_CHANNEL}.tar.xz"
 
 RUN wget -q -O "flutter.tar.xz" "${FLUTTER_SDK_URL}" \
