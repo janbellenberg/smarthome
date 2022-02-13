@@ -11,10 +11,12 @@ import javax.websocket.Session;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -31,8 +33,10 @@ import de.janbellenberg.smarthome.core.DeviceRequestsManager;
 import de.janbellenberg.smarthome.core.SocketConnectionManager;
 import de.janbellenberg.smarthome.dao.DevicesDAO;
 import de.janbellenberg.smarthome.dao.RoomsDAO;
+import de.janbellenberg.smarthome.dao.ShortcutsDAO;
 import de.janbellenberg.smarthome.model.Device;
 import de.janbellenberg.smarthome.model.Room;
+import de.janbellenberg.smarthome.model.Shortcut;
 
 @Singleton
 @Path("/devices")
@@ -43,6 +47,9 @@ public class DeviceResource {
 
   @Inject
   RoomsDAO roomsDAO;
+
+  @Inject
+  private ShortcutsDAO shortcutsDao;
 
   @GET
   @Path("room/{rid}")
@@ -157,5 +164,26 @@ public class DeviceResource {
 
     manager.removeRequest(deviceID, command);
     return Response.ok(response).build();
+  }
+
+  @POST
+  @Path("shortcut")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response addShortcuts(@PathParam("id") final int deviceID, @QueryParam("token") final String token,
+      Shortcut shortcut) throws NotAuthorizedException {
+    JWT jwt = JWT.parse(token);
+
+    if (jwt == null) {
+      throw new NotAuthorizedException(Response.status(Status.UNAUTHORIZED).build());
+    }
+
+    Device d = this.dao.getDeviceByID(jwt.getPayload().getInt("sub"));
+
+    shortcut.setDevice(d);
+    shortcut.setBuilding(d.getRoom().getBuilding());
+
+    this.shortcutsDao.saveShortcut(shortcut);
+
+    return Response.ok().build();
   }
 }
