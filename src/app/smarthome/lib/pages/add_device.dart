@@ -63,7 +63,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                       ),
                     ),
                     Text(
-                      "1. Gerät starten und Smartphone mit \"setup-wifi\" verbinden",
+                      "1. Gerät starten und Smartphone mit \"smarthome-setup\" verbinden",
                       style: TextStyle(
                         fontSize: 17.0,
                       ),
