@@ -16,14 +16,20 @@ import '../widgets/device_item.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetailsPage extends StatefulWidget {
-  RoomDetailsPage(this.roomID, {this.isOnBigScreen = false, Key? key})
-      : super(key: key);
+  RoomDetailsPage(
+    this.roomID, {
+    this.isOnBigScreen = false,
+    Key? key,
+  }) : super(key: key);
+
   int? roomID;
   final bool isOnBigScreen;
 
   @override
-  State<RoomDetailsPage> createState() =>
-      _RoomDetailsPageState(this.roomID, isOnBigScreen: this.isOnBigScreen);
+  State<RoomDetailsPage> createState() => _RoomDetailsPageState(
+        this.roomID,
+        isOnBigScreen: this.isOnBigScreen,
+      );
 }
 
 class _RoomDetailsPageState extends State<RoomDetailsPage> {
@@ -75,6 +81,37 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> {
         if (this.isOnBigScreen) {
           return Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    selectedRoom.name,
+                    style: TextStyle(
+                      fontSize: 23.0,
+                      color: ACCENT,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => {
+                      showModalBottomSheet(
+                        context: context,
+                        barrierColor: Colors.transparent,
+                        builder: (context) {
+                          return buildBottomSheet(
+                            selectedRoom,
+                            context,
+                          );
+                        },
+                      )
+                    },
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: ACCENT,
+                      size: 30.0,
+                    ),
+                  ),
+                ],
+              ),
               for (Device device in selectedRoom.devices)
                 DeviceItem(device: device)
             ],
