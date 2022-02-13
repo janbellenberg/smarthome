@@ -49,6 +49,8 @@ State state(applyUpdatedConfig);
 // DDCP CONFIG
 const char *configPattern = "{\"sections\":[{\"name\":\"Allgemein\",\"properties\":[{\"label\":\"LED an/aus\",\"value\":{led_val},\"type\":4,\"id\":\"led_state\",\"mode\":\"instant\"}]}]}";
 const char *setupData = "{\"name\": \"D1 Mini\",\"type\": \"lgt\",\"description\": \"Test\",\"vendor\": \"Jan Bellenberg\",\"defaultCommand\": \"led_toggle\"}";
+const char *shortcut1 = "{\"description\": \"LED an\",\"command\": \"led_state:true\"}";
+const char *shortcut2 = "{\"description\": \"LED aus\",\"command\": \"led_state:false\"}";
 
 // SETUP SERVER DOCS
 const char *HOME = "<!DOCTYPE html><html lang='de'><head> <title>Smarthome</title> <meta name='viewport' content='width=device-width, initial-scale=1'> <link href='style.css' rel='stylesheet'/> <script src='code.js' defer></script></head><body> <h1>Mit WLAN verbinden</h1> <input type='button' onclick='refresh();' value='Liste aktualisieren'/> <div id='wifi-list'> </div></body></html>";
@@ -125,6 +127,18 @@ void setup()
       JWT = (char *)malloc(jwt.length());
       strcpy(JWT, jwt.c_str());
       write(SSID, KEY, JWT);
+
+      // send shortcut1
+      http.begin(httpClient, (baseUrl + "/smarthome-api/devices/shortcut?token=" + JWT).c_str());
+      http.addHeader("Content-Type", "application/json");
+      http.POST(shortcut1);
+      http.end();
+
+      // send shortcut2
+      http.begin(httpClient, (baseUrl + "/smarthome-api/devices/shortcut?token=" + JWT).c_str());
+      http.addHeader("Content-Type", "application/json");
+      http.POST(shortcut2);
+      http.end();
     }
 
     // Connect to server via websocket
