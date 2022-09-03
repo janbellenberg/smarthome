@@ -81,11 +81,14 @@ public class Configuration {
    * @return is in docker environment
    */
   public boolean isInDocker() {
-    try (Stream<String> stream = Files.lines(Paths.get("/proc/1/cgroup"))) {
-      return stream.anyMatch(line -> line.contains("/docker"));
-    } catch (IOException e) {
-      return false;
-    }
+    return true;
+    /*
+     * try (Stream<String> stream = Files.lines(Paths.get("/proc/1/cgroup"))) {
+     * return stream.anyMatch(line -> line.contains("/docker"));
+     * } catch (IOException e) {
+     * return false;
+     * }
+     */
   }
 
   /**
@@ -96,17 +99,20 @@ public class Configuration {
   public String getHostname() {
 
     // get hostname of host os in docker
-    String hostInDocker = System.getenv("HOST");
-    try {
-      if (this.isInDocker() && hostInDocker != null) {
-        // if in docker return hostname of host os
-        return hostInDocker;
-      }
-
-      // else, return own hostname
-      return InetAddress.getLocalHost().getHostName();
-    } catch (UnknownHostException e) {
-      return "localhost";
-    }
+    return "smarthome.janbellenberg.de";
+    /*
+     * String hostInDocker = System.getenv("HOST");
+     * try {
+     * if (this.isInDocker() && hostInDocker != null) {
+     * // if in docker return hostname of host os
+     * return hostInDocker;
+     * }
+     * 
+     * // else, return own hostname
+     * return InetAddress.getLocalHost().getHostName();
+     * } catch (UnknownHostException e) {
+     * return "localhost";
+     * }
+     */
   }
 }
