@@ -1,7 +1,7 @@
 name: Smarthome
 description: Steuerung Ihres Zuhauses
 publish_to: "none"
-version: 1.0+1
+version: 1.0.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -13,20 +13,20 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.0.6
   http: ^0.13.3
-  flutter_redux: ^0.8.2
+  flutter_redux: ^0.10.0
   salomon_bottom_bar: ^3.1.0
   wave: ^0.2.0
   weather_icons: ^3.0.0
   qr_flutter: ^4.0.0
-  qr_code_scanner: ^0.5.2
+  qr_code_scanner: ^1.0.1
   yaml: ^3.1.0
   flutter_inappwebview: ^5.3.2
-  cyclop: ^0.4.1
+  cyclop: ^0.5.2
   x509: ^0.2.2
   asn1lib: ^1.0.2
-  basic_utils: ^3.6.1
+  basic_utils: ^5.2.0
   fluttertoast: ^8.0.8
-  encrypted_shared_preferences: ^2.0.0
+  encrypted_shared_preferences: ^3.0.1
 
 dev_dependencies:
   flutter_test:

@@ -30,9 +30,11 @@ class HTTP {
   static dynamic fetch(RestResource resource) async {
     if (kIsWeb)
       return await fetchInWeb(resource);
-    else if (Platform.isAndroid || Platform.isIOS)
-      return await fetchNative(resource);
-    else
+    else if (Platform.isAndroid || Platform.isIOS) {
+      dynamic result = await fetchNative(resource);
+      print(result.toString());
+      return result;
+    } else
       return HTTPError.PLATFORM_ERROR;
   }
 
@@ -153,7 +155,6 @@ class HTTP {
 
         req.write(encoded);
       }
-
       // complete request
       HttpClientResponse res = await req.close();
 
@@ -169,7 +170,6 @@ class HTTP {
       } else if (res.statusCode != resource.expectedStatus) {
         return HTTPError.DEPRECATED;
       }
-
       // read response data if wanted
       if (!resource.responseData) return "";
 

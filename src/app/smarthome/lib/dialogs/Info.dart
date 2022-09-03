@@ -28,9 +28,7 @@ class InfoDialog extends StatelessWidget {
                 'Version: ' +
                     loadYaml(
                       snapshot.data.toString(),
-                    )["version"]
-                        .toString()
-                        .split("+")[0],
+                    )["version"],
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

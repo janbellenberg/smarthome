@@ -28,8 +28,9 @@ class _AddDevicePageState extends State<AddDevicePage> {
                     showDialog(
                       context: context,
                       builder: (context) => SelectRoomDialog((roomID) {
+                        if (scanData.code == null) return;
                         addDevice(
-                          scanData.code,
+                          scanData.code!,
                           roomID,
                         );
                       }),

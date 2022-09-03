@@ -91,7 +91,8 @@ class _InvitePageState extends State<InvitePage> {
                       GestureDetector(
                         onTap: () => PageWrapper.routeToPage(
                           QR_Scanner_Page((scanData) {
-                            joinBuilding(scanData.code);
+                            if (scanData.code == null) return;
+                            joinBuilding(scanData.code!);
                             Navigator.pop(context);
                           }),
                           context,
