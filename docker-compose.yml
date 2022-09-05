@@ -21,7 +21,7 @@ services:
     volumes:
       - ~/smarthome/log/nginx:/var/log/nginx
       - ~/smarthome/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ~/smarthome/config/nginx/nginx.conf:/etc/nginx/nginx.config
+      - ~/smarthome/config/nginx/nginx.conf:/etc/nginx/nginx.conf
     restart: on-failure
     networks:
       main:
