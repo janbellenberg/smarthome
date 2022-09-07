@@ -2,7 +2,7 @@ version: "3.8"
 services:
   nginx:
     image: nginx:1.21.1-alpine
-    container_name: nginx
+    container_name: smarthome-proxy
     ports:
       - "127.0.0.1:82:80"
       # - "0.0.0.0:8443:443"
@@ -30,7 +30,7 @@ services:
 
   db:
     image: mariadb:10.5.9
-    container_name: db
+    container_name: smarthome-db
     environment:
       - TZ=Europe/Berlin
       - MYSQL_ROOT_PASSWORD=root
@@ -55,7 +55,7 @@ services:
 
   mongo:
     image: mongo:5.0.2
-    container_name: mongo
+    container_name: smarthome-mongodb
     ports:
       - "127.0.0.1:27017:27017"
     environment:
@@ -82,7 +82,7 @@ services:
 
   backend:
     image: smarthome-api:latest
-    container_name: wildfly
+    container_name: smarthome-wildfly
     depends_on:
       - db
       - mongo
@@ -114,7 +114,7 @@ services:
 
   frontend1:
     image: smarthome-frontend:latest
-    container_name: frontend1
+    container_name: smarthome-frontend1
     mem_limit: 1gb
     mem_reservation: 200m
     cpu_count: 1
@@ -135,7 +135,7 @@ services:
 
   frontend2:
     image: smarthome-frontend:latest
-    container_name: frontend2
+    container_name: smarthome-frontend2
     mem_limit: 1gb
     mem_reservation: 200m
     cpu_count: 1
