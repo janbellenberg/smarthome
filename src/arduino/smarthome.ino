@@ -12,8 +12,8 @@
 
 using namespace websockets;
 
-#define SERVER "192.168.137.193"
-#define PORT 8443
+#define SERVER "smarthome.janbellenberg.de"
+#define PORT 443
 
 void onMessageCallback(WebsocketsMessage message);
 void onEventsCallback(WebsocketsEvent event, String data);
@@ -57,6 +57,9 @@ const char *HOME = "<!DOCTYPE html><html lang='de'><head> <title>Smarthome</titl
 const char *STYLES = "*{font-family:Calibri,Arial,sans-serif}h1{color:#528e75}input[type=button]{font-size:1.1em;background:#528e75;color:#fff;border:none;border-radius:50px;padding:7px 15px;cursor:pointer}div#wifi-list{border:2px solid #528e75;border-radius:20px;color:#000;background:#fff;padding:1em;margin:.5em;max-width:400px}div.list-item{margin:1em 0;padding:.5em 1em;box-shadow:0 0 20px #d3d3d3;border-radius:15px;cursor:pointer}";
 const char *CODE = "let refresh=async()=>{let e=await fetch('/get-wifis'),i=await e.json(),t=document.querySelector('#wifi-list');t.innerHTML='';i.sort((a, b) => (parseInt(a.strength) > parseInt(b.strength) ? -1 : 1));i.forEach(e=>{var i=document.createElement('div');i.classList.add('list-item'),i.innerText=e.ssid,i.onclick=(async()=>{let i=prompt('Bitte geben Sie das Passwort ein:');await saveWifi(e.ssid,i),document.querySelector('body').innerHTML='<h1>Erledigt!</h1>'}),t.appendChild(i)}),i.length<1&&(t.innerHTML='Keine WLAN-Netzwerke gefunden')},saveWifi=async(e,i)=>{let t={ssid:e,key:i};await fetch('/save-config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(t)})};refresh();";
 
+// Cert fingerprint ! IF CONNECTION DOESNT WORK ANYMORE, UPDATE CERT FINGERPRINT !
+const char *fingerprint = "5A:CA:4B:56:56:C3:33:3F:C0:4B:C6:91:52:1C:B6:95:7C:AA:F3:AB";
+
 void setup()
 {
   // init system
@@ -81,7 +84,7 @@ void setup()
     // setup websocket client
     client.onMessage(onMessageCallback);
     client.onEvent(onEventsCallback);
-    client.setInsecure();
+    client.setFingerprint(fingerprint);
 
     // read to global vars
     EEPROM_CONFIG conf = readEEPROM();
@@ -102,7 +105,7 @@ void setup()
     baseUrl.concat(SERVER);
 
     WiFiClientSecure httpClient;
-    httpClient.setInsecure();
+    httpClient.setFingerprint(fingerprint);
     httpClient.connect(baseUrl, PORT);
 
     HTTPClient http;
